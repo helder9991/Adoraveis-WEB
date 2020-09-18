@@ -1,0 +1,119 @@
+import styled from 'styled-components';
+import { shade } from 'polished';
+
+export const Container = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Content = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 65vw;
+  margin: 0 auto;
+  border: 1px solid ${props => shade(0.1, props.theme.colors.background)};
+  border-top: 0px;
+  border-bottom: 0px;
+
+  svg {
+    color: ${props => props.theme.colors.text.primary};
+  }
+
+  hr {
+    margin: 20px;
+    border: 2px solid ${props => shade(0.1, props.theme.colors.background)};
+    border-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    width: 100vw;
+  }
+`;
+
+export const Title = styled.h1`
+  color: ${props => props.theme.colors.text.primary};
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 35px auto 15px auto;
+`;
+
+export const AnimalData = styled.div`
+  display: flex;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+`;
+
+export const Info = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  margin: 2vh auto;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    margin: 0;
+  }
+`;
+
+export const CarouselContainer = styled.div`
+  margin: 0 auto;
+  flex: 6;
+`;
+
+export const Description = styled.div`
+  margin: 0 auto;
+  flex: 4;
+
+  @media (max-width: 1200px) {
+    margin-left: 22%;
+  }
+
+  @media (max-width: 500px) {
+    max-width: 80%;
+    margin-left: 20vw;
+  }
+
+  /* @media (max-width: 425px) {
+    width: 80vw;
+  } */
+`;
+
+export const Card = styled.div`
+  display: inline-block;
+  margin: 20px 0 0 20px;
+  width: 40%;
+
+  h1 {
+    font-size: 1.8rem;
+    color: ${props => props.theme.colors.text.primary};
+    font-weight: 400;
+  }
+
+  span {
+    margin-left: 15%;
+    font-size: 2rem;
+  }
+`;
+
+export const Buttons = styled.div`
+  flex: 1;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 45px auto;
+
+  button {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 1200px) {
+    width: 75vw;
+  }
+`;
