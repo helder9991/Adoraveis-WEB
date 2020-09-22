@@ -11,9 +11,13 @@ export default createGlobalStyle`
   html {
     display:flex;
     height: 100%;
-    font-size: 64.5%;
+    font-size: 65%;
     background: ${props => props.theme.colors.background};
     overflow-y: scroll;
+
+    @media(max-width: 1440px) {
+      font-size: 64.5%;
+    }
 
     @media(max-width: 1200px) {
       font-size: 62.5%;
@@ -46,5 +50,9 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
     border: 0;
+  }
+
+  svg {
+    color: ${props => props.theme.colors.text.primary};
   }
 `;

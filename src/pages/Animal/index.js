@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 import Carousel from '../../components/Carousel';
-import Button from '../../components/Button';
 
 import { useRegion } from '../../hooks/region';
 import api from '../../services/api';
@@ -17,6 +16,7 @@ import {
   Description,
   Card,
   Buttons,
+  Button,
 } from './styles';
 
 const Animal = () => {

@@ -7,7 +7,6 @@ export const Container = styled.button`
 
   margin: 0 auto;
 
-  width: 65%;
   font-size: 2rem;
   padding: 8px 00;
   border-radius: 5px;
@@ -17,41 +16,63 @@ export const Container = styled.button`
   transition: background 0.5s;
 
   background: ${props => {
-    if (props.buttonType === 'next') return props.theme.colors.button.next;
-    if (props.buttonType === 'return')
-      return props.theme.colors.button.return.background;
+    switch (props.buttonType) {
+      case 'next':
+        return props.theme.colors.button.next;
 
-    if (props.buttonType === 'confirm')
-      return props.theme.colors.button.confirm;
+      case 'return' || 'register':
+        return props.theme.colors.button.return.background;
 
-    return props.theme.colors.button.next;
+      case 'confirm':
+        return props.theme.colors.button.confirm;
+      default:
+        break;
+    }
   }};
 
   color: ${props => {
-    if (props.buttonType === 'return')
-      return props.theme.colors.button.return.text;
+    switch (props.buttonType) {
+      case 'return':
+        return props.theme.colors.button.return.text;
 
-    return props.theme.colors.button.text;
+      case 'register':
+        return props.theme.colors.button.next;
+
+      default:
+        return props.theme.colors.button.text;
+    }
   }};
 
-  /* Adiciona a borda caso o tipo do botao seja Return */
+  /* Adiciona a borda caso o tipo do botao seja Return ou Register */
   ${props => {
-    if (props.buttonType === 'return')
-      return css`
-        border: 0.2rem solid ${props.theme.colors.button.return.text};
-      `;
+    switch (props.buttonType) {
+      case 'return':
+        return css`
+          border: 0.2rem solid ${props.theme.colors.button.return.text};
+        `;
+      case 'register':
+        return css`
+          border: 0.2rem solid ${props.theme.colors.button.next};
+        `;
+      default:
+        break;
+    }
   }}
 
   &:hover {
     background: ${props => {
-      if (props.buttonType === 'next')
-        return shade(0.1, props.theme.colors.button.next);
+      switch (props.buttonType) {
+        case 'next':
+          return shade(0.1, props.theme.colors.button.next);
 
-      if (props.buttonType === 'return')
-        return shade(0.05, props.theme.colors.button.return.background);
+        case 'return':
+          return shade(0.05, props.theme.colors.button.return.background);
 
-      if (props.buttonType === 'confirm')
-        return shade(0.1, props.theme.colors.button.confirm);
+        case 'confirm':
+          return shade(0.1, props.theme.colors.button.confirm);
+        default:
+          break;
+      }
     }};
   }
 `;

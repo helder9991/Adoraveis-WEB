@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+
 import SelectInput from '../../components/Select';
+import ButtonInput from '../../components/Button';
 
 export const Container = styled.div`
   flex: 1;
@@ -51,4 +53,8 @@ export const Content = styled.div`
 
 export const Select = styled(SelectInput)`
   margin-top: 20px;
+`;
+
+export const Button = styled(ButtonInput)`
+  width: 60%;
 `;

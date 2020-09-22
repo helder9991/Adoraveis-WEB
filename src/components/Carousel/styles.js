@@ -57,10 +57,12 @@ export const ThumbnailImage = styled.img`
   margin-right: 10px;
 
   border: ${props =>
-    props.selected && `4px solid ${props.theme.colors.primary}`};
+    props.selected
+      ? `4px solid ${props.theme.colors.primary}`
+      : `4px solid ${props.theme.colors.background}`};
   border-radius: 2px;
 
-  transition: border 150ms;
+  transition: border 500ms;
 
   @media (max-width: 1200px) {
     width: 14vw;

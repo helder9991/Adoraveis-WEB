@@ -22,7 +22,6 @@ const Select = ({ title, placeholder, options, setOption, ...rest }) => {
         options={optionsList}
         defaultInputValue=""
         onChange={({ value }) => setOption(value)}
-        // {...rest}
       />
     </Container>
   );

@@ -27,5 +27,7 @@ export default {
       background: '#FFF',
       text: '#7D6F6F',
     },
+
+    error: '#c53030',
   },
 };

@@ -32,6 +32,7 @@
         "camelcase": "off",
         "no-plusplus": "off",
         "consistent-return": "off",
+        "default-case": "off",
         "no-unused-expressions": "off",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",

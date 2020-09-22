@@ -163,10 +163,6 @@ export const SideMenuCloseButton = styled.div`
   display: flex;
   justify-content: end;
 
-  svg {
-    color: ${props => props.theme.colors.background};
-  }
-
   button {
     background: none;
     margin: 0 15px;

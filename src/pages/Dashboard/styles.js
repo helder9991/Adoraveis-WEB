@@ -20,10 +20,6 @@ export const Content = styled.div`
   border-top: 0px;
   border-bottom: 0px;
 
-  svg {
-    color: ${props => props.theme.colors.text.primary};
-  }
-
   hr {
     margin: 20px;
     border: 2px solid ${props => shade(0.1, props.theme.colors.background)};

@@ -1,19 +1,17 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 // import Select from '../../components/Select';
-import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 
 import { useRegion } from '../../hooks/region';
 
 import api from '../../services/api';
 
-import { Container, Logo, Content, Select } from './styles';
+import { Container, Logo, Content, Select, Button } from './styles';
 
 const Server = () => {
-  const formRef = useRef(null);
   const { setRegion, saveRegion, removeRegion } = useRegion();
 
   const [servers, setServers] = useState([]);
@@ -114,7 +112,7 @@ const Server = () => {
   return (
     <Container>
       <Content>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Logo>logo</Logo>
           <Select
             title="Estado"

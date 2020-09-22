@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
 
+import ButtonInput from '../../components/Button';
+
 export const Container = styled.div`
   flex: 1;
   display: flex;
@@ -16,10 +18,6 @@ export const Content = styled.div`
   border: 1px solid ${props => shade(0.1, props.theme.colors.background)};
   border-top: 0px;
   border-bottom: 0px;
-
-  svg {
-    color: ${props => props.theme.colors.text.primary};
-  }
 
   hr {
     margin: 20px;
@@ -78,10 +76,6 @@ export const Description = styled.div`
     max-width: 80%;
     margin-left: 20vw;
   }
-
-  /* @media (max-width: 425px) {
-    width: 80vw;
-  } */
 `;
 
 export const Card = styled.div`
@@ -116,4 +110,8 @@ export const Buttons = styled.div`
   @media (max-width: 1200px) {
     width: 75vw;
   }
+`;
+
+export const Button = styled(ButtonInput)`
+  width: 60%;
 `;

@@ -11,23 +11,23 @@ export const AuthProvider = ({ children }) => {
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, user: JSON.parse(user) };
+      return { token, name: user };
     }
 
     return {};
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', { email, password });
+    const response = await api.post('/auth', { email, password });
 
-    const { token, user } = response.data;
+    const { token, name, permission } = response.data;
 
     localStorage.setItem('@Adoraveis:token', token);
-    localStorage.setItem('@Adoraveis:user', JSON.stringify(user));
+    localStorage.setItem('@Adoraveis:user', name);
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user });
+    setData({ token, name, permission });
   }, []);
 
   const signOut = useCallback(() => {
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{ user: data.name, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>

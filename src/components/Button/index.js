@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Button = ({ title, buttonType = 'next', ...rest }) => {
+const Button = ({ className, title, buttonType = 'next', ...rest }) => {
   return (
-    <Container buttonType={buttonType} {...rest}>
+    <Container className={className} buttonType={buttonType} {...rest}>
       {title}
     </Container>
   );
