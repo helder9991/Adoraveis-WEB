@@ -32,6 +32,10 @@ export const Navigation = styled.div`
   align-items: center;
   width: 80%;
 
+  button {
+    background: none;
+  }
+
   @media (max-width: 1200px) {
     width: 100%;
   }
