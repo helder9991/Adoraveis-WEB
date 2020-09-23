@@ -36,55 +36,44 @@ const SignIn = () => {
 
   const handleSubmit = useCallback(
     async data => {
-      // try {
-      //   const schema = Yup.object().shape({
-      //     email: Yup.string()
-      //       .email('Digite um email válido')
-      //       .required('Email obrigatório'),
-      //     password: Yup.string()
-      //       .min(8, 'A senha precisa ter no minimo 8 dígitos')
-      //       .required('Senha obrigatória'),
-      //   });
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .email('Digite um email válido')
+            .required('Email obrigatório'),
+          password: Yup.string()
+            .min(8, 'A senha precisa ter no minimo 8 dígitos')
+            .required('Senha obrigatória'),
+        });
 
-      //   await schema.validate(data, {
-      //     abortEarly: false,
-      //   });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      //   await signIn({
-      //     email: data.email,
-      //     password: data.password,
-      //   });
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
 
-      //   history.goBack();
-      // } catch (err) {
-      //   if (err instanceof Yup.ValidationError) {
-      //     const errors = getValidationErrors(err);
-      //     formRef.current.setErrors(errors);
+        history.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current.setErrors(errors);
 
-      //     return;
-      //   }
+          return;
+        }
 
-      //   toast.error('Ocorreu um erro ao fazer login, cheque as credenciais.', {
-      //     position: 'top-right',
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //   });
-      // }
-      console.log('entrou');
-
-      toast.error('Ocorreu um erro ao fazer login, cheque as credenciais.', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+        toast.error('Ocorreu um erro ao fazer login, cheque as credenciais.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     },
     [history, signIn],
   );
