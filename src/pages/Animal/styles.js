@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade, transparentize } from 'polished';
 
 import ButtonInput from '../../components/Button';
@@ -22,6 +22,15 @@ export const ModalBackground = styled.div`
     transparentize(0.2, shade(0.9, props.theme.colors.background))};
 `;
 
+const showingModal = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 export const Modal = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,6 +45,8 @@ export const Modal = styled.div`
 
   border-radius: 7px;
   box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.25);
+
+  animation: ${showingModal} 1s;
 
   h1 {
     text-align: center;
