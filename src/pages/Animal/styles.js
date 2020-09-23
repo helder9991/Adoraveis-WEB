@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
+import { shade, transparentize } from 'polished';
 
 import ButtonInput from '../../components/Button';
 
@@ -7,6 +7,68 @@ export const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+`;
+
+export const ModalBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: ${props =>
+    transparentize(0.2, shade(0.9, props.theme.colors.background))};
+`;
+
+export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: ${props => props.height};
+  width: 700px;
+  background: ${props => props.theme.colors.primary};
+  font-size: 1.5rem;
+  color: ${props => props.theme.colors.text.secondary};
+  padding: 35px 0;
+
+  border-radius: 7px;
+  box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.25);
+
+  h1 {
+    text-align: center;
+  }
+`;
+
+export const OwnerInfo = styled.div`
+  margin-top: -15px;
+`;
+
+export const OwnerData = styled.div`
+  font-size: 2.2rem;
+
+  & + div {
+    margin-top: 15px;
+  }
+`;
+
+export const TipsList = styled.div`
+  width: 80%;
+  margin: 0 auto;
+
+  li {
+    font-size: 1.8rem;
+  }
+`;
+
+export const ModalButtons = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
 `;
 
 export const Content = styled.div`
