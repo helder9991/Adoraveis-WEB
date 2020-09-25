@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import { IoMdMail, IoIosLock } from 'react-icons/io';
@@ -111,9 +111,11 @@ const SignIn = () => {
 
             <Buttons>
               <Button type="submit" title="Entrar" />
-              <Button title="Registrar-se" buttonType="register" />
+              <Link to="/register">
+                <Button title="Registrar-se" buttonType="register" />
+              </Link>
             </Buttons>
-            <a href="#teste">Esqueci minha senha</a>
+            <Link to="/forgot">Esqueci minha senha</Link>
           </Form>
         </FormContainer>
       </Content>
