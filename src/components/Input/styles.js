@@ -24,7 +24,7 @@ export const InputContainer = styled.div`
   box-sizing: border-box;
   filter: drop-shadow(4px 3px 4px rgba(0, 0, 0, 0.25));
 
-  transition: border-color 1s;
+  transition: border 1s;
 
   ${props =>
     props.isErrored &&
