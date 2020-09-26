@@ -68,7 +68,7 @@ const ResetPassword = () => {
         if (err.isAxiosError) {
           switch (err.response.data.message) {
             case 'Token expired or inexistent.':
-              toast.error('Este link ja expirou.');
+              toast.error('Este link já expirou.');
               break;
             default:
               toast.error(
