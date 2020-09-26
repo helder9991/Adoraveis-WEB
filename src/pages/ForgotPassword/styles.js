@@ -109,7 +109,7 @@ export const Title = styled.h1`
   text-align: center;
 
   @media (max-width: 900px) {
-    margin-top: 120px;
+    margin-top: 80px;
   }
 `;
 

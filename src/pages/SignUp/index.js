@@ -26,7 +26,6 @@ const SignUp = () => {
   const formRef = useRef();
 
   const { region } = useRegion();
-  const { signUp } = useAuth();
   const history = useHistory();
 
   const handleBackPage = useCallback(() => {
@@ -84,6 +83,11 @@ const SignUp = () => {
             case 'User already exists.':
               toast.error(
                 'Este email já está sendo utilizado por outro usuario.',
+              );
+              break;
+            default:
+              toast.error(
+                'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
               );
               break;
           }

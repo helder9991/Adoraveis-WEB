@@ -14,22 +14,6 @@ export const Container = styled.div`
   color: ${props => props.theme.colors.text.secondary};
 `;
 
-export const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: 1.8rem;
-
-  position: absolute;
-  left: 5vw;
-  top: 9vh;
-
-  svg {
-    color: ${props => props.theme.colors.text.secondary};
-  }
-`;
-
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;
@@ -109,7 +93,7 @@ export const Title = styled.h1`
   text-align: center;
 
   @media (max-width: 900px) {
-    margin-top: 120px;
+    margin-top: 80px;
   }
 `;
 

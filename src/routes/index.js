@@ -6,6 +6,8 @@ import Dashboard from '../pages/Dashboard';
 import Server from '../pages/Server';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import ForgotPassword from '../pages/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword';
 
 import Route from './Route';
 
@@ -19,6 +21,20 @@ const Routes = () => (
       path="/register"
       exact
       component={SignUp}
+      needsRegion
+      header={false}
+    />
+    <Route
+      path="/forgot"
+      exact
+      component={ForgotPassword}
+      needsRegion
+      header={false}
+    />
+    <Route
+      path="/reset"
+      exact
+      component={ResetPassword}
       needsRegion
       header={false}
     />
