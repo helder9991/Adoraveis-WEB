@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { useRegion } from '../../hooks/region';
-import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
