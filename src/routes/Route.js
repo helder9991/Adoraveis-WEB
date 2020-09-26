@@ -24,7 +24,13 @@ const Route = ({
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
-        if (location.pathname === '/login' && user)
+        if (
+          (location.pathname === '/login' ||
+            location.pathname === '/register' ||
+            location.pathname === '/reset' ||
+            location.pathname === '/forgot') &&
+          user
+        )
           return <Redirect to="/dashboard" />;
 
         if (location.pathname !== '/login' && needsLogin && user)
