@@ -52,7 +52,9 @@ const ResetPassword = () => {
           token,
         });
 
-        toast.info('Sua senha foi alterada com sucesso.');
+        toast.info('Sua senha foi alterada com sucesso.', {
+          pauseOnHover: false,
+        });
 
         setTimeout(() => {
           history.push('/login');
