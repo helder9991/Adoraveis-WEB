@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
-import { RiArrowLeftSLine } from 'react-icons/ri';
 import { IoMdMail } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -14,7 +13,6 @@ import api from '../../services/api';
 
 import {
   Container,
-  BackButton,
   Content,
   ImageContainer,
   FormContainer,
@@ -28,11 +26,6 @@ const ForgotPassword = () => {
   const formRef = useRef();
 
   const { region } = useRegion();
-  const history = useHistory();
-
-  const handleBackPage = useCallback(() => {
-    history.goBack();
-  }, [history]);
 
   const handleSubmit = useCallback(async data => {
     try {
@@ -50,7 +43,7 @@ const ForgotPassword = () => {
         email: data.email,
       });
 
-      toast.info('Um email de troca de senha foi enviado para seu email.');
+      toast.info('Um email para a troca de senha foi enviado em seu email.');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -76,10 +69,6 @@ const ForgotPassword = () => {
 
   return (
     <Container>
-      <BackButton onClick={handleBackPage}>
-        <RiArrowLeftSLine size={32} />
-        <span>Voltar</span>
-      </BackButton>
       <Content>
         <ImageContainer>
           <img

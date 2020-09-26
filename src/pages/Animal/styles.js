@@ -188,3 +188,9 @@ export const Buttons = styled.div`
 export const Button = styled(ButtonInput)`
   width: 60%;
 `;
+
+export const Message = styled.h1`
+  margin-top: 50px;
+  text-align: center;
+  color: ${props => props.theme.colors.text.primary};
+`;

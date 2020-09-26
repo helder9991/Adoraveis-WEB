@@ -30,7 +30,7 @@ const SignIn = () => {
   const { signIn } = useAuth();
   const history = useHistory();
 
-  const handleBackPage = useCallback(() => {
+  const handleGoBack = useCallback(() => {
     history.goBack();
   }, [history]);
 
@@ -80,7 +80,7 @@ const SignIn = () => {
 
   return (
     <Container>
-      <BackButton onClick={handleBackPage}>
+      <BackButton onClick={handleGoBack}>
         <RiArrowLeftSLine size={32} />
         <span>Voltar</span>
       </BackButton>

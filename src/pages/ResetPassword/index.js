@@ -57,7 +57,7 @@ const ResetPassword = () => {
         });
 
         setTimeout(() => {
-          history.push('/login');
+          history.replace('/login');
         }, 6000);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {

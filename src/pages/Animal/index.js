@@ -24,6 +24,7 @@ import {
   Card,
   Buttons,
   Button,
+  Message,
 } from './styles';
 
 const Animal = () => {
@@ -37,6 +38,7 @@ const Animal = () => {
   const [currentModal, setCurrentModal] = useState(1);
 
   useEffect(() => {
+    if (!location.state) return;
     api
       .get(`/${region.url_param}/animals/${location.state.id}`)
       .then(response => {
@@ -171,7 +173,9 @@ const Animal = () => {
                 </Buttons>
               </>
             ) : (
-              <div />
+              <Message>
+                Este animal não está disponivel no momento ou não existe.
+              </Message>
             )}
           </Info>
         </Content>
