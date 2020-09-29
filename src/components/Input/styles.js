@@ -16,10 +16,17 @@ export const InputContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme.colors.input.background};
+  background: ${props =>
+    props.disabled
+      ? shade(0.11, props.theme.colors.input.background)
+      : props.theme.colors.input.background};
   margin-top: 1%;
   padding: 9px 13px;
-  border: 2px solid ${props => props.theme.colors.background};
+  border: 2px solid
+    ${props =>
+      props.disabled
+        ? shade(0.11, props.theme.colors.background)
+        : props.theme.colors.background};
   border-radius: 6px;
   box-sizing: border-box;
   filter: drop-shadow(4px 3px 4px rgba(0, 0, 0, 0.25));
@@ -32,6 +39,12 @@ export const InputContainer = styled.div`
       border: 2px solid ${props.theme.colors.error};
     `}
 
+  label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
   input {
     flex: 1;
     font-size: 1.8rem;
@@ -42,6 +55,14 @@ export const InputContainer = styled.div`
     &::placeholder {
       color: ${props => props.theme.colors.input.text};
     }
+
+    ${props =>
+      props.inputType === 'file' &&
+      css`
+        width: 0;
+        height: 0;
+        display: none;
+      `}
   }
 
   svg {
@@ -65,5 +86,21 @@ export const Error = styled(Tooltip)`
     &::before {
       border-color: ${props => props.theme.colors.error} transparent;
     }
+  }
+`;
+
+export const FileContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 24px;
+  margin: 0 0 0 5%;
+  font-size: 1.8rem;
+  color: ${props => shade(0.5, props.theme.colors.input.text)};
+  cursor: pointer;
+
+  svg {
+    margin: 0;
   }
 `;

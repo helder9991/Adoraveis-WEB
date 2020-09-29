@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
-import { IoMdAlert } from 'react-icons/io';
+import { IoMdAlert, IoMdAdd } from 'react-icons/io';
 
-import { Container, InputContainer, Error } from './styles';
+import { Container, InputContainer, Error, FileContainer } from './styles';
 
 const Input = ({
   name,
@@ -10,6 +10,7 @@ const Input = ({
   title,
   placeholder,
   type,
+  disabled = false,
   icon: Icon,
   ...rest
 }) => {
@@ -88,20 +89,39 @@ const Input = ({
   return (
     <Container className={className} onClick={handleFocusInput}>
       <h1>{title}</h1>
-      <InputContainer isErrored={!!error}>
-        {Icon && <Icon size={24} />}
-        <input
-          type={type}
-          placeholder={placeholder}
-          onChange={handleMaskInput}
-          ref={inputRef}
-          {...rest}
-        />
-        {error && (
-          <Error title={error}>
-            <IoMdAlert size={20} />
-          </Error>
-        )}
+      <InputContainer isErrored={!!error} disabled={disabled} inputType={type}>
+        <label htmlFor={fieldName}>
+          {/* Caso seja um input de file */}
+
+          {Icon && <Icon size={24} />}
+
+          {type === 'file' && (
+            <FileContainer>
+              <span>
+                {disabled
+                  ? 'Limite de fotos atingido'
+                  : 'Adicionar uma nova foto'}
+              </span>
+              {IoMdAdd && <IoMdAdd size={32} />}
+            </FileContainer>
+          )}
+
+          <input
+            type={type}
+            placeholder={placeholder}
+            onChange={handleMaskInput}
+            ref={inputRef}
+            id={fieldName}
+            disabled={disabled}
+            {...rest}
+          />
+
+          {error && type !== 'file' && (
+            <Error title={error}>
+              <IoMdAlert size={20} />
+            </Error>
+          )}
+        </label>
       </InputContainer>
     </Container>
   );
