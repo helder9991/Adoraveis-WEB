@@ -33,6 +33,7 @@ const Header = () => {
   const { category, changeCategory } = useCategory();
   const { header } = useHeader();
 
+  const [currentPage, setCurrentPage] = useState('');
   const [menuIsOpened, setMenuIsOpened] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -40,8 +41,8 @@ const Header = () => {
   }, [menuIsOpened]);
 
   const isSelected = useCallback(
-    buttonCategory => category === buttonCategory,
-    [category],
+    page => category === page || currentPage === page,
+    [category, currentPage],
   );
 
   const handleChangeCategory = useCallback(
@@ -53,6 +54,13 @@ const Header = () => {
       if (menuIsOpened) setMenuIsOpened(false);
     },
     [changeCategory, category, menuIsOpened],
+  );
+
+  const handleCurrentPage = useCallback(
+    page => {
+      setCurrentPage(page);
+    },
+    [setCurrentPage],
   );
 
   return (
@@ -100,14 +108,14 @@ const Header = () => {
                   <RiShieldUserFill size={30} />
                   <span>Administrador</span>
                 </a>
-                <a href="#teste">
+                <Link to="/new-animal">
                   <RiAddBoxFill size={30} />
                   <span>Adicionar novo animal</span>
-                </a>
-                <a href="#teste">
+                </Link>
+                <Link to="/profile">
                   <RiUserFill size={28} />
                   <span>Perfil</span>
-                </a>
+                </Link>
               </SideMenuItemContainer>
             </SideMenuContainer>
           </Drawer>
@@ -115,7 +123,7 @@ const Header = () => {
           <Left>
             <div>
               <button onClick={toggleMenu}>
-                <RiMenuLine size={36} />
+                <RiMenuLine size={32} />
               </button>
             </div>
           </Left>
@@ -140,10 +148,12 @@ const Header = () => {
           </Center>
           <Right>
             <RiShieldUserFill size={30} />
-            <Link to="new-animal" selected={false}>
+            <Link to="new-animal">
               <RiAddBoxFill size={30} />
             </Link>
-            <RiUserFill size={28} />
+            <Link to="/profile">
+              <RiUserFill size={28} />
+            </Link>
           </Right>
         </Container>
       ) : null}

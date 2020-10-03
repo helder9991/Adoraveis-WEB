@@ -34,7 +34,7 @@ const Route = ({
           return <Redirect to="/dashboard" />;
 
         if (location.pathname !== '/login' && needsLogin && !user)
-          return <Redirect to="/login" />;
+          return <Redirect push to="/login" />;
 
         return needsRegion === !!region ? (
           <Component />

@@ -8,6 +8,7 @@ import Server from '../pages/Server';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
+import Profile from '../pages/Profile';
 import ResetPassword from '../pages/ResetPassword';
 
 import Route from './Route';
@@ -17,6 +18,7 @@ const Routes = () => (
     <Route path="/" exact component={Server} />
     <Route path="/dashboard" exact component={Dashboard} needsRegion />
     <Route path="/animal" exact component={Animal} needsRegion />
+    <Route path="/profile" exact component={Profile} needsLogin needsRegion />
     <Route
       path="/new-animal"
       exact

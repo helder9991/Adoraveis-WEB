@@ -249,7 +249,7 @@ export const AddButton = styled.button`
   background: none;
 
   svg {
-    color: ${props => lighten(0.15, props.theme.colors.text.primary)};
+    color: ${props => lighten(0.15, props.theme.colors.icon.primary)};
   }
 
   span {

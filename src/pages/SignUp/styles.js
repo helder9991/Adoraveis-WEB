@@ -26,7 +26,7 @@ export const BackButton = styled.button`
   top: 9vh;
 
   svg {
-    color: ${props => props.theme.colors.text.secondary};
+    color: ${props => props.theme.colors.icon.secondary};
   }
 `;
 

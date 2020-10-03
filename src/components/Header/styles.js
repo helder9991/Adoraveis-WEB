@@ -114,25 +114,19 @@ export const Right = styled.div`
   right: 35px;
   margin-right: 30px;
 
-  svg {
-    margin-left: 25px;
-  }
-
   a {
+    width: 30px;
+    height: 30px;
+    margin-left: 25px;
+
     svg {
       transition: color 0.2s;
-
-      ${props =>
-        props.selected &&
-        css`
-          border: 1px solid black;
-        `}
 
       &:hover {
         ${props =>
           !props.selected &&
           css`
-            color: ${shade(0.1, props.theme.colors.text.secondary)};
+            color: ${shade(0.15, props.theme.colors.icon.secondary)};
           `}
       }
     }

@@ -53,6 +53,6 @@ export default createGlobalStyle`
   }
 
   svg {
-    color: ${props => props.theme.colors.text.primary};
+    color: ${props => props.theme.colors.icon.primary};
   }
 `;
