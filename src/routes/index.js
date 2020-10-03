@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom';
 
 import Animal from '../pages/Animal';
 import Dashboard from '../pages/Dashboard';
+import NewAnimal from '../pages/NewAnimal';
 import Server from '../pages/Server';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
@@ -16,6 +17,13 @@ const Routes = () => (
     <Route path="/" exact component={Server} />
     <Route path="/dashboard" exact component={Dashboard} needsRegion />
     <Route path="/animal" exact component={Animal} needsRegion />
+    <Route
+      path="/new-animal"
+      exact
+      component={NewAnimal}
+      needsRegion
+      needsLogin
+    />
     <Route path="/login" exact component={SignIn} needsRegion header={false} />
     <Route
       path="/register"
