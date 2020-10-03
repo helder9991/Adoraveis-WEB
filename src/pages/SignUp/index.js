@@ -35,7 +35,7 @@ const SignUp = () => {
     async data => {
       try {
         const schema = Yup.object().shape({
-          name: Yup.string().required('Email obrigatório'),
+          name: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
             .email('Digite um email válido')
             .required('Email obrigatório'),

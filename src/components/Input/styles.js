@@ -68,7 +68,7 @@ export const InputContainer = styled.div`
 
   svg {
     color: ${props => shade(0.2, props.theme.colors.icon.primary)};
-    margin-right: 2%;
+    margin-right: 3%;
   }
 `;
 

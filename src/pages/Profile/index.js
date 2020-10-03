@@ -38,7 +38,7 @@ const Profile = () => {
           </Page>
           <hr />
 
-          <Page>
+          <Page to="/profile/edit">
             <RiPencilFill size={20} />
             <span>Editar perfil</span>
           </Page>
