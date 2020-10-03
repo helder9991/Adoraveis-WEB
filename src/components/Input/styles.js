@@ -67,8 +67,8 @@ export const InputContainer = styled.div`
   }
 
   svg {
-    color: ${props => shade(0.2, props.theme.colors.input.text)};
-    margin-right: 16px;
+    color: ${props => shade(0.2, props.theme.colors.icon.primary)};
+    margin-right: 2%;
   }
 `;
 
@@ -96,7 +96,7 @@ export const FileContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 24px;
-  margin: 0 0 0 5%;
+  margin: 0 0 0 2%;
   font-size: 1.8rem;
   color: ${props => shade(0.5, props.theme.colors.input.text)};
   cursor: pointer;
