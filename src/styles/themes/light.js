@@ -28,6 +28,8 @@ export default {
       text: '#7D6F6F',
     },
 
+    border: '#BEBEBE',
+
     error: '#c53030',
   },
 };
