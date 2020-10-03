@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Carousel from '../../components/Carousel';
 
@@ -33,17 +34,20 @@ const Animal = () => {
   const history = useHistory();
   const { user } = useAuth();
 
+  const [loading, setLoading] = useState(true);
   const [animal, setAnimal] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
     if (!location.state) return;
     api
       .get(`/${region.url_param}/animals/${location.state.id}`)
       .then(response => {
         setAnimal(response.data);
       });
+    setLoading(false);
   }, [location.state, region]);
 
   const handleOpenModal = useCallback(() => {
@@ -68,6 +72,18 @@ const Animal = () => {
 
   return (
     <>
+      {loading && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 25,
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       {animal.length !== 0 &&
       modalIsOpen &&
       (currentModal === 1 || currentModal === 2) ? (
@@ -173,9 +189,11 @@ const Animal = () => {
                 </Buttons>
               </>
             ) : (
-              <Message>
-                Este animal não está disponivel no momento ou não existe.
-              </Message>
+              !loading && (
+                <Message>
+                  Este animal não está disponivel no momento ou não existe.
+                </Message>
+              )
             )}
           </Info>
         </Content>

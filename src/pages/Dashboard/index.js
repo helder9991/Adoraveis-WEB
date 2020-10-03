@@ -5,6 +5,7 @@ import {
   RiArrowRightSLine,
   RiArrowDownSLine,
 } from 'react-icons/ri';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useCategory } from '../../hooks/category';
 import { useRegion } from '../../hooks/region';
@@ -33,6 +34,7 @@ const Dashboard = () => {
   const { category } = useCategory();
   const { region } = useRegion();
 
+  const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [totalNumberOfPages, setTotalNumberOfPages] = useState(0);
   const [visiblePages, setVisiblePages] = useState([]);
@@ -47,6 +49,7 @@ const Dashboard = () => {
   const maxNumOfPages = 2;
 
   useEffect(() => {
+    setLoading(true);
     api.get(`/${region.url_param}/animals/list/${category}`).then(response => {
       setAnimals(response.data);
     });
@@ -54,6 +57,7 @@ const Dashboard = () => {
     api.get(`/${region.url_param}/animals/count`).then(response => {
       setTotalNumberOfPages(response.data.pages);
     });
+    setLoading(false);
   }, [category, region]);
 
   const handleChangePage = useCallback(page => {
@@ -145,7 +149,7 @@ const Dashboard = () => {
             </div>
           </FilterTitle>
 
-          <Selects visible={filterIsVisible}>
+          {/* <Selects visible={filterIsVisible}>
             <Select
               title="Animal"
               defaultValue={animalFilter}
@@ -174,11 +178,15 @@ const Dashboard = () => {
               setOption={setGenreFilter}
               options={['name']}
             />
-          </Selects>
+          </Selects> */}
         </Filters>
 
         <hr />
-
+        {false && (
+          <Message>
+            <CircularProgress />
+          </Message>
+        )}
         {animals.length === 0 ? (
           <Message>Não há nenhum animal disponível no momento. </Message>
         ) : (
