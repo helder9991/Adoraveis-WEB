@@ -182,7 +182,7 @@ const Dashboard = () => {
         </Filters>
 
         <hr />
-        {false && (
+        {loading && (
           <Message>
             <CircularProgress />
           </Message>
