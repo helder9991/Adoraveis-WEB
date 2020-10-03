@@ -21,7 +21,7 @@ const Routes = () => (
     <Route path="/animal" exact component={Animal} needsRegion />
     <Route path="/profile" exact component={Profile} needsLogin needsRegion />
     <Route
-      path="/profile-info"
+      path="/profile/info"
       exact
       component={ProfileInfo}
       needsLogin

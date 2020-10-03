@@ -32,7 +32,7 @@ const Profile = () => {
       <Content>
         <Title>Perfil</Title>
         <Menu>
-          <Page to="/profile-info">
+          <Page to="/profile/info">
             <RiUserFill size={20} />
             <span>Ver informações do perfil</span>
           </Page>
