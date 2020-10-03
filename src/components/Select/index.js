@@ -1,28 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { useField } from '@unform/core';
+import { IoMdAlert } from 'react-icons/io';
 
-import { Container, SelectInput } from './styles';
+import { Container, SelectContainer, Error } from './styles';
 
-const Select = ({ title, placeholder, options, setOption, ...rest }) => {
-  const [optionsList, setOptionsList] = useState({});
+const Select = ({
+  name,
+  className,
+  title,
+  placeholder,
+  options = [],
+  ...rest
+}) => {
+  const inputRef = useRef(null);
+  const { fieldName, registerField, error } = useField(name);
 
   useEffect(() => {
-    const optionsArray = options.map(value => ({
-      value,
-      label: value,
-    }));
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]);
 
-    setOptionsList(optionsArray);
-  }, [options]);
+  const handleClearInput = useCallback(() => {
+    inputRef.current.value = '';
+  }, []);
 
   return (
-    <Container {...rest}>
+    <Container className={className} {...rest}>
       <h1>{title}</h1>
-      <SelectInput
-        placeholder={placeholder}
-        options={optionsList}
-        defaultInputValue=""
-        onChange={({ value }) => setOption(value)}
-      />
+      <SelectContainer isErrored={!!error}>
+        <input
+          list={name}
+          placeholder={placeholder}
+          ref={inputRef}
+          onClick={handleClearInput}
+        />
+        {error && (
+          <Error title={error}>
+            <IoMdAlert size={20} />
+          </Error>
+        )}
+        <datalist id={name}>
+          {options.map(option => (
+            <option key={option}>{option}</option>
+          ))}
+        </datalist>
+      </SelectContainer>
     </Container>
   );
 };
