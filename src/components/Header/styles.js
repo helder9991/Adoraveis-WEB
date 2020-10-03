@@ -118,6 +118,26 @@ export const Right = styled.div`
     margin-left: 25px;
   }
 
+  a {
+    svg {
+      transition: color 0.2s;
+
+      ${props =>
+        props.selected &&
+        css`
+          border: 1px solid black;
+        `}
+
+      &:hover {
+        ${props =>
+          !props.selected &&
+          css`
+            color: ${shade(0.1, props.theme.colors.text.secondary)};
+          `}
+      }
+    }
+  }
+
   @media (max-width: 900px) {
     display: none;
   }

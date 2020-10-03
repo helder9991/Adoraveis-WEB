@@ -140,7 +140,9 @@ const Header = () => {
           </Center>
           <Right>
             <RiShieldUserFill size={30} />
-            <RiAddBoxFill size={30} />
+            <Link to="new-animal" selected={false}>
+              <RiAddBoxFill size={30} />
+            </Link>
             <RiUserFill size={28} />
           </Right>
         </Container>
