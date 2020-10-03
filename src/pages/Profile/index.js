@@ -22,7 +22,9 @@ const Profile = () => {
   const { signOut } = useAuth();
 
   const handleSignOut = useCallback(() => {
-    signOut();
+    if (window.confirm('Deseja realmente sair de sua conta?')) {
+      signOut();
+    }
   }, [signOut]);
 
   return (
