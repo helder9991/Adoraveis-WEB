@@ -25,6 +25,9 @@ export const Container = styled.button`
 
       case 'confirm':
         return props.theme.colors.button.confirm;
+
+      case 'danger':
+        return props.theme.colors.button.danger;
       default:
         break;
     }
