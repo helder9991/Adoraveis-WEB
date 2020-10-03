@@ -20,13 +20,13 @@ export const InputContainer = styled.div`
     props.disabled
       ? shade(0.11, props.theme.colors.input.background)
       : props.theme.colors.input.background};
-  margin-top: 1%;
+  margin-top: 4px;
   padding: 9px 13px;
-  border: 2px solid
+  border: 1px solid
     ${props =>
       props.disabled
         ? shade(0.11, props.theme.colors.background)
-        : props.theme.colors.background};
+        : props.theme.colors.border};
   border-radius: 6px;
   box-sizing: border-box;
   filter: drop-shadow(4px 3px 4px rgba(0, 0, 0, 0.25));
@@ -47,10 +47,11 @@ export const InputContainer = styled.div`
 
   input {
     flex: 1;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: ${props => shade(0.5, props.theme.colors.input.text)};
     border: none;
     border-radius: 2px;
+    width: 100%;
 
     &::placeholder {
       color: ${props => props.theme.colors.input.text};
@@ -66,7 +67,7 @@ export const InputContainer = styled.div`
   }
 
   svg {
-    color: ${props => props.theme.colors.input.text};
+    color: ${props => shade(0.2, props.theme.colors.input.text)};
     margin-right: 16px;
   }
 `;
