@@ -3,7 +3,7 @@ import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
-const Checkbox = ({ name, text }) => {
+const Checkbox = ({ name, className, text }) => {
   const checkboxRef = useRef(null);
   const { fieldName, registerField } = useField(name);
 
@@ -16,9 +16,9 @@ const Checkbox = ({ name, text }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
-      <label htmlFor="save">
-        <input id="save" ref={checkboxRef} type="checkbox" />
+    <Container className={className}>
+      <label htmlFor={name}>
+        <input id={name} ref={checkboxRef} type="checkbox" />
         <span>{text}</span>
       </label>
     </Container>
