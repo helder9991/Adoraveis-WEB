@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
@@ -12,15 +12,14 @@ import api from '../../services/api';
 import { Container, Logo, Content, Select, Button } from './styles';
 
 const Server = () => {
+  const formRef = useRef();
+
   const { setRegion, saveRegion, removeRegion } = useRegion();
 
   const [servers, setServers] = useState([]);
   const [states, setStates] = useState([]);
-  const [selectedState, setSelectedState] = useState('');
   const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState('');
   const [institutes, setInstitutes] = useState([]);
-  const [selectedInstitute, setSelectedInstitute] = useState('');
 
   useEffect(() => {
     api.get('/servers').then(({ data }) => {
@@ -35,41 +34,24 @@ const Server = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setSelectedCity('');
-    setSelectedInstitute('');
+  const handleShowCities = useCallback(() => {
+    const selectedState = formRef.current.getFieldValue('state');
+    const citiesOptions = servers
+      .filter(({ state }) => state === selectedState)
+      .map(({ city }) => city);
+    setCities([...new Set(citiesOptions)]);
+  }, [formRef, servers]);
 
-    const citiesArray = [];
-    servers.forEach(server => {
-      if (!citiesArray.includes(server.city) && server.state === selectedState)
-        citiesArray.push(server.city);
-    });
-    setCities(citiesArray);
-  }, [selectedState, servers]);
-
-  useEffect(() => {
-    setSelectedInstitute('');
-
-    const intitutesArray = [];
-    servers.forEach(server => {
-      if (
-        !intitutesArray.includes(server.institute) &&
-        server.city === selectedCity
-      )
-        intitutesArray.push(server.institute);
-    });
-    setInstitutes(intitutesArray);
-  }, [selectedCity, servers]);
+  const handleShowInstitutes = useCallback(() => {
+    const selectedCity = formRef.current.getFieldValue('city');
+    const instituteOptions = servers
+      .filter(({ city }) => city === selectedCity)
+      .map(({ institute }) => institute);
+    setInstitutes([...new Set(instituteOptions)]);
+  }, [formRef, servers]);
 
   const handleSubmit = useCallback(
     async data => {
-      data = {
-        state: selectedState,
-        city: selectedCity,
-        institute: selectedInstitute,
-        ...data,
-      };
-
       try {
         const schema = Yup.object().shape({
           state: Yup.string().required('É necessario selecionar o estado'),
@@ -82,9 +64,9 @@ const Server = () => {
 
         const [selectedServer] = servers.filter(
           server =>
-            server.state === selectedState &&
-            server.city === selectedCity &&
-            server.institute === selectedInstitute,
+            server.state === data.state &&
+            server.city === data.city &&
+            server.institute === data.institute,
         );
 
         // passou na validacao
@@ -98,39 +80,33 @@ const Server = () => {
         }
       }
     },
-    [
-      selectedState,
-      selectedCity,
-      selectedInstitute,
-      saveRegion,
-      removeRegion,
-      setRegion,
-      servers,
-    ],
+    [saveRegion, removeRegion, setRegion, servers],
   );
 
   return (
     <Container>
       <Content>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} ref={formRef}>
           <Logo>logo</Logo>
           <Select
+            name="state"
             title="Estado"
             placeholder="Selecione o estado"
             options={states}
-            setOption={setSelectedState}
+            onChange={handleShowCities}
           />
           <Select
+            name="city"
             title="Cidade"
             placeholder="Selecione a cidade"
             options={cities}
-            setOption={setSelectedCity}
+            onChange={handleShowInstitutes}
           />
           <Select
+            name="institute"
             title="ONG"
             placeholder="Selecione a ONG"
             options={institutes}
-            setOption={setSelectedInstitute}
           />
           <Checkbox name="save" text="Salvar região" />
           <Button type="submit" title="Entrar" />
