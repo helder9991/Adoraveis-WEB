@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import { IoMdMail, IoIosLock } from 'react-icons/io';
@@ -26,9 +26,10 @@ import {
 const SignIn = () => {
   const formRef = useRef();
 
-  const { region } = useRegion();
   const { signIn } = useAuth();
   const history = useHistory();
+  const location = useLocation();
+  const { region } = useRegion();
 
   const handleGoBack = useCallback(() => {
     history.goBack();
@@ -55,7 +56,7 @@ const SignIn = () => {
           password: data.password,
         });
 
-        history.goBack();
+        history.push(location.state.from ? location.state.from : null);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -75,7 +76,7 @@ const SignIn = () => {
         });
       }
     },
-    [history, signIn],
+    [history, signIn, location.state.from],
   );
 
   return (

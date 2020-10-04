@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import { Route as ReactDOMRoute, Redirect } from 'react-router-dom';
+import {
+  Route as ReactDOMRoute,
+  Redirect,
+  useLocation,
+} from 'react-router-dom';
 
 import { useRegion } from '../hooks/region';
 import { useHeader } from '../hooks/header';
@@ -12,6 +16,7 @@ const Route = ({
   header = true,
   ...rest
 }) => {
+  const { pathname } = useLocation();
   const { region } = useRegion();
   const { changeHeader } = useHeader();
   const { user } = useAuth();
@@ -29,12 +34,17 @@ const Route = ({
             location.pathname === '/register' ||
             location.pathname === '/reset' ||
             location.pathname === '/forgot') &&
-          user
+          user.name
         )
           return <Redirect to="/dashboard" />;
 
-        if (location.pathname !== '/login' && needsLogin && !user)
-          return <Redirect push to="/login" />;
+        if (location.pathname !== '/login' && needsLogin && !user.name)
+          return (
+            <Redirect
+              push
+              to={{ pathname: '/login', state: { from: pathname } }}
+            />
+          );
 
         return needsRegion === !!region ? (
           <Component />

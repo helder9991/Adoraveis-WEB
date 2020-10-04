@@ -7,11 +7,11 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [data, setData] = useState(() => {
     const token = localStorage.getItem('@Adoraveis:token');
-    const user = localStorage.getItem('@Adoraveis:user');
+    const user = JSON.parse(localStorage.getItem('@Adoraveis:user'));
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, name: user };
+      return { token, ...user };
     }
 
     return {};
@@ -20,14 +20,17 @@ export const AuthProvider = ({ children }) => {
   const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post('/auth', { email, password });
 
-    const { token, name, permission } = response.data;
+    const { token, name, permission, url_param = '' } = response.data;
 
     localStorage.setItem('@Adoraveis:token', token);
-    localStorage.setItem('@Adoraveis:user', name);
+    localStorage.setItem(
+      '@Adoraveis:user',
+      JSON.stringify({ name, ...(url_param ? { url_param } : {}) }),
+    );
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, name, permission });
+    setData({ token, name, permission, ...(url_param ? { url_param } : {}) });
   }, []);
 
   const signOut = useCallback(() => {
@@ -49,9 +52,7 @@ export const AuthProvider = ({ children }) => {
   );
 
   return (
-    <AuthContext.Provider
-      value={{ user: data.name, signIn, signOut, updateUser }}
-    >
+    <AuthContext.Provider value={{ user: data, signIn, signOut, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

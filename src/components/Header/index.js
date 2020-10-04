@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer } from '@material-ui/core';
 import {
@@ -11,9 +11,10 @@ import {
   RiUserFill,
 } from 'react-icons/ri';
 
-import { useRegion } from '../../hooks/region';
+import { useAuth } from '../../hooks/auth';
 import { useCategory } from '../../hooks/category';
 import { useHeader } from '../../hooks/header';
+import { useRegion } from '../../hooks/region';
 
 import {
   Container,
@@ -29,21 +30,18 @@ import {
 } from './styles';
 
 const Header = () => {
-  const { region } = useRegion();
+  const { user } = useAuth();
   const { category, changeCategory } = useCategory();
   const { header } = useHeader();
+  const { region } = useRegion();
 
-  const [currentPage, setCurrentPage] = useState('');
   const [menuIsOpened, setMenuIsOpened] = useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuIsOpened(!menuIsOpened);
   }, [menuIsOpened]);
 
-  const isSelected = useCallback(
-    page => category === page || currentPage === page,
-    [category, currentPage],
-  );
+  const isSelected = useCallback(page => category === page, [category]);
 
   const handleChangeCategory = useCallback(
     buttonCategory => {
@@ -54,13 +52,6 @@ const Header = () => {
       if (menuIsOpened) setMenuIsOpened(false);
     },
     [changeCategory, category, menuIsOpened],
-  );
-
-  const handleCurrentPage = useCallback(
-    page => {
-      setCurrentPage(page);
-    },
-    [setCurrentPage],
   );
 
   return (
@@ -147,7 +138,11 @@ const Header = () => {
             </Categories>
           </Center>
           <Right>
-            <RiShieldUserFill size={30} />
+            {user && user.url_param === region.url_param && (
+              <Link to="new-animal">
+                <RiShieldUserFill size={30} />
+              </Link>
+            )}
             <Link to="new-animal">
               <RiAddBoxFill size={30} />
             </Link>
