@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 
 import Animal from '../pages/Animal';
+import ChangePassword from '../pages/ChangePassword';
 import Dashboard from '../pages/Dashboard';
 import EditProfile from '../pages/EditProfile';
 import NewAnimal from '../pages/NewAnimal';
@@ -43,6 +44,13 @@ const Routes = () => (
       path="/profile/edit"
       exact
       component={EditProfile}
+      needsLogin
+      needsRegion
+    />
+    <Route
+      path="/profile/change-password"
+      exact
+      component={ChangePassword}
       needsLogin
       needsRegion
     />

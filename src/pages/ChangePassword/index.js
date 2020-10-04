@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { IoMdPerson, IoIosCall } from 'react-icons/io';
+import { IoIosLock } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
@@ -15,18 +15,13 @@ import {
   Content,
   Form,
   Input,
+  Input2,
   Title,
 } from './styles';
 
-const EditProfile = () => {
+const ChangePassword = () => {
   const formRef = useRef(null);
   const history = useHistory();
-
-  useEffect(() => {
-    api.get('/my/user').then(response => {
-      formRef.current.setData(response.data);
-    });
-  }, []);
 
   const handleBackPage = useCallback(() => {
     history.goBack();
@@ -36,25 +31,22 @@ const EditProfile = () => {
     async data => {
       try {
         const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          phone: Yup.string()
-            .required()
-            .matches(
-              /\(\d{2}\)([0-9]{4}|[0-9]{5})-[0-9]{4}/,
-              'O número do telefone não está no formato correto',
-            ) // (00)1234-5678 || (00)12345-6789
-            .min(13, 'O número precisar ter no minimo 13 dígitos')
-            .max(14, 'O número pode ter no máximo 14 dígitos'),
+          oldPassword: Yup.string()
+            .min(8, 'A senha precisa ter no minimo 8 dígitos')
+            .required('Senha obrigatória'),
+          password: Yup.string()
+            .min(8, 'A senha precisa ter no minimo 8 dígitos')
+            .required('A nova senha é obrigatória'),
+          passwordConfirmation: Yup.string()
+            .min(8, 'A senha precisa ter no minimo 8 dígitos')
+            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.put('/my/user', {
-          name: data.name,
-          phone: data.phone,
-        });
+        await api.put('/my/user', data);
 
         toast.info('A alteracão foi realizada com sucesso!');
 
@@ -72,9 +64,16 @@ const EditProfile = () => {
         }
 
         if (err.isAxiosError) {
-          toast.error(
-            'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
-          );
+          switch (err.response.data.message) {
+            case 'User password does not match.':
+              toast.error('Senha atual inválida.');
+              break;
+            default:
+              toast.error(
+                'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
+              );
+              break;
+          }
         }
       }
     },
@@ -84,20 +83,27 @@ const EditProfile = () => {
   return (
     <Container>
       <Content>
-        <Title>Editar Perfil</Title>
+        <Title>Alterar Senha</Title>
         <Form onSubmit={handleSubmit} ref={formRef}>
           <Input
-            name="name"
-            title="Digite seu nome completo"
-            icon={IoMdPerson}
-            placeholder="Digite seu nome"
+            name="oldPassword"
+            type="password"
+            title="Digite sua senha atual"
+            icon={IoIosLock}
+            placeholder="Digite seu senha"
           />
           <Input
-            name="phone"
-            type="phone"
-            title="Digite seu telefone"
-            icon={IoIosCall}
-            placeholder="DDD + Telefone"
+            name="password"
+            type="password"
+            title="Digite sua nova senha telefone"
+            icon={IoIosLock}
+            placeholder="Digite a nova senha"
+          />
+          <Input2
+            name="passwordConfirmation"
+            type="password"
+            icon={IoIosLock}
+            placeholder="Digite novamente a nova senha"
           />
           <ButtonContainer>
             <Button title="Alterar Informações" buttonType="confirm" />
@@ -114,4 +120,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default ChangePassword;

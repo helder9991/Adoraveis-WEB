@@ -44,7 +44,7 @@ const Profile = () => {
           </Page>
           <hr />
 
-          <Page>
+          <Page to="/profile/change-password">
             <RiLock2Fill size={20} />
             <span>Alterar senha</span>
           </Page>

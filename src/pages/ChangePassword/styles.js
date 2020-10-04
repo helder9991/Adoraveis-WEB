@@ -47,16 +47,27 @@ export const Form = styled(FormContainer)`
   flex-direction: column;
   margin: 35px auto 0 auto;
   width: 80%;
+
+  h1 {
+    color: ${props => props.theme.colors.text.primary};
+  }
 `;
 
 export const Input = styled(TextInput)`
   width: 50%;
   margin: 0 auto;
+
   & + & {
     margin-top: 25px;
   }
-  h1 {
-    color: ${props => props.theme.colors.text.primary};
+`;
+
+export const Input2 = styled(TextInput)`
+  width: 50%;
+  margin: 0 auto;
+
+  & + & {
+    margin-top: 5px;
   }
 `;
 
