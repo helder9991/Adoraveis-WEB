@@ -5,6 +5,7 @@ import Animal from '../pages/Animal';
 import ChangePassword from '../pages/ChangePassword';
 import Dashboard from '../pages/Dashboard';
 import EditProfile from '../pages/EditProfile';
+import MyAnimals from '../pages/MyAnimals';
 import NewAnimal from '../pages/NewAnimal';
 import Server from '../pages/Server';
 import SignIn from '../pages/SignIn';
@@ -22,7 +23,7 @@ const Routes = () => (
 
     {/* Animal routes */}
     <Route path="/dashboard" exact component={Dashboard} needsRegion />
-    <Route path="/animal" exact component={Animal} needsRegion />
+    <Route path="/animal/:id" exact component={Animal} needsRegion />
     <Route
       path="/new-animal"
       exact
@@ -44,6 +45,20 @@ const Routes = () => (
       path="/profile/edit"
       exact
       component={EditProfile}
+      needsLogin
+      needsRegion
+    />
+    <Route
+      path="/profile/change-password"
+      exact
+      component={ChangePassword}
+      needsLogin
+      needsRegion
+    />
+    <Route
+      path="/profile/my-animals"
+      exact
+      component={MyAnimals}
       needsLogin
       needsRegion
     />

@@ -134,7 +134,7 @@ export const Animals = styled.div`
 export const Animal = styled(Link)`
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: ${props => lighten(0.8, props.theme.colors.background)};
   flex-basis: 30%;
   margin: 8px 1.6%;
   text-decoration: none;
@@ -194,7 +194,6 @@ export const Info = styled.div`
       overflow: hidden;
       width: 102px;
       font-size: 2rem;
-      text-overflow: ellipsis;
       margin-left: 10%;
     }
   }

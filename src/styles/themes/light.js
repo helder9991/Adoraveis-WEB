@@ -3,6 +3,9 @@ export default {
 
   colors: {
     primary: '#14C359',
+    tooltip: '#757575',
+    error: '#c53030',
+    border: '#BEBEBE',
 
     text: {
       primary: '#3F3B3B',
@@ -34,8 +37,13 @@ export default {
       text: '#7D6F6F',
     },
 
-    border: '#BEBEBE',
-
-    error: '#c53030',
+    status: {
+      available: '#43CB2D',
+      unavailable: '#C4C4C4',
+      adopted: {
+        background: '#FFF',
+        border: '#43CB2D',
+      },
+    },
   },
 };

@@ -143,7 +143,7 @@ const Header = () => {
                 <RiShieldUserFill size={30} />
               </Link>
             )}
-            <Link to="new-animal">
+            <Link to="/new-animal">
               <RiAddBoxFill size={30} />
             </Link>
             <Link to="/profile">

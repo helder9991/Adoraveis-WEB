@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Carousel from '../../components/Carousel';
@@ -30,8 +30,8 @@ import {
 
 const Animal = () => {
   const { region } = useRegion();
-  const location = useLocation();
   const history = useHistory();
+  const params = useParams();
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
@@ -41,14 +41,13 @@ const Animal = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (!location.state) return;
-    api
-      .get(`/${region.url_param}/animals/${location.state.id}`)
-      .then(response => {
+    if (params.id) {
+      api.get(`/${region.url_param}/animals/${params.id}`).then(response => {
         setAnimal(response.data);
       });
+    }
     setLoading(false);
-  }, [location.state, region]);
+  }, [params.id, region]);
 
   const handleOpenModal = useCallback(() => {
     // Usuario nao logado
@@ -72,18 +71,6 @@ const Animal = () => {
 
   return (
     <>
-      {loading && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 25,
-          }}
-        >
-          <CircularProgress />
-        </div>
-      )}
       {animal.length !== 0 &&
       modalIsOpen &&
       (currentModal === 1 || currentModal === 2) ? (
@@ -136,6 +123,19 @@ const Animal = () => {
       <Container>
         <Content>
           <Title>Dados do Animal</Title>
+
+          {loading && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 25,
+              }}
+            >
+              <CircularProgress />
+            </div>
+          )}
           <Info>
             {animal.length !== 0 ? (
               <>

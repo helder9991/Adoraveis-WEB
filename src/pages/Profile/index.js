@@ -50,7 +50,7 @@ const Profile = () => {
           </Page>
           <hr />
 
-          <Page>
+          <Page to="/profile/my-animals">
             <RiMenuLine size={20} />
             <span>Meus animais cadastrados</span>
           </Page>

@@ -194,7 +194,7 @@ const Dashboard = () => {
             <Animals>
               {animals.map(animal => (
                 <Animal
-                  to={{ pathname: '/animal', state: { id: animal.id } }}
+                  to={{ pathname: `/animal/${animal.id}` }}
                   key={animal.id}
                 >
                   <div>

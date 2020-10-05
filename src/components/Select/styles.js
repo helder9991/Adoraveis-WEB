@@ -47,7 +47,8 @@ export const SelectContainer = styled.div`
     `}
 
   input {
-    flex: 8;
+    width: 100%;
+    flex: 9;
     outline: none;
     background: none;
     border: none;
@@ -64,7 +65,7 @@ export const SelectContainer = styled.div`
 `;
 
 export const Error = styled(Tooltip)`
-  flex: 2;
+  flex: 1;
   height: 20px;
   margin-left: 3%;
 

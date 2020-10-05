@@ -323,16 +323,15 @@ const NewAnimal = () => {
                   <Select2
                     name="animal"
                     title="Animal"
-                    placeholder="Selecione a categoria"
+                    placeholder="Selecione o animal"
                     options={animalsOptions}
                     onChange={handleShowBreed}
                   />
 
                   <Select2
-                    styled
                     name="breed"
                     title="Raça"
-                    placeholder="Selecione a categoria"
+                    placeholder="Selecione a raça"
                     options={breedsOptions}
                   />
                 </Row>
@@ -340,7 +339,7 @@ const NewAnimal = () => {
                   <Select2
                     name="port"
                     title="Porte"
-                    placeholder="Selecione a categoria"
+                    placeholder="Selecione o porte"
                     options={['Pequeno', 'Médio', 'Grande']}
                   />
 
