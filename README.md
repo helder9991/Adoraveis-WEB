@@ -2,6 +2,7 @@
 Filtro / listar pagina 2 - Dashboard
 Observacoes e Vacinas / Entrar em contato - Animal
 Colocar erro caso a requisicao de errado
+Deslogar o usuario quando o token expirar
 
 
 

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { shade, lighten } from 'polished';
 
 import ButtonInput from '../../components/Button';
@@ -128,7 +129,7 @@ export const Select = styled(SelectInput)`
 export const Animals = styled.div`
   height: 40vw;
   overflow-y: auto;
-  margin-top: 25px;
+  margin-top: 10px;
   padding-bottom: 25px;
 
   &::-webkit-scrollbar {
@@ -159,13 +160,14 @@ export const Animals = styled.div`
   }
 `;
 
-export const Animal = styled.div`
+export const Animal = styled(Link)`
   display: flex;
   background: ${props => lighten(0.8, props.theme.colors.background)};
   width: 95%;
   height: 101px;
   margin: 0 auto;
   padding: 0 15px;
+  text-decoration: none;
 
   box-shadow: 4px 3px 6px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
@@ -231,8 +233,7 @@ export const Status = styled(Tooltip)`
   ${props => {
     if (props.status.adopted_at) {
       return css`
-        background: ${props.theme.colors.status.adopted.background};
-        border: 1px solid ${props.theme.colors.status.adopted.border};
+        background: ${props.theme.colors.status.adopted};
       `;
     }
 
@@ -252,12 +253,9 @@ export const Status = styled(Tooltip)`
     ${props => {
       if (props.status.adopted_at) {
         return css`
-          background: ${props.theme.colors.status.adopted.background};
-          color: ${props.theme.colors.text.tertiary};
-          border: 2px solid ${props.theme.colors.status.adopted.border};
+          background: ${props.theme.colors.status.adopted};
           &::before {
-            border-color: ${props.theme.colors.status.adopted.border}
-              transparent;
+            border-color: ${props.theme.colors.status.adopted} transparent;
           }
         `;
       }

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 
+import Administrator from '../pages/Administrator';
 import Animal from '../pages/Animal';
 import ChangePassword from '../pages/ChangePassword';
 import Dashboard from '../pages/Dashboard';
 import EditProfile from '../pages/EditProfile';
+import EditAnimal from '../pages/EditAnimal';
 import MyAnimals from '../pages/MyAnimals';
 import NewAnimal from '../pages/NewAnimal';
 import Server from '../pages/Server';
@@ -63,9 +65,26 @@ const Routes = () => (
       needsRegion
     />
     <Route
+      path="/profile/my-animals/:id"
+      exact
+      component={EditAnimal}
+      needsLogin
+      needsRegion
+    />
+    <Route
       path="/profile/change-password"
       exact
       component={ChangePassword}
+      needsLogin
+      needsRegion
+    />
+
+    {/* Administrador Routes */}
+    <Route
+      path="/administrator"
+      exact
+      component={Administrator}
+      ensureAdmin
       needsLogin
       needsRegion
     />

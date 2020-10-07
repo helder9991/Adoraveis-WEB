@@ -61,7 +61,7 @@ const ProfileInfo = () => {
           return {
             ...animal,
             status: 'Adotado',
-            message: 'O animal já foi adotado.',
+            message: 'Este animal já foi adotado.',
           };
         if (animal.verified_at)
           return {
@@ -181,11 +181,22 @@ const ProfileInfo = () => {
             </Selects>
           </Form>
 
+          <hr />
+
           <Animals>
             <h1>Meus Animais</h1>
             {myVisibleAnimals.length > 0 ? (
               myVisibleAnimals.map(animal => (
-                <Animal key={animal.id}>
+                <Animal
+                  key={animal.id}
+                  to={{
+                    pathname: `/animal/${animal.id}`,
+                    state: {
+                      owner: true,
+                      ...(animal.adopted_at ? { adopted: true } : {}),
+                    },
+                  }}
+                >
                   <Info>
                     <img src={animal.photo} alt={animal.name} />
                   </Info>

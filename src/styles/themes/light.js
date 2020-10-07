@@ -40,10 +40,7 @@ export default {
     status: {
       available: '#43CB2D',
       unavailable: '#C4C4C4',
-      adopted: {
-        background: '#FFF',
-        border: '#43CB2D',
-      },
+      adopted: '#e66b00',
     },
   },
 };

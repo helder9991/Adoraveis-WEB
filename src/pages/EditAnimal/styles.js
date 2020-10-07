@@ -165,9 +165,6 @@ export const Card = styled.div`
   span {
     margin-left: 15%;
     font-size: 2rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
   }
 `;
 
@@ -181,20 +178,6 @@ export const Buttons = styled.div`
 
   button {
     margin-top: 10px;
-  }
-
-  @media (max-width: 1200px) {
-    width: 75vw;
-  }
-`;
-
-export const RowButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  button {
-    margin-top: 10px;
-    width: 45%;
   }
 
   @media (max-width: 1200px) {

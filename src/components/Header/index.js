@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer } from '@material-ui/core';
 import {
@@ -139,7 +139,7 @@ const Header = () => {
           </Center>
           <Right>
             {user && user.url_param === region.url_param && (
-              <Link to="new-animal">
+              <Link to="/administrator">
                 <RiShieldUserFill size={30} />
               </Link>
             )}
