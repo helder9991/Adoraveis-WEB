@@ -13,6 +13,7 @@ import Server from '../pages/Server';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
+import PendingAnimals from '../pages/PendingAnimals';
 import Profile from '../pages/Profile';
 import ProfileInfo from '../pages/ProfileInfo';
 import ResetPassword from '../pages/ResetPassword';
@@ -84,6 +85,14 @@ const Routes = () => (
       path="/administrator"
       exact
       component={Administrator}
+      ensureAdmin
+      needsLogin
+      needsRegion
+    />
+    <Route
+      path="/administrator/pending-animals"
+      exact
+      component={PendingAnimals}
       ensureAdmin
       needsLogin
       needsRegion

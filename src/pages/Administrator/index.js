@@ -8,9 +8,9 @@ const Administrator = () => {
   return (
     <Container>
       <Content>
-        <Title>Página do Administrador</Title>
+        <Title>Página do administrador</Title>
         <Menu>
-          <Page to="/profile/info">
+          <Page to="/administrator/pending-animals">
             <RiMenuLine size={20} />
             <span>Animais pendentes</span>
           </Page>
