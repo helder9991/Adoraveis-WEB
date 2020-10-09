@@ -78,4 +78,36 @@ export const Container = styled.button`
       }
     }};
   }
+
+  &:disabled {
+    cursor: auto;
+
+    background: ${props => {
+      switch (props.buttonType) {
+        case 'next':
+          return shade(0.5, props.theme.colors.button.next);
+
+        case 'return':
+          return shade(0.4, props.theme.colors.button.return.background);
+
+        case 'confirm':
+          return shade(0.5, props.theme.colors.button.confirm);
+        default:
+          break;
+      }
+    }};
+
+    color: ${props => {
+      switch (props.buttonType) {
+        case 'return':
+          return shade(0.4, props.theme.colors.button.return.text);
+
+        case 'register':
+          return shade(0.4, props.theme.colors.button.next);
+
+        default:
+          return shade(0.4, props.theme.colors.button.text);
+      }
+    }};
+  }
 `;
