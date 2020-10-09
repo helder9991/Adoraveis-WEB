@@ -51,7 +51,7 @@ export const Center = styled.div`
   width: 90%;
 
   @media (max-width: 500px) {
-    width: 60vw;
+    width: 90vw;
   }
 `;
 
@@ -160,6 +160,20 @@ export const Animals = styled.div`
     margin: 25px 15px 25px 15px;
     color: ${props => props.theme.colors.text.primary};
   }
+
+  @media (max-width: 515px) {
+    width: 100%;
+
+    ${props =>
+      props.visible &&
+      css`
+        display: flex;
+      `}
+  }
+
+  @media (max-width: 1000px) {
+    height: auto;
+  }
 `;
 
 export const Animal = styled(Link)`
@@ -168,7 +182,7 @@ export const Animal = styled(Link)`
   width: 95%;
   height: 101px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 0 0 15px;
   text-decoration: none;
 
   box-shadow: 4px 3px 6px rgba(0, 0, 0, 0.25);
@@ -177,18 +191,56 @@ export const Animal = styled(Link)`
   & + & {
     margin-top: 20px;
   }
+
+  @media (max-width: 700px) {
+    height: 150px;
+  }
 `;
 
-export const Info = styled.div`
-  width: 20%;
+export const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 20%;
 
   img {
     width: 8vw;
   }
+
+  @media (max-width: 700px) {
+    width: 33%;
+    img {
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+`;
+
+export const InfoRow = styled.div`
+  display: flex;
+  margin-left: 1%;
+  width: 50%;
+
+  @media (max-width: 800px) {
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+`;
+
+export const Info = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 
   span {
     color: ${props => props.theme.colors.text.tertiary};
@@ -213,11 +265,16 @@ export const Info = styled.div`
 `;
 
 export const StatusContainer = styled.div`
-  width: 20%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 800px) {
+    height: 50%;
+    width: 100%;
+  }
 `;
 
 export const Status = styled(Tooltip)`
@@ -296,6 +353,10 @@ export const Status = styled(Tooltip)`
       `;
     }};
   }
+
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -338,5 +399,45 @@ export const Input = styled(TextInput)`
   h1 {
     color: ${props => props.theme.colors.text.primary};
     font-weight: 400;
+  }
+`;
+
+export const StatusResponsive = styled.div`
+  opacity: 0;
+  position: relative;
+  right: 0;
+  height: 100%;
+  width: 10px;
+  margin-left: 15px;
+  border-radius: 0 8px 8px 0;
+
+  ${props => {
+    if (props.status.adopted_at) {
+      return css`
+        background: ${props.theme.colors.status.adopted};
+      `;
+    }
+
+    if (props.status.verified_at) {
+      if (
+        isEqual(parseISO(props.status.verified_at), new Date(0, 0, 0, 0, 0, 0))
+      ) {
+        return css`
+          background: ${props.theme.colors.status.refused};
+        `;
+      }
+      return css`
+        background: ${props.theme.colors.status.available};
+      `;
+    }
+
+    return css`
+      background: ${props.theme.colors.status.unavailable};
+      color: ${props.theme.colors.text.tertiary};
+    `;
+  }};
+
+  @media (max-width: 800px) {
+    opacity: 1;
   }
 `;

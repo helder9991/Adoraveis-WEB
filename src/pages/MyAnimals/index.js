@@ -17,13 +17,16 @@ import {
   Container,
   Content,
   FilterTitle,
+  ImageContainer,
   Info,
+  InfoRow,
   Input,
   Message,
   Select,
   Selects,
   Status,
   StatusContainer,
+  StatusResponsive,
   Title,
 } from './styles';
 
@@ -228,32 +231,42 @@ const ProfileInfo = () => {
                     },
                   }}
                 >
-                  <Info>
+                  <ImageContainer>
                     <img src={animal.photo} alt={animal.name} />
-                  </Info>
-                  <Info>
-                    <span>Nome</span>
-                    <span>{animal.name}</span>
-                  </Info>
-                  <Info>
-                    <span>Porte</span>
-                    <span>{animal.port}</span>
-                  </Info>
-                  <Info>
-                    <span>Raça</span>
-                    <span>{animal.breed.breed}</span>
-                  </Info>
-                  <StatusContainer>
-                    <Status
-                      title={animal.message}
-                      status={{
-                        adopted_at: animal.adopted_at,
-                        verified_at: animal.verified_at,
-                      }}
-                    >
-                      {animal.status}
-                    </Status>
-                  </StatusContainer>
+                  </ImageContainer>
+                  <InfoRow>
+                    <Info>
+                      <span>Nome</span>
+                      <span>{animal.name}</span>
+                    </Info>
+                    <Info>
+                      <span>Porte</span>
+                      <span>{animal.port}</span>
+                    </Info>
+                  </InfoRow>
+                  <InfoRow>
+                    <Info>
+                      <span>Raça</span>
+                      <span>{animal.breed.breed}</span>
+                    </Info>
+                    <StatusContainer>
+                      <Status
+                        title={animal.message}
+                        status={{
+                          adopted_at: animal.adopted_at,
+                          verified_at: animal.verified_at,
+                        }}
+                      >
+                        {animal.status}
+                      </Status>
+                    </StatusContainer>
+                  </InfoRow>
+                  <StatusResponsive
+                    status={{
+                      adopted_at: animal.adopted_at,
+                      verified_at: animal.verified_at,
+                    }}
+                  />
                 </Animal>
               ))
             ) : (
