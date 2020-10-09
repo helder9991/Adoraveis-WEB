@@ -125,7 +125,7 @@ const ProfileInfo = () => {
         (filter.breed === animal.breed.breed || allMyBreeds) &&
         (filter.port === animal.port || allMyPorts) &&
         (filter.genre === animal.genre || allMyGenres) &&
-        animal.name.includes(filter.name)
+        animal.name.toLowerCase().includes(filter.name.toLowerCase())
       );
     });
 
