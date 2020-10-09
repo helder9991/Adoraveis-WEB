@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Form } from '@unform/web';
 import { RiFilterFill, RiArrowDownSLine } from 'react-icons/ri';
+import { IoIosSearch } from 'react-icons/io';
 import { isEqual, parseISO } from 'date-fns';
 
 import api from '../../services/api';
@@ -17,6 +18,7 @@ import {
   Content,
   FilterTitle,
   Info,
+  Input,
   Message,
   Select,
   Selects,
@@ -94,6 +96,8 @@ const ProfileInfo = () => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {}, [formRef]);
+
   const handleFilterAnimals = useCallback(() => {
     const filter = formRef.current.getData();
     const visibleAnimals = myAnimals.filter(animal => {
@@ -107,13 +111,21 @@ const ProfileInfo = () => {
       if (filter.port === 'Todos') allMyPorts = true;
       if (filter.genre === 'Todos') allMyGenres = true;
 
-      if (allMyAnimals && allMyBreeds && allMyPorts && allMyGenres) return true;
+      if (
+        allMyAnimals &&
+        allMyBreeds &&
+        allMyPorts &&
+        allMyGenres &&
+        filter.name === ''
+      )
+        return true;
 
       return (
         (filter.animal === animal.breed.animal || allMyAnimals) &&
         (filter.breed === animal.breed.breed || allMyBreeds) &&
         (filter.port === animal.port || allMyPorts) &&
-        (filter.genre === animal.genre || allMyGenres)
+        (filter.genre === animal.genre || allMyGenres) &&
+        animal.name.includes(filter.name)
       );
     });
 
@@ -158,6 +170,13 @@ const ProfileInfo = () => {
                 <RiArrowDownSLine size={32} />
               </div>
             </FilterTitle>
+            <Input
+              name="name"
+              title="Nome do animal"
+              placeholder="Digite o nome do animal"
+              onChange={handleFilterAnimals}
+              icon={IoIosSearch}
+            />
             <Selects visible={filterIsVisible}>
               <Select
                 name="animal"

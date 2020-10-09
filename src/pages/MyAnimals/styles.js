@@ -5,6 +5,7 @@ import { isEqual, parseISO } from 'date-fns';
 
 import ButtonInput from '../../components/Button';
 import SelectInput from '../../components/Select';
+import TextInput from '../../components/Input';
 import Tooltip from '../../components/Tooltip';
 
 export const Container = styled.div`
@@ -111,7 +112,7 @@ export const Selects = styled.div`
 
 export const Select = styled(SelectInput)`
   margin-top: 10px;
-  width: 22%;
+  width: 24%;
   padding: 0 10px;
 
   h1 {
@@ -328,4 +329,14 @@ export const Message = styled.div`
   text-align: center;
   color: ${props => props.theme.colors.text.primary};
   font-size: 1.8rem;
+`;
+
+export const Input = styled(TextInput)`
+  margin-top: 15px;
+  width: 50%;
+  margin-left: 3%;
+  h1 {
+    color: ${props => props.theme.colors.text.primary};
+    font-weight: 400;
+  }
 `;
