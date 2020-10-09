@@ -134,12 +134,13 @@ export const Info = styled.div`
 
 export const CarouselContainer = styled.div`
   margin: 0 auto;
-  flex: 6;
+  flex: 5;
+  padding: 0 25px;
 `;
 
 export const Description = styled.div`
   margin: 0 auto;
-  flex: 4;
+  flex: 5;
 
   @media (max-width: 1200px) {
     margin-left: 22%;

@@ -142,6 +142,10 @@ const NewAnimal = () => {
     setBreedsOptions(breedOptions);
   }, [allAnimals]);
 
+  const handleClearSelect = useCallback(() => {
+    formRef.current.setFieldValue('breed', '');
+  }, []);
+
   const handleSubmit = useCallback(
     async data => {
       const page1 = Yup.object().shape({
@@ -190,6 +194,7 @@ const NewAnimal = () => {
               ({ animal, breed }) =>
                 animal === data.animal && breed === data.breed,
             );
+            if (selectedAnimal.length === 0) return;
             try {
               // Limpa posicoes vazias do array ''
               data.vaccines = data.vaccines.filter(value => value !== '');
@@ -242,7 +247,6 @@ const NewAnimal = () => {
         // Nao deu erro
         handleNextPage();
       } catch (err) {
-        console.log(err);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
@@ -326,6 +330,7 @@ const NewAnimal = () => {
                     placeholder="Selecione o animal"
                     options={animalsOptions}
                     onChange={handleShowBreed}
+                    onClick={handleClearSelect}
                   />
 
                   <Select2
@@ -374,6 +379,7 @@ const NewAnimal = () => {
                 <Button
                   title="Voltar"
                   buttonType="return"
+                  type="button"
                   onClick={handlePreviusPage}
                 />
               </Buttons>
@@ -448,6 +454,7 @@ const NewAnimal = () => {
                 <Button
                   title="Voltar"
                   buttonType="return"
+                  type="button"
                   onClick={handlePreviusPage}
                 />
               </Buttons>

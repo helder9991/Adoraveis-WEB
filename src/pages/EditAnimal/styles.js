@@ -1,7 +1,11 @@
 import styled, { keyframes } from 'styled-components';
 import { shade, transparentize } from 'polished';
+import { Form } from '@unform/web';
 
+import CheckboxInput from '../../components/Checkbox';
 import ButtonInput from '../../components/Button';
+import SelectInput from '../../components/Select';
+import TextInput from '../../components/Input';
 
 export const Container = styled.div`
   flex: 1;
@@ -113,10 +117,7 @@ export const Title = styled.h1`
 
 export const AnimalData = styled.div`
   display: flex;
-
-  @media (max-width: 1200px) {
-    flex-direction: column;
-  }
+  flex-direction: column;
 `;
 
 export const Info = styled.div`
@@ -134,27 +135,17 @@ export const Info = styled.div`
 
 export const CarouselContainer = styled.div`
   margin: 0 auto;
-  flex: 6;
+  width: 70%;
 `;
 
-export const Description = styled.div`
+export const FormContainer = styled(Form)`
   margin: 0 auto;
-  flex: 4;
-
-  @media (max-width: 1200px) {
-    margin-left: 22%;
-  }
-
-  @media (max-width: 500px) {
-    max-width: 80%;
-    margin-left: 20vw;
-  }
+  width: 90%;
 `;
 
 export const Card = styled.div`
-  display: inline-block;
   margin: 20px 0 0 20px;
-  width: 40%;
+  width: 50%;
 
   h1 {
     font-size: 1.8rem;
@@ -185,6 +176,20 @@ export const Buttons = styled.div`
   }
 `;
 
+export const RowButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    margin-top: 10px;
+    width: 45%;
+  }
+
+  @media (max-width: 1200px) {
+    width: 75vw;
+  }
+`;
+
 export const Button = styled(ButtonInput)`
   width: 60%;
 `;
@@ -193,4 +198,41 @@ export const Message = styled.h1`
   margin-top: 50px;
   text-align: center;
   color: ${props => props.theme.colors.text.primary};
+`;
+
+export const Input = styled(TextInput)`
+  width: 50%;
+  padding: 0 10px;
+  display: inline-block;
+  margin-bottom: 20px;
+
+  h1 {
+    color: ${props => props.theme.colors.text.primary};
+  }
+`;
+
+export const CheckboxContainer = styled.div`
+  margin-left: 36px;
+`;
+
+export const Checkbox = styled(CheckboxInput)`
+  label {
+    width: 250px;
+  }
+  label span {
+    color: ${props => props.theme.colors.text.primary};
+    font-size: 1.7rem;
+    font-weight: 400;
+  }
+`;
+
+export const Select = styled(SelectInput)`
+  width: 50%;
+  padding: 0 10px;
+  display: inline-block;
+  margin-bottom: 20px;
+
+  h1 {
+    color: ${props => props.theme.colors.text.primary};
+  }
 `;

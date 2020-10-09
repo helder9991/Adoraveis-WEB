@@ -15,7 +15,7 @@ const Input = ({
   ...rest
 }) => {
   const inputRef = useRef(null);
-  const { fieldName, registerField, error } = useField(name);
+  const { fieldName, defaultValue, registerField, error } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -127,6 +127,7 @@ const Input = ({
             ref={inputRef}
             id={fieldName}
             disabled={disabled}
+            defaultValue={defaultValue}
             {...rest}
           />
 

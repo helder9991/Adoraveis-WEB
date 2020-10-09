@@ -138,11 +138,12 @@ const Header = () => {
             </Categories>
           </Center>
           <Right>
-            {user && user.url_param === region.url_param && (
-              <Link to="/administrator">
-                <RiShieldUserFill size={30} />
-              </Link>
-            )}
+            {Object.prototype.hasOwnProperty.call(user, 'url_param') &&
+              user.url_param === region.url_param && (
+                <Link to="/administrator">
+                  <RiShieldUserFill size={30} />
+                </Link>
+              )}
             <Link to="/new-animal">
               <RiAddBoxFill size={30} />
             </Link>

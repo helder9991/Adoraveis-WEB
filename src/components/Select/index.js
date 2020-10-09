@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
 import { IoMdAlert } from 'react-icons/io';
 
@@ -9,14 +9,11 @@ const Select = ({
   className,
   title,
   placeholder,
-  defaultValue = '',
   options = [],
   ...rest
 }) => {
   const inputRef = useRef(null);
   const { fieldName, registerField, error } = useField(name);
-
-  const [value, setValue] = useState('');
 
   useEffect(() => {
     registerField({
@@ -26,36 +23,23 @@ const Select = ({
     });
   }, [fieldName, registerField]);
 
-  const handleClearInput = useCallback(() => {
-    inputRef.current.value = '';
-  }, []);
-
-  const handleValueOnBlur = useCallback(() => {
-    inputRef.current.value = value !== '' ? value : defaultValue;
-  }, [value, defaultValue]);
-
   return (
     <Container className={className} {...rest}>
       <h1>{title}</h1>
-      <SelectContainer isErrored={!!error} onClick={handleClearInput}>
-        <input
-          list={name}
-          placeholder={placeholder}
-          ref={inputRef}
-          onClick={handleClearInput}
-          onChange={e => setValue(e.target.value)}
-          onBlur={handleValueOnBlur}
-        />
+      <SelectContainer isErrored={!!error}>
+        <select name={name} placeholder={placeholder} ref={inputRef}>
+          <option key="hidden" selected disabled hidden>
+            {placeholder}
+          </option>
+          {options.map(option => (
+            <option key={option}>{option}</option>
+          ))}
+        </select>
         {error && (
           <Error title={error}>
             <IoMdAlert size={20} />
           </Error>
         )}
-        <datalist id={name}>
-          {options.map(option => (
-            <option key={option}>{option}</option>
-          ))}
-        </datalist>
       </SelectContainer>
     </Container>
   );

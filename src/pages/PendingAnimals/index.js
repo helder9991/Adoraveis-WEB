@@ -46,8 +46,10 @@ const PendingAnimals = () => {
               <Animal
                 key={animal.id}
                 to={{
-                  pathname: `/animal/${animal.id}`,
-                  state: {},
+                  pathname: `/profile/my-animals/${animal.id}`,
+                  state: {
+                    admin: true,
+                  },
                 }}
               >
                 <Info>

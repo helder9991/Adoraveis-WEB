@@ -17,7 +17,7 @@ export const Slider = styled.div`
   margin: 0 auto;
 
   img {
-    width: 30vw;
+    width: 100%;
   }
 
   @media (max-width: 1200px) {
@@ -44,7 +44,6 @@ export const Navigation = styled.div`
 export const Thumbnail = styled.div`
   display: flex;
   margin: 25px auto;
-  max-width: 26vw;
   overflow-x: hidden;
   padding: 0 4px 5px;
 

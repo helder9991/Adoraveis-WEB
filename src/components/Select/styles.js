@@ -8,7 +8,7 @@ export const Container = styled.div`
   h1 {
     margin-left: 3px;
     color: ${props => props.theme.colors.text.secondary};
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
   }
 `;
@@ -46,7 +46,7 @@ export const SelectContainer = styled.div`
       border: 2px solid ${props.theme.colors.error};
     `}
 
-  input {
+  select {
     width: 100%;
     flex: 9;
     outline: none;
