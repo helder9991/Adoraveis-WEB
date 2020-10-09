@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import Carousel from '../../components/Carousel';
 
 import { useRegion } from '../../hooks/region';
-import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
 
@@ -197,7 +196,6 @@ const Animal = () => {
               );
               break;
           }
-          console.log(err.response.data.message);
           throw Error('Erro de requisicao da api');
         }
         throw Error('Erro');
@@ -237,7 +235,6 @@ const Animal = () => {
       toast.info('O animal foi aceito com sucesso!');
       history.goBack();
     } catch (err) {
-      console.log(err);
       if (err.isAxiosError) {
         switch (err.response.data.message) {
           case 'Animal does not exists.':

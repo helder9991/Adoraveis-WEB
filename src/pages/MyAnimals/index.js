@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Form } from '@unform/web';
 import { RiFilterFill, RiArrowDownSLine } from 'react-icons/ri';
+import { isEqual, parseISO } from 'date-fns';
 
 import api from '../../services/api';
 
@@ -63,12 +64,23 @@ const ProfileInfo = () => {
             status: 'Adotado',
             message: 'Este animal já foi adotado.',
           };
-        if (animal.verified_at)
+        if (animal.verified_at) {
+          if (
+            isEqual(parseISO(animal.verified_at), new Date(0, 0, 0, 0, 0, 0))
+          ) {
+            return {
+              ...animal,
+              status: 'Recusado',
+              message: 'O animal foi recusado pela instituição.',
+            };
+          }
+
           return {
             ...animal,
             status: 'Disponivel',
             message: 'O animal esta disponivel na plataforma.',
           };
+        }
         return {
           ...animal,
           status: 'Em análise',

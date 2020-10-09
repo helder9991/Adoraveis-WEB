@@ -41,6 +41,7 @@ export default {
       available: '#43CB2D',
       unavailable: '#C4C4C4',
       adopted: '#e66b00',
+      refused: '#E12424',
     },
   },
 };

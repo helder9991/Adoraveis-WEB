@@ -134,8 +134,9 @@ export const Info = styled.div`
 
 export const CarouselContainer = styled.div`
   margin: 0 auto;
-  flex: 5;
+  flex: 6;
   padding: 0 25px;
+  max-width: 60%;
 `;
 
 export const Description = styled.div`
@@ -156,6 +157,9 @@ export const Card = styled.div`
   display: inline-block;
   margin: 20px 0 0 20px;
   width: 40%;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 
   h1 {
     font-size: 1.8rem;

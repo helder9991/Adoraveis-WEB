@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { shade, lighten } from 'polished';
+import { isEqual, parseISO } from 'date-fns';
 
 import ButtonInput from '../../components/Button';
 import SelectInput from '../../components/Select';
@@ -238,6 +239,13 @@ export const Status = styled(Tooltip)`
     }
 
     if (props.status.verified_at) {
+      if (
+        isEqual(parseISO(props.status.verified_at), new Date(0, 0, 0, 0, 0, 0))
+      ) {
+        return css`
+          background: ${props.theme.colors.status.refused};
+        `;
+      }
       return css`
         background: ${props.theme.colors.status.available};
       `;
@@ -261,6 +269,16 @@ export const Status = styled(Tooltip)`
       }
 
       if (props.status.verified_at) {
+        if (
+          isEqual(
+            parseISO(props.status.verified_at),
+            new Date(0, 0, 0, 0, 0, 0),
+          )
+        ) {
+          return css`
+            background: ${props.theme.colors.status.refused};
+          `;
+        }
         return css`
           background: ${props.theme.colors.status.available};
           &::before {
