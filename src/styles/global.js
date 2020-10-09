@@ -16,7 +16,7 @@ export default createGlobalStyle`
     overflow-y: scroll;
 
     @media(max-width: 1440px) {
-      font-size: 64.5%;
+      font-size: 54.5%;
     }
 
     @media(max-width: 1200px) {

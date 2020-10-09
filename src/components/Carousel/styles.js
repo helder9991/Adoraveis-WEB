@@ -5,10 +5,10 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  max-width: 60vw;
+  max-width: 100%;
 
   @media (max-width: 1200px) {
-    max-width: 80vw;
+    max-width: 80%;
   }
 `;
 
@@ -22,7 +22,7 @@ export const Slider = styled.div`
 
   @media (max-width: 1200px) {
     img {
-      width: 80vw;
+      width: 100%;
     }
   }
 `;
@@ -30,7 +30,7 @@ export const Slider = styled.div`
 export const Navigation = styled.div`
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 100%;
 
   button {
     background: none;
@@ -50,13 +50,13 @@ export const Thumbnail = styled.div`
   scroll-behavior: smooth;
 
   @media (max-width: 1200px) {
-    max-width: 74vw;
+    max-width: 74%;
     overflow-x: scroll;
   }
 `;
 
 export const ThumbnailImage = styled.img`
-  width: 7vw;
+  width: 75px;
   margin-right: 10px;
 
   border: ${props =>

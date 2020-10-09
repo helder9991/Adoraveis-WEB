@@ -54,11 +54,26 @@ const Dashboard = () => {
       setAnimals(response.data);
     });
 
-    api.get(`/${region.url_param}/animals/count`).then(response => {
+    api.get(`/${region.url_param}/animals/${category}/count`).then(response => {
       setTotalNumberOfPages(response.data.pages);
     });
     setLoading(false);
   }, [category, region]);
+
+  useEffect(() => {
+    setAnimals([]);
+    setLoading(true);
+
+    api
+      .get(`/${region.url_param}/animals/list/${category}`, {
+        params: { page: currentPage },
+      })
+      .then(response => {
+        setAnimals(response.data);
+      });
+
+    setLoading(false);
+  }, [category, currentPage, region]);
 
   const handleChangePage = useCallback(page => {
     setCurrentPage(page);

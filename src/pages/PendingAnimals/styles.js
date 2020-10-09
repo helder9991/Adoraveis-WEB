@@ -66,7 +66,7 @@ export const Animals = styled.div`
 
   overflow-y: hidden;
   margin-top: 10px;
-  padding-bottom: 25px;
+  padding-bottom: 125px;
 
   &::-webkit-scrollbar {
     width: 8px;

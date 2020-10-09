@@ -25,6 +25,7 @@ import {
   ModalButtons,
   OwnerInfo,
   OwnerData,
+  RowCard,
   RowButtons,
   TipsList,
   Title,
@@ -237,38 +238,46 @@ const Animal = () => {
                     <Carousel photos={animal.photos} />
                   </CarouselContainer>
                   <Description>
-                    <Card>
-                      <h1>Nome</h1>
-                      <span>{animal.name}</span>
-                    </Card>
-                    <Card>
-                      <h1>Animal</h1>
-                      <span>{animal.breed.animal}</span>
-                    </Card>
-                    <Card>
-                      <h1>Raça</h1>
-                      <span>{animal.breed.breed}</span>
-                    </Card>
-                    <Card>
-                      <h1>Porte</h1>
-                      <span>{animal.port}</span>
-                    </Card>
-                    <Card>
-                      <h1>Sexo</h1>
-                      <span>{animal.genre}</span>
-                    </Card>
-                    <Card>
-                      <h1>Idade</h1>
-                      <span>{animal.years_old}</span>
-                    </Card>
-                    <Card>
-                      <h1>Pedigree</h1>
-                      <span>{animal.pedigree}</span>
-                    </Card>
-                    <Card>
-                      <h1>Castrado</h1>
-                      <span>{animal.castrated}</span>
-                    </Card>
+                    <RowCard>
+                      <Card>
+                        <h1>Nome</h1>
+                        <span>{animal.name}</span>
+                      </Card>
+                      <Card>
+                        <h1>Animal</h1>
+                        <span>{animal.breed.animal}</span>
+                      </Card>
+                    </RowCard>
+                    <RowCard>
+                      <Card>
+                        <h1>Raça</h1>
+                        <span>{animal.breed.breed}</span>
+                      </Card>
+                      <Card>
+                        <h1>Porte</h1>
+                        <span>{animal.port}</span>
+                      </Card>
+                    </RowCard>
+                    <RowCard>
+                      <Card>
+                        <h1>Sexo</h1>
+                        <span>{animal.genre}</span>
+                      </Card>
+                      <Card>
+                        <h1>Idade</h1>
+                        <span>{animal.years_old}</span>
+                      </Card>
+                    </RowCard>
+                    <RowCard>
+                      <Card>
+                        <h1>Pedigree</h1>
+                        <span>{animal.pedigree}</span>
+                      </Card>
+                      <Card>
+                        <h1>Castrado</h1>
+                        <span>{animal.castrated}</span>
+                      </Card>
+                    </RowCard>
                   </Description>
                 </AnimalData>
 
@@ -285,6 +294,7 @@ const Animal = () => {
                         <Button
                           title="Adotado"
                           buttonType="confirm"
+                          disabled
                           onClick={handleAdoptAnimal}
                         />
                       </RowButtons>
@@ -297,23 +307,7 @@ const Animal = () => {
                   </Buttons>
                 )}
 
-                {/* ONG */}
-                {/* Recusar ou Aceitar */}
-                {!owner && user && user.url_param === region.url_param && (
-                  <Buttons>
-                    <Button
-                      title="Entrar em contato"
-                      onClick={handleOpenModal}
-                    />
-                    <Button
-                      title="Voltar"
-                      buttonType="return"
-                      onClick={handleBackPage}
-                    />
-                  </Buttons>
-                )}
-
-                {!owner && user && user.url_param !== region.url_param && (
+                {!owner && (
                   <Buttons>
                     <Button
                       title="Entrar em contato"

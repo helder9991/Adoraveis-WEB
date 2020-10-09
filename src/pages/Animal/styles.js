@@ -121,6 +121,7 @@ export const AnimalData = styled.div`
 
 export const Info = styled.div`
   flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
 
@@ -134,33 +135,52 @@ export const Info = styled.div`
 
 export const CarouselContainer = styled.div`
   margin: 0 auto;
-  flex: 6;
+  width: 55%;
   padding: 0 25px;
-  max-width: 60%;
+
+  @media (max-width: 1200px) {
+    width: 96vw;
+  }
 `;
 
 export const Description = styled.div`
   margin: 0 auto;
   flex: 5;
+  width: 100%;
 
   @media (max-width: 1200px) {
-    margin-left: 22%;
   }
 
   @media (max-width: 500px) {
     max-width: 80%;
-    margin-left: 20vw;
+  }
+`;
+
+export const RowCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  margin: 20px auto;
+
+  @media (max-width: 1200px) {
+    width: 50%;
+  }
+  @media (max-width: 700px) {
+    width: 60%;
+  }
+  @media (max-width: 500px) {
+    width: 80%;
   }
 `;
 
 export const Card = styled.div`
-  display: inline-block;
-  margin: 20px 0 0 20px;
   width: 40%;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
-
   h1 {
     font-size: 1.8rem;
     color: ${props => props.theme.colors.text.primary};

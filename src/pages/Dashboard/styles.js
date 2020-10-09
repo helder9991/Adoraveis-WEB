@@ -138,6 +138,9 @@ export const Animal = styled(Link)`
   flex-basis: 30%;
   margin: 8px 1.6%;
   text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 
   box-shadow: 4px 3px 6px rgba(0, 0, 0, 0.25);
   border-radius: 7px;
@@ -168,6 +171,9 @@ export const Description = styled.div`
   padding-bottom: 30px;
   color: ${props => props.theme.colors.text.tertiary};
   h1 {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
     margin-left: 4%;
   }
 `;
