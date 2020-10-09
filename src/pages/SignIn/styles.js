@@ -14,22 +14,6 @@ export const Container = styled.div`
   color: ${props => props.theme.colors.text.secondary};
 `;
 
-export const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  color: ${props => props.theme.colors.text.secondary};
-  font-size: 1.8rem;
-
-  position: absolute;
-  left: 5vw;
-  top: 9vh;
-
-  svg {
-    color: ${props => props.theme.colors.icon.secondary};
-  }
-`;
-
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;
@@ -47,14 +31,18 @@ export const Content = styled.div`
 `;
 
 export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+
   width: 40%;
 
   img {
-    width: 100%;
+    width: 60%;
   }
 
   @media (max-width: 900px) {
-    width: 60%;
+    width: 75%;
+    max-width: 350px;
   }
 `;
 
@@ -65,6 +53,7 @@ export const FormContainer = styled.div`
   align-items: center;
   height: 50vh;
   width: 35%;
+  margin-right: 35px;
 
   form {
     display: flex;
@@ -96,6 +85,7 @@ export const FormContainer = styled.div`
   @media (max-width: 900px) {
     height: 60%;
     width: 100%;
+    margin-right: 0;
 
     form {
       min-width: 200px;
@@ -109,7 +99,7 @@ export const Title = styled.h1`
   text-align: center;
 
   @media (max-width: 900px) {
-    margin-top: 120px;
+    margin-top: 5%;
   }
 `;
 

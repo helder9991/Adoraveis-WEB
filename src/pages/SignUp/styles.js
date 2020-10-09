@@ -47,10 +47,13 @@ export const Content = styled.div`
 `;
 
 export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+
   width: 40%;
 
   img {
-    width: 100%;
+    width: 60%;
   }
 
   @media (max-width: 900px) {

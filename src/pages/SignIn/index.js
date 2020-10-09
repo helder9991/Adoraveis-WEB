@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import { Form } from '@unform/web';
-import { RiArrowLeftSLine } from 'react-icons/ri';
 import { IoMdMail, IoIosLock } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -11,9 +10,10 @@ import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import Logo from '../../images/adoraveis.svg';
+
 import {
   Container,
-  BackButton,
   Content,
   ImageContainer,
   FormContainer,
@@ -30,10 +30,6 @@ const SignIn = () => {
   const history = useHistory();
   const location = useLocation();
   const { region } = useRegion();
-
-  const handleGoBack = useCallback(() => {
-    history.goBack();
-  }, [history]);
 
   const handleSubmit = useCallback(
     async data => {
@@ -81,16 +77,9 @@ const SignIn = () => {
 
   return (
     <Container>
-      <BackButton onClick={handleGoBack}>
-        <RiArrowLeftSLine size={32} />
-        <span>Voltar</span>
-      </BackButton>
       <Content>
         <ImageContainer>
-          <img
-            src={region ? region.logo : null}
-            alt={region ? region.institute : null}
-          />
+          <img src={Logo} alt={region ? region.institute : null} />
         </ImageContainer>
         <FormContainer>
           <Title>Faça seu login</Title>

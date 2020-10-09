@@ -9,6 +9,8 @@ import { useRegion } from '../../hooks/region';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import Logo from '../../images/adoraveis.svg';
+
 import {
   Container,
   Content,
@@ -106,10 +108,7 @@ const SignUp = () => {
     <Container>
       <Content>
         <ImageContainer>
-          <img
-            src={region ? region.logo : null}
-            alt={region ? region.institute : null}
-          />
+          <img src={Logo} alt={region ? region.institute : null} />
         </ImageContainer>
         <FormContainer>
           <Title>Criando um cadastro</Title>
