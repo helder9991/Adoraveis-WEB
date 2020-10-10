@@ -75,10 +75,10 @@ const ProfileInfo = () => {
           })
           .then(response => {
             setAnimals(response.data);
-            toast.info('A busca foi realizada com sucesso');
+            toast.info('A busca foi realizada com sucesso.');
           });
       } catch (err) {
-        toast.error('Algo de errado aconteceu durante a busca');
+        toast.error('Algo de errado aconteceu durante a busca.');
       }
       setLoading(false);
     },
