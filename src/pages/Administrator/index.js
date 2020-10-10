@@ -16,7 +16,7 @@ const Administrator = () => {
           </Page>
           <hr />
 
-          <Page to="/profile/edit">
+          <Page to="/administrator/search-animal">
             <IoIosSearch size={20} />
             <span>Procurar animal</span>
           </Page>

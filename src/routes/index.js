@@ -17,6 +17,7 @@ import PendingAnimals from '../pages/PendingAnimals';
 import Profile from '../pages/Profile';
 import ProfileInfo from '../pages/ProfileInfo';
 import ResetPassword from '../pages/ResetPassword';
+import SearchAnimal from '../pages/SearchAnimal';
 
 import Route from './Route';
 
@@ -93,6 +94,14 @@ const Routes = () => (
       path="/administrator/pending-animals"
       exact
       component={PendingAnimals}
+      ensureAdmin
+      needsLogin
+      needsRegion
+    />
+    <Route
+      path="/administrator/search-animal"
+      exact
+      component={SearchAnimal}
       ensureAdmin
       needsLogin
       needsRegion
