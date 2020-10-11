@@ -37,6 +37,14 @@ export const Content = styled.div`
   form {
     width: 100%;
 
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 180px;
+      margin: 0 auto;
+    }
+
     button {
       margin-top: 25px;
     }

@@ -107,7 +107,7 @@ const Input = ({
         <label htmlFor={fieldName}>
           {/* Caso seja um input de file */}
 
-          {Icon && <Icon size={24} />}
+          {Icon && <Icon data-testid="input-icon" size={24} />}
 
           {type === 'file' && (
             <FileContainer>

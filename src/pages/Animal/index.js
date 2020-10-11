@@ -11,6 +11,9 @@ import api from '../../services/api';
 
 import {
   AnimalData,
+  AnimalDetails,
+  AnimalNote,
+  AnimalNotes,
   Button,
   Buttons,
   CarouselContainer,
@@ -234,51 +237,81 @@ const Animal = () => {
             {animal.length !== 0 ? (
               <>
                 <AnimalData>
-                  <CarouselContainer>
-                    <Carousel photos={animal.photos} />
-                  </CarouselContainer>
-                  <Description>
-                    <RowCard>
-                      <Card>
-                        <h1>Nome</h1>
-                        <span>{animal.name}</span>
-                      </Card>
-                      <Card>
-                        <h1>Animal</h1>
-                        <span>{animal.breed.animal}</span>
-                      </Card>
-                    </RowCard>
-                    <RowCard>
-                      <Card>
-                        <h1>Raça</h1>
-                        <span>{animal.breed.breed}</span>
-                      </Card>
-                      <Card>
-                        <h1>Porte</h1>
-                        <span>{animal.port}</span>
-                      </Card>
-                    </RowCard>
-                    <RowCard>
-                      <Card>
-                        <h1>Sexo</h1>
-                        <span>{animal.genre}</span>
-                      </Card>
-                      <Card>
-                        <h1>Idade</h1>
-                        <span>{animal.years_old}</span>
-                      </Card>
-                    </RowCard>
-                    <RowCard>
-                      <Card>
-                        <h1>Pedigree</h1>
-                        <span>{animal.pedigree}</span>
-                      </Card>
-                      <Card>
-                        <h1>Castrado</h1>
-                        <span>{animal.castrated}</span>
-                      </Card>
-                    </RowCard>
-                  </Description>
+                  <AnimalDetails>
+                    <CarouselContainer>
+                      <Carousel photos={animal.photos} />
+                    </CarouselContainer>
+                    <Description>
+                      <RowCard>
+                        <Card>
+                          <h1>Nome</h1>
+                          <span>{animal.name}</span>
+                        </Card>
+                        <Card>
+                          <h1>Animal</h1>
+                          <span>{animal.breed.animal}</span>
+                        </Card>
+                      </RowCard>
+                      <RowCard>
+                        <Card>
+                          <h1>Raça</h1>
+                          <span>{animal.breed.breed}</span>
+                        </Card>
+                        <Card>
+                          <h1>Porte</h1>
+                          <span>{animal.port}</span>
+                        </Card>
+                      </RowCard>
+                      <RowCard>
+                        <Card>
+                          <h1>Sexo</h1>
+                          <span>{animal.genre}</span>
+                        </Card>
+                        <Card>
+                          <h1>Idade</h1>
+                          <span>{animal.years_old}</span>
+                        </Card>
+                      </RowCard>
+                      <RowCard>
+                        <Card>
+                          <h1>Pedigree</h1>
+                          <span>{animal.pedigree}</span>
+                        </Card>
+                        <Card>
+                          <h1>Castrado</h1>
+                          <span>{animal.castrated}</span>
+                        </Card>
+                      </RowCard>
+                    </Description>
+                  </AnimalDetails>
+                  <AnimalNotes>
+                    {animal.observation.length > 0 && (
+                      <>
+                        <hr />
+                        <AnimalNote>
+                          <h1>Observacoes</h1>
+                          <div>
+                            {animal.observation.map(({ observation }) => (
+                              <li>{observation}</li>
+                            ))}
+                          </div>
+                        </AnimalNote>
+                      </>
+                    )}
+                    {animal.vaccine.length > 0 && (
+                      <>
+                        <hr />
+                        <AnimalNote>
+                          <h1>Vacinas</h1>
+                          <div>
+                            {animal.vaccine.map(({ name }) => (
+                              <li>{name}</li>
+                            ))}
+                          </div>
+                        </AnimalNote>
+                      </>
+                    )}
+                  </AnimalNotes>
                 </AnimalData>
 
                 {/* Exlcluir ou Adotar */}

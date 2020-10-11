@@ -53,7 +53,11 @@ const Carousel = ({ photos }) => {
         </button>
         <Thumbnail ref={thumbRef}>
           {photos.map((photo, index) => (
-            <button key={photo} onClick={() => handleCurrentAnimalPhoto(index)}>
+            <button
+              key={photo}
+              onClick={() => handleCurrentAnimalPhoto(index)}
+              data-testid={`button-container[${index}]`}
+            >
               <ThumbnailImage
                 selected={index === currentPhoto}
                 src={photo}

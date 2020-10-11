@@ -111,13 +111,35 @@ export const Title = styled.h1`
   margin: 35px auto 15px auto;
 `;
 
-export const AnimalData = styled.div`
+export const AnimalData = styled.div``;
+
+export const AnimalDetails = styled.div`
   display: flex;
 
   @media (max-width: 1200px) {
     flex-direction: column;
   }
 `;
+
+export const AnimalNote = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  div {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+export const AnimalNotes = styled.div``;
 
 export const Info = styled.div`
   flex: 1;

@@ -9,7 +9,9 @@ import { useRegion } from '../../hooks/region';
 
 import api from '../../services/api';
 
-import { Container, Logo, Content, Select, Button } from './styles';
+import Logo from '../../images/adoraveis.svg';
+
+import { Container, Content, Select, Button } from './styles';
 
 const Server = () => {
   const formRef = useRef();
@@ -36,6 +38,7 @@ const Server = () => {
 
   const handleShowCities = useCallback(() => {
     const selectedState = formRef.current.getFieldValue('state');
+    formRef.current.setFieldValue('institute', '');
     const citiesOptions = servers
       .filter(({ state }) => state === selectedState)
       .map(({ city }) => city);
@@ -87,7 +90,7 @@ const Server = () => {
     <Container>
       <Content>
         <Form onSubmit={handleSubmit} ref={formRef}>
-          <Logo>logo</Logo>
+          <img src={Logo} alt="Adoraveis" />
           <Select
             name="state"
             title="Estado"
