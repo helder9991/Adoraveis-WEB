@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 // import Select from '../../components/Select';
 import Checkbox from '../../components/Checkbox';
 
+import getValidationErrors from '../../utils/getValidationErrors';
 import { useRegion } from '../../hooks/region';
-
 import api from '../../services/api';
 
 import Logo from '../../images/adoraveis.svg';
@@ -61,9 +62,19 @@ const Server = () => {
           city: Yup.string().required('É necessario selecionar a cidade'),
           institute: Yup.string().required('É necessario selecionar a ONG'),
         });
+
         await schema.validate(data, {
           abortEarly: false,
         });
+
+        const validRegion = servers.find(
+          ({ state, city, institute }) =>
+            state === data.state &&
+            city === data.city &&
+            institute === data.institute,
+        );
+
+        if (!validRegion) throw Error('Local invalido');
 
         const [selectedServer] = servers.filter(
           server =>
@@ -79,8 +90,10 @@ const Server = () => {
         setRegion(selectedServer);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
-          console.log(err);
+          const errors = getValidationErrors(err);
+          formRef.current.setErrors(errors);
         }
+        toast.error('Campos preenchidos inválidos, tente novamente.');
       }
     },
     [saveRegion, removeRegion, setRegion, servers],
