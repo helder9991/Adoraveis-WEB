@@ -220,10 +220,18 @@ export const ImageContainer = styled.div`
 export const InfoRow = styled.div`
   display: flex;
   margin-left: 1%;
-  width: 50%;
+  width: 40%;
 
   @media (max-width: 800px) {
-    width: 80%;
+    width: 75%;
+    justify-content: center;
+    align-items: center;
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+  @media (max-width: 600px) {
+    width: 60%;
     justify-content: center;
     align-items: center;
     &:nth-child(3) {
@@ -407,7 +415,7 @@ export const StatusResponsive = styled.div`
   position: relative;
   right: 0;
   height: 100%;
-  width: 10px;
+  width: 16px;
   margin-left: 15px;
   border-radius: 0 8px 8px 0;
 
