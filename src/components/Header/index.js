@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Drawer } from '@material-ui/core';
 import {
   RiAddBoxFill,
@@ -23,6 +23,7 @@ import {
   Category,
   Left,
   Logo,
+  Region,
   Right,
   SideMenuCloseButton,
   SideMenuContainer,
@@ -33,7 +34,8 @@ const Header = () => {
   const { user } = useAuth();
   const { category, changeCategory } = useCategory();
   const { header } = useHeader();
-  const { region } = useRegion();
+  const history = useHistory();
+  const { region, removeRegion } = useRegion();
 
   const [menuIsOpened, setMenuIsOpened] = useState(false);
 
@@ -53,6 +55,13 @@ const Header = () => {
     },
     [changeCategory, category, menuIsOpened],
   );
+
+  const handleChangeRegion = useCallback(() => {
+    if (window.confirm('Deseja realmente alterar de região?')) {
+      removeRegion();
+      history.go(0);
+    }
+  }, [removeRegion, history]);
 
   return (
     <>
@@ -122,7 +131,11 @@ const Header = () => {
             </div>
           </Left>
           <Center>
-            <Logo src={region ? region.logo : null} />
+            <Region>
+              <Logo src={region ? region.logo : null} />
+              <button onClick={handleChangeRegion}>Alterar</button>
+            </Region>
+
             <Categories>
               <Category
                 selected={isSelected('adopt')}

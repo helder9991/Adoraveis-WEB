@@ -182,3 +182,16 @@ export const SideMenuCloseButton = styled.div`
     margin: 0 15px;
   }
 `;
+
+export const Region = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  button {
+    background: none;
+    color: ${props => props.theme.colors.text.secondary};
+    font-size: 1.8rem;
+    margin-left: 15px;
+  }
+`;

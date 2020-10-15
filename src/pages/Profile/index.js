@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   RiUserFill,
   RiPencilFill,
@@ -8,7 +7,6 @@ import {
 } from 'react-icons/ri';
 
 import { useAuth } from '../../hooks/auth';
-import { useRegion } from '../../hooks/region';
 
 import {
   Button,
@@ -22,21 +20,12 @@ import {
 
 const Profile = () => {
   const { signOut } = useAuth();
-  const { removeRegion } = useRegion();
-  const history = useHistory();
 
   const handleSignOut = useCallback(() => {
     if (window.confirm('Deseja realmente sair de sua conta?')) {
       signOut();
     }
   }, [signOut]);
-
-  const handleChangeRegion = useCallback(() => {
-    if (window.confirm('Deseja realmente mudar de  região?')) {
-      removeRegion();
-      history.go(0);
-    }
-  }, [removeRegion, history]);
 
   return (
     <Container>
@@ -68,12 +57,6 @@ const Profile = () => {
           <hr />
         </Menu>
         <ButtonContainer>
-          <Button
-            title="Alterar região"
-            buttonType="return"
-            onClick={handleChangeRegion}
-            data-testid="change-region-button"
-          />
           <Button
             title="Sair"
             buttonType="danger"
