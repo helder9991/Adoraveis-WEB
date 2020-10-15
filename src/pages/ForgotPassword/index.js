@@ -9,6 +9,8 @@ import { useRegion } from '../../hooks/region';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import Logo from '../../images/adoraveis.svg';
+
 import api from '../../services/api';
 
 import {
@@ -49,6 +51,8 @@ const ForgotPassword = () => {
         const errors = getValidationErrors(err);
         formRef.current.setErrors(errors);
 
+        toast.error('Digite um email válido.');
+
         return;
       }
 
@@ -71,10 +75,7 @@ const ForgotPassword = () => {
     <Container>
       <Content>
         <ImageContainer>
-          <img
-            src={region ? region.logo : null}
-            alt={region ? region.institute : null}
-          />
+          <img src={Logo} alt="Adoraveis" />
         </ImageContainer>
         <FormContainer>
           <Title>Esqueci minha senha</Title>
@@ -85,10 +86,16 @@ const ForgotPassword = () => {
               title="Digite seu email para recuperar a conta"
               icon={IoMdMail}
               placeholder="Digite seu email"
+              data-testid="email-input"
             />
 
             <Buttons>
-              <Button type="submit" buttonType="confirm" title="Enviar" />
+              <Button
+                type="submit"
+                buttonType="confirm"
+                title="Enviar"
+                data-testid="submit-button"
+              />
               <Link to="/login">
                 <Button title="Voltar" buttonType="return" />
               </Link>

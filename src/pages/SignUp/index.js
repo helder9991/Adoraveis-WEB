@@ -76,6 +76,9 @@ const SignUp = () => {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
 
+          toast.error(
+            'Ocorreu um erro ao realizar o cadastro, cheque as credenciais.',
+          );
           return;
         }
 
@@ -145,16 +148,22 @@ const SignUp = () => {
               type="password"
               title="Digite sua senha novamente"
               icon={IoIosLock}
-              placeholder="Digite sua senha"
+              placeholder="Digite sua senha novamente"
             />
 
             <Buttons>
-              <Button type="submit" title="Cadastrar" buttonType="confirm" />
+              <Button
+                type="submit"
+                title="Cadastrar"
+                buttonType="confirm"
+                data-testid="submit-button"
+              />
               <Button
                 type="button"
                 title="Voltar"
                 buttonType="return"
                 onClick={handleBackPage}
+                data-testid="return-button"
               />
             </Buttons>
           </Form>

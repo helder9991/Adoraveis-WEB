@@ -57,7 +57,12 @@ const Profile = () => {
           <hr />
         </Menu>
         <ButtonContainer>
-          <Button title="Sair" buttonType="danger" onClick={handleSignOut} />
+          <Button
+            title="Sair"
+            buttonType="danger"
+            onClick={handleSignOut}
+            data-testid="logout-button"
+          />
         </ButtonContainer>
       </Content>
     </Container>

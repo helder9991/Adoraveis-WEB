@@ -23,9 +23,12 @@ const EditProfile = () => {
   const history = useHistory();
 
   useEffect(() => {
-    api.get('/my/user').then(response => {
-      formRef.current.setData(response.data);
-    });
+    api
+      .get('/my/user')
+      .then(response => {
+        formRef.current.setData(response.data);
+      })
+      .catch(() => {});
   }, []);
 
   const handleBackPage = useCallback(() => {
@@ -46,7 +49,6 @@ const EditProfile = () => {
             .min(13, 'O número precisar ter no minimo 13 dígitos')
             .max(14, 'O número pode ter no máximo 14 dígitos'),
         });
-
         await schema.validate(data, {
           abortEarly: false,
         });
@@ -64,9 +66,7 @@ const EditProfile = () => {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
 
-          toast.error(
-            'Ocorreu um erro ao realizar o cadastro, cheque as credenciais.',
-          );
+          toast.error('Ocorreu um erro ao atualizar, cheque as credenciais.');
 
           return;
         }
@@ -100,12 +100,17 @@ const EditProfile = () => {
             placeholder="DDD + Telefone"
           />
           <ButtonContainer>
-            <Button title="Alterar Informações" buttonType="confirm" />
+            <Button
+              title="Alterar Informações"
+              buttonType="confirm"
+              data-testid="submit-button"
+            />
             <Button
               title="Voltar"
               type="button"
               buttonType="return"
               onClick={handleBackPage}
+              data-testid="return-button"
             />
           </ButtonContainer>
         </Form>

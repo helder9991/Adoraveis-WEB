@@ -10,7 +10,7 @@ describe('Button Component', () => {
   it('should be able to render the button', () => {
     const { getByText } = render(
       <ThemeProvider theme={Theme}>
-        <Button buttonType="next" title="Entrar" />
+        <Button title="Entrar" />
       </ThemeProvider>,
     );
 

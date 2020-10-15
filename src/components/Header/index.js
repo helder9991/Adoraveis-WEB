@@ -57,7 +57,7 @@ const Header = () => {
   return (
     <>
       {header ? (
-        <Container>
+        <Container data-testid="header-container">
           <Drawer
             anchor="left"
             variant="temporary"
@@ -95,10 +95,13 @@ const Header = () => {
               </SideMenuItemContainer>
 
               <SideMenuItemContainer>
-                <a href="#teste">
-                  <RiShieldUserFill size={30} />
-                  <span>Administrador</span>
-                </a>
+                {Object.prototype.hasOwnProperty.call(user, 'url_param') &&
+                  user.url_param === region.url_param && (
+                    <a href="/administrator">
+                      <RiShieldUserFill size={30} />
+                      <span>Administrador</span>
+                    </a>
+                  )}
                 <Link to="/new-animal">
                   <RiAddBoxFill size={30} />
                   <span>Adicionar novo animal</span>
@@ -113,7 +116,7 @@ const Header = () => {
 
           <Left>
             <div>
-              <button onClick={toggleMenu}>
+              <button onClick={toggleMenu} data-testid="toggleMenu-button">
                 <RiMenuLine size={32} />
               </button>
             </div>

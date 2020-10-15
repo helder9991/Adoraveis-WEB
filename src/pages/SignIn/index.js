@@ -52,11 +52,12 @@ const SignIn = () => {
           password: data.password,
         });
 
-        history.push(location.state.from ? location.state.from : null);
+        history.push(location.state.from ? location.state.from : '/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
+          toast.error('Campos preenchidos inválidos, tente novamente.');
 
           return;
         }
@@ -72,7 +73,7 @@ const SignIn = () => {
         });
       }
     },
-    [history, signIn, location.state.from],
+    [history, signIn, location.state],
   );
 
   return (
@@ -90,6 +91,7 @@ const SignIn = () => {
               title="Email"
               icon={IoMdMail}
               placeholder="Digite seu email"
+              data-testid="email-input"
             />
             <Input
               name="password"
@@ -97,10 +99,15 @@ const SignIn = () => {
               title="Senha"
               icon={IoIosLock}
               placeholder="Digite sua senha"
+              data-testid="password-input"
             />
 
             <Buttons>
-              <Button type="submit" title="Entrar" />
+              <Button
+                type="submit"
+                title="Entrar"
+                data-testid="submit-button"
+              />
               <Link to="/register">
                 <Button title="Registrar-se" buttonType="register" />
               </Link>

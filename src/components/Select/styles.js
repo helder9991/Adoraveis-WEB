@@ -22,7 +22,7 @@ export const SelectContainer = styled.div`
       ? shade(0.11, props.theme.colors.input.background)
       : props.theme.colors.input.background};
   margin-top: 4px;
-  padding: 9px 13px;
+  padding: 7px 13px;
   border: 1px solid
     ${props =>
       props.disabled

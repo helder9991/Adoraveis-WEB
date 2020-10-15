@@ -50,15 +50,22 @@ const Dashboard = () => {
 
   useEffect(() => {
     setLoading(true);
-    api.get(`/${region.url_param}/animals/list/${category}`).then(response => {
-      setAnimals(response.data);
-    });
+    // verificar se isto esta certo
+    api
+      .get(`/${region.url_param}/animals/list/${category}`)
+      .then(response => {
+        setAnimals(response.data);
+      })
+      .catch(() => {});
 
-    api.get(`/${region.url_param}/animals/${category}/count`).then(response => {
-      setTotalNumberOfPages(response.data.pages);
-    });
+    api
+      .get(`/${region.url_param}/animals/${category}/count`)
+      .then(response => {
+        setTotalNumberOfPages(response.data.pages);
+      })
+      .catch(() => {});
     setLoading(false);
-  }, [category, region]);
+  }, [category, region.url_param]);
 
   useEffect(() => {
     setAnimals([]);
@@ -70,10 +77,11 @@ const Dashboard = () => {
       })
       .then(response => {
         setAnimals(response.data);
-      });
+      })
+      .catch(() => {});
 
     setLoading(false);
-  }, [category, currentPage, region]);
+  }, [category, currentPage, region.url_param]);
 
   const handleChangePage = useCallback(page => {
     setCurrentPage(page);
@@ -106,9 +114,11 @@ const Dashboard = () => {
     for (let i = firstPage; i <= lastPage; i++) {
       pages.push(
         <Page
+          key={i}
           id={i}
           selected={i === currentPage}
           onClick={() => handleChangePage(i)}
+          data-testid={`page[${i}]`}
         >
           {i}
         </Page>,
@@ -203,7 +213,7 @@ const Dashboard = () => {
           </Message>
         )}
         {animals.length === 0 ? (
-          <Message>Não há nenhum animal disponível no momento. </Message>
+          <Message>Não há nenhum animal disponível no momento.</Message>
         ) : (
           <>
             <Animals>

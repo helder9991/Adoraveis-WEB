@@ -29,7 +29,7 @@ import {
   Title,
 } from './styles';
 
-const Animal = () => {
+const EditAnimal = () => {
   const formRef = useRef(null);
 
   const history = useHistory();
@@ -48,38 +48,58 @@ const Animal = () => {
   useEffect(() => {
     setLoading(true);
     if (params.id) {
-      api.get(`/${region.url_param}/animals/${params.id}`).then(response => {
-        setAnimal(response.data);
+      api
+        .get(`/${region.url_param}/animals/${params.id}`)
+        .then(response => {
+          setAnimal(response.data);
 
-        formRef.current.setData({
-          animal: response.data.breed.animal,
-          name: response.data.name,
-          castrated: response.data.castrated === 'Sim',
-          category: response.data.category,
-          genre: response.data.genre,
-          pedigree: response.data.pedigree === 'Sim',
-          port: response.data.port,
-          years_old: response.data.years_old,
-        });
-      });
+          formRef.current.setData({
+            breed: response.data.breed.breed,
+            name: response.data.name,
+            castrated: response.data.castrated === 'Sim',
+            category: response.data.category,
+            genre: response.data.genre,
+            pedigree: response.data.pedigree === 'Sim',
+            port: response.data.port,
+            years_old: response.data.years_old,
+          });
+        })
+        .catch(() => {});
     }
     if (location.state) {
       if (Object.prototype.hasOwnProperty.call(location.state, 'admin'))
         setAdmin(true);
     }
     setLoading(false);
-  }, [params.id, region, location.state]);
+  }, [params.id, region.url_param, location.state]);
 
+  // Busca na api as racas cadastradas
   useEffect(() => {
-    api.get('/breeds').then(response => {
-      setAllAnimals(response.data);
-    });
+    api
+      .get('/breeds')
+      .then(response => {
+        setAllAnimals(response.data);
+      })
+      .catch(() => {});
   }, []);
 
+  // Carrega as opcoes possiveis para o select de animais
   useEffect(() => {
-    setAnimalsOptions([...new Set(allAnimals.map(animals => animals.animal))]);
-  }, [allAnimals]);
+    if (animal) {
+      setAnimalsOptions([
+        ...new Set(allAnimals.map(animals => animals.animal)),
+      ]);
+    }
+  }, [allAnimals, animal]);
 
+  // Coloca o valor inicial do tipo animal
+  useEffect(() => {
+    if (animal) {
+      formRef.current.setFieldValue('animal', animal.breed.animal);
+    }
+  }, [animal, animalsOptions]);
+
+  // Carrega as opcoes possiveis para o select de racas
   useEffect(() => {
     if (animal) {
       const breedOptions = allAnimals
@@ -88,9 +108,15 @@ const Animal = () => {
           return breed;
         });
       setBreedsOptions(breedOptions);
-      formRef.current.setFieldValue('breed', animal.breed.breed);
     }
   }, [animal, allAnimals, formRef]);
+
+  // Coloca o valor inicial da raca do animal
+  useEffect(() => {
+    if (animal) {
+      formRef.current.setFieldValue('breed', animal.breed.breed);
+    }
+  }, [animal, breedsOptions]);
 
   const handleClearSelect = useCallback(() => {
     formRef.current.setFieldValue('breed', '');
@@ -136,7 +162,6 @@ const Animal = () => {
           animalInfo.animal === data.animal && animalInfo.breed === data.breed,
       );
       if (selectedAnimal.length === 0) return;
-
       let observations = [];
       if (animal.observation.length > 0) {
         observations = data.observation.map((observation, index) => ({
@@ -162,6 +187,7 @@ const Animal = () => {
       };
       try {
         await schema.validate(data, { abortEarly: false });
+
         await api.put(`/my/animals/${params.id}`, {
           name: data.name,
           breed_id: selectedAnimal[0].id,
@@ -173,13 +199,13 @@ const Animal = () => {
           vaccines: data.vaccines,
           category: data.category,
         });
-
-        toast.info('As informação do animal foi salvo com sucesso');
+        toast.info('As informação do animal foi salvo com sucesso.');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
-          throw Error('Erro de validacao');
+          toast.error('Campos preenchidos inválidos, tente novamente.');
+          return;
         }
 
         if (err.isAxiosError) {
@@ -196,9 +222,7 @@ const Animal = () => {
               );
               break;
           }
-          throw Error('Erro de requisicao da api');
         }
-        throw Error('Erro');
       }
     },
     [params.id, animal, allAnimals],
@@ -362,12 +386,14 @@ const Animal = () => {
                     type="button"
                     onClick={handleRefuseAnimal}
                     buttonType="danger"
+                    data-testid="rejects-button"
                   />
                   <Button
                     title="Aceitar animal"
                     type="button"
                     onClick={handleAcceptAnimal}
                     buttonType="confirm"
+                    data-testid="accept-button"
                   />
                 </RowButtons>
                 <Button
@@ -375,16 +401,22 @@ const Animal = () => {
                   title="Voltar"
                   buttonType="return"
                   onClick={handleBackPage}
+                  data-testid="return-button"
                 />
               </Buttons>
             ) : (
               <Buttons>
-                <Button title="Salvar alterações" buttonType="confirm" />
+                <Button
+                  title="Salvar alterações"
+                  buttonType="confirm"
+                  data-testid="save-button"
+                />
                 <Button
                   type="button"
                   title="Voltar"
                   buttonType="return"
                   onClick={handleBackPage}
+                  data-testid="return-button"
                 />
               </Buttons>
             )}
@@ -395,4 +427,4 @@ const Animal = () => {
   );
 };
 
-export default Animal;
+export default EditAnimal;

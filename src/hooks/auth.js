@@ -1,4 +1,6 @@
 import React, { createContext, useState, useCallback, useContext } from 'react';
+import { decode } from 'jsonwebtoken';
+import { isAfter } from 'date-fns';
 
 import api from '../services/api';
 
@@ -10,6 +12,16 @@ export const AuthProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('@Adoraveis:user'));
 
     if (token && user) {
+      const { exp } = decode(token);
+
+      // verifica se o token ja expirou
+      if (isAfter(new Date(), new Date(exp * 1000))) {
+        localStorage.removeItem('@Adoraveis:token');
+        localStorage.removeItem('@Adoraveis:user');
+
+        return {};
+      }
+
       api.defaults.headers.authorization = `Bearer ${token}`;
       return { token, ...user };
     }
@@ -25,7 +37,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('@Adoraveis:token', token);
     localStorage.setItem(
       '@Adoraveis:user',
-      JSON.stringify({ name, ...(url_param ? { url_param } : {}) }),
+      JSON.stringify({
+        name,
+        ...(url_param ? { url_param } : {}),
+        ...(permission ? { permission } : {}),
+      }),
     );
 
     api.defaults.headers.authorization = `Bearer ${token}`;
@@ -41,11 +57,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const updateUser = useCallback(
-    user => {
-      localStorage.setItem('@Adoraveis:user', JSON.stringify(user));
+    ({ name }) => {
+      const userStorage = JSON.parse(localStorage.getItem('@Adoraveis:user'));
+      localStorage.setItem(
+        '@Adoraveis:user',
+        JSON.stringify({ ...userStorage, name }),
+      );
       setData({
         token: data.token,
-        user,
+        name,
       });
     },
     [setData, data],

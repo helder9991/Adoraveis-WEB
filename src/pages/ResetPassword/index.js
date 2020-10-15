@@ -5,11 +5,11 @@ import { IoIosLock } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import { useRegion } from '../../hooks/region';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import api from '../../services/api';
+
+import Logo from '../../images/adoraveis.svg';
 
 import {
   Container,
@@ -25,7 +25,6 @@ import {
 const ResetPassword = () => {
   const formRef = useRef();
 
-  const { region } = useRegion();
   const history = useHistory();
   const location = useLocation();
 
@@ -38,7 +37,10 @@ const ResetPassword = () => {
             .required('Senha obrigatória'),
           passwordConfirmation: Yup.string()
             .min(8, 'A senha precisa ter no minimo 8 dígitos')
-            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+            .oneOf(
+              [Yup.ref('password'), null],
+              'As senhas precisam ser iguais',
+            ),
         });
 
         await schema.validate(data, {
@@ -52,9 +54,7 @@ const ResetPassword = () => {
           token,
         });
 
-        toast.info('Sua senha foi alterada com sucesso.', {
-          pauseOnHover: false,
-        });
+        toast.info('Sua senha foi alterada com sucesso.');
 
         setTimeout(() => {
           history.replace('/login');
@@ -64,6 +64,7 @@ const ResetPassword = () => {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
 
+          toast.error('Campos preenchidos inválidos, tente novamente.');
           return;
         }
 
@@ -88,13 +89,10 @@ const ResetPassword = () => {
     <Container>
       <Content>
         <ImageContainer>
-          <img
-            src={region ? region.logo : null}
-            alt={region ? region.institute : null}
-          />
+          <img src={Logo} alt="Adoraveis" />
         </ImageContainer>
         <FormContainer>
-          <Title>Esqueci minha senha</Title>
+          <Title>Alterar senha</Title>
           <Form onSubmit={handleSubmit} ref={formRef}>
             <Input
               name="password"
@@ -108,11 +106,16 @@ const ResetPassword = () => {
               type="password"
               title="Digite sua nova senha novamente"
               icon={IoIosLock}
-              placeholder="Digite sua senha"
+              placeholder="Digite sua senha novamente"
             />
 
             <Buttons>
-              <Button type="submit" buttonType="confirm" title="Confirmar" />
+              <Button
+                type="submit"
+                buttonType="confirm"
+                title="Confirmar"
+                data-testid="submit-button"
+              />
             </Buttons>
           </Form>
         </FormContainer>

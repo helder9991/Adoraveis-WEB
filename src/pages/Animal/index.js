@@ -51,11 +51,16 @@ const Animal = () => {
   useEffect(() => {
     setLoading(true);
     if (params.id) {
-      api.get(`/${region.url_param}/animals/${params.id}`).then(response => {
-        setAnimal({ id: params.id, ...response.data });
-      });
+      api
+        .get(`/${region.url_param}/animals/${params.id}`)
+        .then(response => {
+          setAnimal({ id: params.id, ...response.data });
+        })
+        .catch(err => {
+          setLoading(false);
+          throw toast.error('Algo deu errado na busca por este animal');
+        });
     }
-
     if (location.state) {
       if (Object.prototype.hasOwnProperty.call(location.state, 'owner'))
         setOwner(true);
@@ -64,7 +69,7 @@ const Animal = () => {
         setAdopted(true);
     }
     setLoading(false);
-  }, [params.id, region, location]);
+  }, [params.id, region.url_param, location.state]);
 
   const handleOpenModal = useCallback(() => {
     // Usuario nao logado
@@ -171,7 +176,7 @@ const Animal = () => {
       {animal.length !== 0 &&
       modalIsOpen &&
       (currentModal === 1 || currentModal === 2) ? (
-        <ModalBackground>
+        <ModalBackground data-testid="modal-container">
           {currentModal === 1 ? (
             <Modal height="400px">
               <h1>Aviso para conhecer o animal</h1>
@@ -185,11 +190,16 @@ const Animal = () => {
                 </li>
               </TipsList>
               <ModalButtons>
-                <Button title="Proximo" onClick={handleNextModal} />
+                <Button
+                  title="Proximo"
+                  onClick={handleNextModal}
+                  data-testid="button-next-modal"
+                />
                 <Button
                   title="Fechar"
                   buttonType="return"
                   onClick={handleCloseModal}
+                  data-testid="button-close-modal"
                 />
               </ModalButtons>
             </Modal>
@@ -211,6 +221,7 @@ const Animal = () => {
                 title="Fechar"
                 buttonType="return"
                 onClick={handleCloseModal}
+                data-testid="button-close-modal"
               />
             </Modal>
           )}
@@ -323,12 +334,14 @@ const Animal = () => {
                           title="Excluir"
                           buttonType="danger"
                           onClick={handleDeleteAnimal}
+                          data-testid="button-delete"
                         />
                         <Button
                           title="Adotado"
                           buttonType="confirm"
                           disabled
                           onClick={handleAdoptAnimal}
+                          data-testid="button-adopt"
                         />
                       </RowButtons>
                     )}
@@ -336,6 +349,7 @@ const Animal = () => {
                       title="Voltar"
                       buttonType="return"
                       onClick={handleBackPage}
+                      data-testid="button-return"
                     />
                   </Buttons>
                 )}
@@ -345,18 +359,20 @@ const Animal = () => {
                     <Button
                       title="Entrar em contato"
                       onClick={handleOpenModal}
+                      data-testid="button-open-modal"
                     />
                     <Button
                       title="Voltar"
                       buttonType="return"
                       onClick={handleBackPage}
+                      data-testid="button-previous-page"
                     />
                   </Buttons>
                 )}
               </>
             ) : (
               !loading && (
-                <Message>
+                <Message data-testid="error-message">
                   Este animal não está disponivel no momento ou não existe.
                 </Message>
               )

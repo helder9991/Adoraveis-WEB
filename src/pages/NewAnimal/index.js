@@ -224,6 +224,7 @@ const NewAnimal = () => {
               if (data.observations.length > 0) {
                 formData.append('observations', data.observations.toString());
               }
+
               await api.post(`/my/animals/${region.url_param}`, formData);
 
               toast.info('O cadastro do animal foi realizado com sucesso!');
@@ -293,6 +294,7 @@ const NewAnimal = () => {
                   multiple
                   icon={IoMdImages}
                   disabled={photos.length >= 10}
+                  data-testid="upload-input"
                 />
                 <Thumbnails>
                   {photos.map(photo => (
@@ -316,7 +318,11 @@ const NewAnimal = () => {
               </FileInput>
 
               <Buttons>
-                <Button title="Proximo" buttonType="next" />
+                <Button
+                  title="Proximo"
+                  buttonType="next"
+                  data-testid="next1-button"
+                />
               </Buttons>
             </Page>
 
@@ -371,11 +377,24 @@ const NewAnimal = () => {
                 </Row>
               </InputsContainer>
 
-              <Checkbox name="castrated" text="Animal castrado" />
-              <Checkbox name="pedigree" text="Animal possui pedigree" />
+              <Checkbox
+                name="castrated"
+                text="Animal castrado"
+                data-testid="castrated-checkbox"
+              />
+              <Checkbox
+                name="pedigree"
+                text="Animal possui pedigree"
+                data-testid="pedigree-checkbox"
+              />
 
               <Buttons>
-                <Button title="Proximo" type="submit" buttonType="next" />
+                <Button
+                  title="Proximo"
+                  type="submit"
+                  buttonType="next"
+                  data-testid="next2-button"
+                />
                 <Button
                   title="Voltar"
                   buttonType="return"
@@ -412,6 +431,7 @@ const NewAnimal = () => {
               <AddButton
                 type="button"
                 onClick={() => handleAddInput('vaccine')}
+                count={vaccinesInputs.length}
               >
                 <IoMdAdd size={32} />
                 <span>Adicionar uma nova vacina</span>
@@ -444,13 +464,18 @@ const NewAnimal = () => {
               <AddButton
                 type="button"
                 onClick={() => handleAddInput('observation')}
+                count={observationsInputs.length}
               >
                 <IoMdAdd size={32} />
                 <span>Adicionar uma nova observação</span>
               </AddButton>
 
               <Buttons>
-                <Button title="Cadastrar" buttonType="confirm" />
+                <Button
+                  title="Cadastrar"
+                  buttonType="confirm"
+                  data-testid="submit-button"
+                />
                 <Button
                   title="Voltar"
                   buttonType="return"

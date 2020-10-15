@@ -2,6 +2,8 @@
 Filtro - Dashboard
 Colocar erro caso a requisicao de errado
 Deslogar o usuario quando o token expirar
+Botao para sair da ONG
+Tema
 
 
 

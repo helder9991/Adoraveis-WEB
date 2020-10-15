@@ -30,7 +30,7 @@ import {
   Title,
 } from './styles';
 
-const ProfileInfo = () => {
+const MyAnimals = () => {
   const formRef = useRef(null);
   const history = useHistory();
 
@@ -44,16 +44,19 @@ const ProfileInfo = () => {
   const [filterIsVisible, setFilterIsVisible] = useState(false);
 
   useEffect(() => {
-    api.get('/breeds').then(response => {
-      setAllAnimals(response.data);
-    });
+    api
+      .get('/breeds')
+      .then(response => {
+        setAllAnimals(response.data);
+      })
+      .catch(() => {});
     formRef.current.setData({
       animal: 'Todos',
       breed: 'Todos',
       port: 'Todos',
       genre: 'Todos',
     });
-  }, []);
+  }, [formRef]);
 
   useEffect(() => {
     setAnimalsOptions([...new Set(allAnimals.map(({ animal }) => animal))]);
@@ -61,45 +64,46 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     setLoading(true);
-    api.get('/my/animals/list').then(response => {
-      const animalsData = response.data.map(animal => {
-        if (animal.adopted_at)
-          return {
-            ...animal,
-            status: 'Adotado',
-            message: 'Este animal já foi adotado.',
-          };
-        if (animal.verified_at) {
-          if (
-            isEqual(parseISO(animal.verified_at), new Date(0, 0, 0, 0, 0, 0))
-          ) {
+    api
+      .get('/my/animals/list')
+      .then(response => {
+        const animalsData = response.data.map(animal => {
+          if (animal.adopted_at)
             return {
               ...animal,
-              status: 'Recusado',
-              message: 'O animal foi recusado pela instituição.',
+              status: 'Adotado',
+              message: 'Este animal já foi adotado.',
+            };
+          if (animal.verified_at) {
+            if (
+              isEqual(parseISO(animal.verified_at), new Date(0, 0, 0, 0, 0, 0))
+            ) {
+              return {
+                ...animal,
+                status: 'Recusado',
+                message: 'O animal foi recusado pela instituição.',
+              };
+            }
+
+            return {
+              ...animal,
+              status: 'Disponivel',
+              message: 'O animal esta disponivel na plataforma.',
             };
           }
-
           return {
             ...animal,
-            status: 'Disponivel',
-            message: 'O animal esta disponivel na plataforma.',
+            status: 'Em análise',
+            message:
+              'O animal cadastrado será analisado antes de aparecer na plataforma.',
           };
-        }
-        return {
-          ...animal,
-          status: 'Em análise',
-          message:
-            'O animal cadastrado será analisado antes de aparecer na plataforma.',
-        };
-      });
-      setMyAnimals(animalsData);
-      setMyVisibleAnimals(animalsData);
-    });
+        });
+        setMyAnimals(animalsData);
+        setMyVisibleAnimals(animalsData);
+      })
+      .catch(() => {});
     setLoading(false);
   }, []);
-
-  useEffect(() => {}, [formRef]);
 
   const handleFilterAnimals = useCallback(() => {
     const filter = formRef.current.getData();
@@ -190,6 +194,7 @@ const ProfileInfo = () => {
                   handleShowBreed();
                   handleFilterAnimals();
                 }}
+                data-testid="animal-select"
               />
               <Select
                 name="breed"
@@ -197,6 +202,7 @@ const ProfileInfo = () => {
                 defaultValue="Todos"
                 options={['Todos', ...breedsOptions]}
                 onChange={handleFilterAnimals}
+                data-testid="breed-select"
               />
               <Select
                 name="port"
@@ -204,6 +210,7 @@ const ProfileInfo = () => {
                 defaultValue="Todos"
                 options={['Todos', 'Pequeno', 'Médio', 'Grande']}
                 onChange={handleFilterAnimals}
+                data-testid="port-select"
               />
               <Select
                 name="genre"
@@ -211,6 +218,7 @@ const ProfileInfo = () => {
                 defaultValue="Todos"
                 options={['Todos', 'Macho', 'Fêmea']}
                 onChange={handleFilterAnimals}
+                data-testid="genre-select"
               />
             </Selects>
           </Form>
@@ -283,4 +291,4 @@ const ProfileInfo = () => {
   );
 };
 
-export default ProfileInfo;
+export default MyAnimals;

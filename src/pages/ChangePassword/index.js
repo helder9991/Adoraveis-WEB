@@ -49,13 +49,11 @@ const ChangePassword = () => {
         await api.put('/my/user', data);
 
         toast.info('A alteracão foi realizada com sucesso!');
-
         history.goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current.setErrors(errors);
-
           toast.error(
             'Ocorreu um erro ao realizar o cadastro, cheque as credenciais.',
           );
@@ -90,7 +88,7 @@ const ChangePassword = () => {
             type="password"
             title="Digite sua senha atual"
             icon={IoIosLock}
-            placeholder="Digite seu senha"
+            placeholder="Digite sua senha"
           />
           <Input
             name="password"
@@ -106,7 +104,11 @@ const ChangePassword = () => {
             placeholder="Digite novamente a nova senha"
           />
           <ButtonContainer>
-            <Button title="Alterar Informações" buttonType="confirm" />
+            <Button
+              title="Alterar Informações"
+              buttonType="confirm"
+              data-testid="submit-button"
+            />
             <Button
               title="Voltar"
               type="button"

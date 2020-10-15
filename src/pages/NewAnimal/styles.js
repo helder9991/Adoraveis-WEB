@@ -256,4 +256,10 @@ export const AddButton = styled.button`
     margin-left: 5px;
     font-size: 1.6rem;
   }
+
+  ${props =>
+    props.count > 5 &&
+    css`
+      display: none;
+    `}
 `;

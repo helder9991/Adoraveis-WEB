@@ -24,10 +24,10 @@ const Select = ({
   }, [fieldName, registerField]);
 
   return (
-    <Container className={className} {...rest}>
+    <Container className={className}>
       <h1>{title}</h1>
       <SelectContainer isErrored={!!error}>
-        <select name={name} placeholder={placeholder} ref={inputRef}>
+        <select name={name} placeholder={placeholder} ref={inputRef} {...rest}>
           <option key="hidden" selected disabled hidden>
             {placeholder}
           </option>
