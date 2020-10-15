@@ -339,7 +339,7 @@ const Animal = () => {
                         <Button
                           title="Adotado"
                           buttonType="confirm"
-                          disabled
+                          disabled={!animal.verified_at && !animal.adopted_at}
                           onClick={handleAdoptAnimal}
                           data-testid="button-adopt"
                         />
