@@ -5,8 +5,6 @@ import { IoMdMail } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import { useRegion } from '../../hooks/region';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Logo from '../../images/adoraveis.svg';
@@ -26,8 +24,6 @@ import {
 
 const ForgotPassword = () => {
   const formRef = useRef();
-
-  const { region } = useRegion();
 
   const handleSubmit = useCallback(async data => {
     try {

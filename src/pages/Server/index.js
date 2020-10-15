@@ -58,9 +58,24 @@ const Server = () => {
     async data => {
       try {
         const schema = Yup.object().shape({
-          state: Yup.string().required('É necessario selecionar o estado'),
-          city: Yup.string().required('É necessario selecionar a cidade'),
-          institute: Yup.string().required('É necessario selecionar a ONG'),
+          state: Yup.string()
+            .required('É necessario selecionar o estado')
+            .oneOf(
+              servers.map(({ state }) => state),
+              'É necessario selecionar o estado',
+            ),
+          city: Yup.string()
+            .required('É necessario selecionar a cidade')
+            .oneOf(
+              servers.map(({ city }) => city),
+              'É necessario selecionar a cidade',
+            ),
+          institute: Yup.string()
+            .required('É necessario selecionar a ONG')
+            .oneOf(
+              servers.map(({ institute }) => institute),
+              'É necessario selecionar a ONG',
+            ),
         });
 
         await schema.validate(data, {

@@ -149,18 +149,29 @@ const NewAnimal = () => {
   const handleSubmit = useCallback(
     async data => {
       const page1 = Yup.object().shape({
-        category: Yup.string().required('Categoria é obrigatória'),
+        category: Yup.string()
+          .required('Categoria é obrigatória')
+          .oneOf(['Adoção', 'Desaparecido'], 'Categoria é obrigatória'),
         photos: Yup.array().min(3).max(10).required(),
       });
 
       const page2 = Yup.object().shape({
         name: Yup.string().required('Digite o nome do animal'),
-        animal: Yup.string().required('Selecione o animal'),
-        breed: Yup.string().required('Selecione a raça'),
+        animal: Yup.string()
+          .required('Selecione o animal')
+          .oneOf(animalsOptions, 'Selecione  animal'),
+        breed: Yup.string()
+          .required('Selecione a raça')
+          .oneOf(breedsOptions, 'Selecione a raça'),
+        genre: Yup.string()
+          .required('Selecione o gênero raça')
+          .oneOf(['Macho', 'Fêmea'], 'Selecione o gênero'),
         port: Yup.string()
           .required()
           .oneOf(['Pequeno', 'Médio', 'Grande'], 'Selecione o porte do animal'),
-        years_old: Yup.number().required('Digite a idade do animal'),
+        years_old: Yup.number()
+          .required('Digite a idade do animal')
+          .typeError('Digite a idade do animal'),
       });
 
       const page3 = Yup.object().shape({

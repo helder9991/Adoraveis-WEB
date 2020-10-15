@@ -48,7 +48,6 @@ export const SelectContainer = styled.div`
 
   select {
     width: 100%;
-    flex: 9;
     outline: none;
     background: none;
     border: none;
@@ -62,12 +61,16 @@ export const SelectContainer = styled.div`
       color: ${props => shade(0.2, props.theme.colors.input.text)};
     }
   }
+
+  div {
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 
 export const Error = styled(Tooltip)`
-  flex: 1;
   height: 20px;
-  margin-left: 3%;
+  padding-left: 11px;
 
   svg {
     color: ${props => props.theme.colors.error};
