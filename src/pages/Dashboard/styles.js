@@ -47,6 +47,8 @@ export const FilterTitle = styled.button`
 
   background: none;
   margin: 0 15px;
+  cursor: auto;
+
   div {
     display: flex;
   }
@@ -75,24 +77,44 @@ export const FilterTitle = styled.button`
 `;
 
 export const Selects = styled.div`
-  display: flex;
-  justify-content: center;
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  h1 {
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: ${props => props.theme.colors.text.primary};
-  }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: ${props => props.theme.colors.text.primary};
+    }
 
-  @media (max-width: 515px) {
-    flex-direction: column;
-    display: none;
+    button {
+      display: flex;
+      background: ${props => props.theme.colors.button.next};
+      padding: 6px 15px;
+      border-radius: 5px;
+      margin: 27px 0 0 10px;
+      font-size: 1.8rem;
+      color: ${props => props.theme.colors.text.secondary};
+    }
 
-    ${props =>
-      props.visible &&
-      css`
-        display: flex;
-      `}
+    @media (max-width: 515px) {
+      flex-direction: column;
+      display: none;
+
+      ${props =>
+        props.visible &&
+        css`
+          display: flex;
+        `}
+    }
+
+    @media (max-width: 515px) {
+      button {
+        padding: 10px 40%;
+        margin: 25px 0 0 0;
+      }
+    }
   }
 `;
 

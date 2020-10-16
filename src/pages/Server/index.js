@@ -39,7 +39,7 @@ const Server = () => {
 
   const handleShowCities = useCallback(() => {
     const selectedState = formRef.current.getFieldValue('state');
-    formRef.current.setFieldValue('institute', '');
+    formRef.current.setFieldValue('institute', 'Selecione a ONG');
     const citiesOptions = servers
       .filter(({ state }) => state === selectedState)
       .map(({ city }) => city);

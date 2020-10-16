@@ -1,11 +1,7 @@
 # To Do
-Filtro - Dashboard
 Colocar erro caso a requisicao de errado
 Deslogar o usuario quando o token expirar
-Botao para sair da ONG
 Tema
-
-
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

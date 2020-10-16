@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   RiFilterFill,
   RiArrowLeftSLine,
@@ -6,7 +6,10 @@ import {
   RiArrowDownSLine,
 } from 'react-icons/ri';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
+import { toast } from 'react-toastify';
 import { useCategory } from '../../hooks/category';
 import { useRegion } from '../../hooks/region';
 
@@ -33,6 +36,7 @@ import {
 const Dashboard = () => {
   const { category } = useCategory();
   const { region } = useRegion();
+  const formRef = useRef();
 
   const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
@@ -41,10 +45,9 @@ const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filterIsVisible, setFilterIsVisible] = useState(false);
 
-  const [animalFilter, setAnimalFilter] = useState('Todos');
-  const [breedFilter, setBreedFilter] = useState('Todos');
-  const [portFilter, setPortFilter] = useState('Todos');
-  const [genreFilter, setGenreFilter] = useState('Todos');
+  const [allAnimals, setAllAnimals] = useState([]);
+  const [animalsOptions, setAnimalsOptions] = useState([]);
+  const [breedsOptions, setBreedsOptions] = useState([]);
 
   const maxNumOfPages = 2;
 
@@ -82,6 +85,20 @@ const Dashboard = () => {
 
     setLoading(false);
   }, [category, currentPage, region.url_param]);
+
+  // Busca na api as racas cadastradas
+  useEffect(() => {
+    api
+      .get('/breeds')
+      .then(response => {
+        setAllAnimals(response.data);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    setAnimalsOptions([...new Set(allAnimals.map(({ animal }) => animal))]);
+  }, [allAnimals]);
 
   const handleChangePage = useCallback(page => {
     setCurrentPage(page);
@@ -155,6 +172,56 @@ const Dashboard = () => {
     setCurrentPage(currentPage + 1);
   }, [currentPage]);
 
+  const handleShowBreed = useCallback(() => {
+    const selectedAnimal = formRef.current.getFieldValue('animal');
+
+    const breedOptions = allAnimals
+      .filter(({ animal }) => animal === selectedAnimal)
+      .map(({ breed }) => breed);
+
+    setBreedsOptions(breedOptions);
+  }, [allAnimals]);
+
+  const handleFilter = useCallback(
+    async data => {
+      const filtratedAnimals = await api.get(
+        `/${region.url_param}/animals/list/${category}`,
+        {
+          params: {
+            ...(data.animal === 'Todos' ? {} : { animal: data.animal }),
+            ...(data.breed === 'Todos' ? {} : { breed: data.breed }),
+            ...(data.port === 'Todos' ? {} : { port: data.port }),
+            ...(data.genre === 'Todos' ? {} : { genre: data.genre }),
+          },
+        },
+      );
+
+      if (!filtratedAnimals)
+        return toast.error('Aconteceu algum erro, por favor, tente novamente');
+
+      setAnimals(filtratedAnimals.data);
+
+      const totalPages = await api.get(
+        `/${region.url_param}/animals/${category}/count`,
+        {
+          params: {
+            ...(data.animal === 'Todos' ? {} : { animal: data.animal }),
+            ...(data.breed === 'Todos' ? {} : { breed: data.breed }),
+            ...(data.port === 'Todos' ? {} : { port: data.port }),
+            ...(data.genre === 'Todos' ? {} : { genre: data.genre }),
+          },
+        },
+      );
+
+      if (!totalPages)
+        return toast.error('Aconteceu algum erro, por favor, tente novamente');
+      setTotalNumberOfPages(totalPages.data.pages);
+
+      setCurrentPage(1);
+    },
+    [region.url_param, category],
+  );
+
   return (
     <Container>
       <Content>
@@ -174,36 +241,36 @@ const Dashboard = () => {
             </div>
           </FilterTitle>
 
-          {/* <Selects visible={filterIsVisible}>
-            <Select
-              title="Animal"
-              defaultValue={animalFilter}
-              placeholder="Selecione"
-              setOption={setAnimalFilter}
-              options={['name']}
-            />
-            <Select
-              title="Raça"
-              defaultValue={breedFilter}
-              placeholder="Selecione"
-              setOption={setBreedFilter}
-              options={['name']}
-            />
-            <Select
-              title="Porte"
-              defaultValue={portFilter}
-              placeholder="Selecione"
-              setOption={setPortFilter}
-              options={['name']}
-            />
-            <Select
-              title="Gênero"
-              defaultValue={genreFilter}
-              placeholder="Selecione"
-              setOption={setGenreFilter}
-              options={['name']}
-            />
-          </Selects> */}
+          <Selects visible={filterIsVisible}>
+            <Form onSubmit={handleFilter} ref={formRef}>
+              <Select
+                name="animal"
+                title="Animal"
+                placeholder="Todos"
+                options={['Todos', ...animalsOptions]}
+                onChange={handleShowBreed}
+              />
+              <Select
+                name="breed"
+                title="Raça"
+                placeholder="Todos"
+                options={['Todos', ...breedsOptions]}
+              />
+              <Select
+                name="port"
+                title="Porte"
+                placeholder="Todos"
+                options={['Todos', 'Pequeno', 'Médio', 'Grande']}
+              />
+              <Select
+                name="genre"
+                title="Gênero"
+                placeholder="Todos"
+                options={['Todos', 'Macho', 'Fêmea']}
+              />
+              <button>Filtrar</button>
+            </Form>
+          </Selects>
         </Filters>
 
         <hr />
