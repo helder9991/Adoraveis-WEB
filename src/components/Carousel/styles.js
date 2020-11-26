@@ -34,6 +34,10 @@ export const Navigation = styled.div`
 
   button {
     background: none;
+
+    svg {
+      color: ${props => props.theme.colors.icon.primary};
+    }
   }
 
   @media (max-width: 1200px) {

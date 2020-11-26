@@ -4,6 +4,7 @@ import { IoIosLock } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
+import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -21,6 +22,7 @@ import {
 
 const ChangePassword = () => {
   const formRef = useRef(null);
+  const { signOut } = useAuth();
   const history = useHistory();
 
   const handleBackPage = useCallback(() => {
@@ -66,6 +68,9 @@ const ChangePassword = () => {
             case 'User password does not match.':
               toast.error('Senha atual inválida.');
               break;
+            case 'JWT token is missing.' || 'Invalid JWT token':
+              signOut();
+              break;
             default:
               toast.error(
                 'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
@@ -75,7 +80,7 @@ const ChangePassword = () => {
         }
       }
     },
-    [history],
+    [history, signOut],
   );
 
   return (

@@ -72,6 +72,10 @@ export const TipsList = styled.div`
   li {
     font-size: 1.8rem;
   }
+
+  strong {
+    font-size: 1.8rem;
+  }
 `;
 
 export const ModalButtons = styled.div`

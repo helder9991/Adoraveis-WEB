@@ -75,7 +75,9 @@ describe('PendingAnimals In Page', () => {
   beforeEach(() => {
     apiMock
       .onGet('/city-123/admin/animal/verify')
-      .reply(200, apiResponsePendingAnimals);
+      .reply(200, apiResponsePendingAnimals)
+      .onGet('/city-123/admin/animal/verify/count')
+      .reply(200, { pages: 1 });
   });
 
   it('should be able to render the page', async () => {

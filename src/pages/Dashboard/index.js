@@ -7,7 +7,6 @@ import {
 } from 'react-icons/ri';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Form } from '@unform/web';
-import * as Yup from 'yup';
 
 import { toast } from 'react-toastify';
 import { useCategory } from '../../hooks/category';
@@ -16,6 +15,7 @@ import { useRegion } from '../../hooks/region';
 import api from '../../services/api';
 
 import {
+  ChangePageArrow,
   Container,
   Content,
   Title,
@@ -30,7 +30,6 @@ import {
   Info,
   Pages,
   Page,
-  ChangePageArrow,
 } from './styles';
 
 const Dashboard = () => {

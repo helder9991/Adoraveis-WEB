@@ -4,6 +4,8 @@ import { IoMdPerson, IoIosCall } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
+import { useAuth } from '../../hooks/auth';
+
 import api from '../../services/api';
 
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -21,6 +23,7 @@ import {
 const EditProfile = () => {
   const formRef = useRef(null);
   const history = useHistory();
+  const { signOut } = useAuth();
 
   useEffect(() => {
     api
@@ -28,8 +31,16 @@ const EditProfile = () => {
       .then(response => {
         formRef.current.setData(response.data);
       })
-      .catch(() => {});
-  }, []);
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
+  }, [signOut]);
 
   const handleBackPage = useCallback(() => {
     history.goBack();
@@ -58,7 +69,7 @@ const EditProfile = () => {
           phone: data.phone,
         });
 
-        toast.info('A alteracão foi realizada com sucesso!');
+        toast.info('As alterações foram realizadas com sucesso!');
 
         history.goBack();
       } catch (err) {
@@ -72,13 +83,19 @@ const EditProfile = () => {
         }
 
         if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+
           toast.error(
             'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
           );
         }
       }
     },
-    [history],
+    [history, signOut],
   );
 
   return (

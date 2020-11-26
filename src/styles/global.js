@@ -14,6 +14,7 @@ export default createGlobalStyle`
     font-size: 65%;
     background: ${props => props.theme.colors.background};
     overflow-y: scroll;
+    color: ${props => props.theme.colors.text.tertiary};
 
     @media(max-width: 1440px) {
       font-size: 54.5%;
@@ -50,9 +51,14 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
     border: 0;
+    color: ${props => props.theme.colors.text.primary}
   }
 
   svg {
+    color: ${props => props.theme.colors.icon.secondary};
+  }
+
+  hr {
     color: ${props => props.theme.colors.icon.primary};
   }
 `;

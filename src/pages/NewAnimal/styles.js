@@ -94,16 +94,30 @@ export const FileInput = styled.div`
 
 export const Thumbnails = styled.div`
   margin-top: 12px;
+
+  p {
+    font-size: 1.6rem;
+  }
 `;
 
 export const PhotoInfo = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
-  background: ${props => props.theme.colors.text.secondary};
+  background: ${props => {
+    if (props.theme.title === 'light')
+      return lighten(0.8, props.theme.colors.background);
+
+    return lighten(0.05, props.theme.colors.background);
+  }};
   margin-top: 15px;
   padding: 8px 10px;
-  border: 1px solid ${props => props.theme.colors.border};
+  border: 1px solid
+    ${props => {
+      if (props.theme.title === 'light') return props.theme.colors.border;
+
+      return shade(0.4, props.theme.colors.border);
+    }};
   border-radius: 5px;
 
   div {
@@ -262,4 +276,14 @@ export const AddButton = styled.button`
     css`
       display: none;
     `}
+`;
+
+export const PhoneImage = styled.img`
+  width: 320px;
+`;
+
+export const PhoneImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;

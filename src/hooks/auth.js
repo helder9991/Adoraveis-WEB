@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         JSON.stringify({ ...userStorage, name }),
       );
       setData({
-        token: data.token,
+        ...data,
         name,
       });
     },

@@ -3,6 +3,7 @@ import { useHistory, useParams, useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { toast } from 'react-toastify';
 
+import { isEqual, parseISO } from 'date-fns';
 import Carousel from '../../components/Carousel';
 
 import { useRegion } from '../../hooks/region';
@@ -35,14 +36,15 @@ import {
 } from './styles';
 
 const Animal = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
   const { region } = useRegion();
 
   const [animal, setAnimal] = useState([]);
-  const [currentModal, setCurrentModal] = useState(1);
+  const [currentModal, setCurrentModal] = useState(0);
+  const [refusedModal, setRefusedModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [owner, setOwner] = useState(false);
@@ -55,8 +57,21 @@ const Animal = () => {
         .get(`/${region.url_param}/animals/${params.id}`)
         .then(response => {
           setAnimal({ id: params.id, ...response.data });
+
+          if (response.data.message) {
+            setRefusedModal(true);
+            setModalIsOpen(true);
+          }
         })
         .catch(err => {
+          if (err.isAxiosError) {
+            if (
+              err.response.data.message === 'JWT token is missing.' ||
+              err.response.data.message === 'Invalid JWT token'
+            )
+              signOut();
+          }
+
           setLoading(false);
           throw toast.error('Algo deu errado na busca por este animal');
         });
@@ -69,12 +84,13 @@ const Animal = () => {
         setAdopted(true);
     }
     setLoading(false);
-  }, [params.id, region.url_param, location.state]);
+  }, [params.id, region.url_param, location.state, signOut]);
 
   const handleOpenModal = useCallback(() => {
     // Usuario nao logado
     if (!user) history.push('/login');
 
+    setCurrentModal(1);
     setModalIsOpen(true);
   }, [history, user]);
 
@@ -108,6 +124,8 @@ const Animal = () => {
               return toast.error(
                 'Você não tem permissão para realizar esta ação.',
               );
+            case 'JWT token is missing.' || 'Invalid JWT token':
+              return signOut();
             default:
               return toast.error(
                 'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
@@ -129,10 +147,16 @@ const Animal = () => {
         );
       }
     }
-  }, [animal, history]);
+  }, [animal, history, signOut]);
 
   const handleAdoptAnimal = useCallback(async () => {
-    if (window.confirm('Deseja realmente colocar este animal como adotado?')) {
+    if (
+      window.confirm(
+        `Deseja realmente colocar este animal como ${
+          animal.category === 'Adoção' ? 'adotado' : 'encontrado'
+        }`,
+      )
+    ) {
       try {
         await api.patch(`/my/animals/adopt/${animal.id}`);
 
@@ -148,6 +172,8 @@ const Animal = () => {
               return toast.error(
                 'Você não tem permissão para realizar esta ação.',
               );
+            case 'JWT token is missing.' || 'Invalid JWT token':
+              return signOut();
             default:
               return toast.error(
                 'Aconteceu algum erro inesperado, por favor, aguarde alguns instantes ou entre em contato.',
@@ -169,15 +195,32 @@ const Animal = () => {
         );
       }
     }
-  }, [history, animal]);
+  }, [history, animal, signOut]);
 
   return (
     <>
-      {animal.length !== 0 &&
-      modalIsOpen &&
-      (currentModal === 1 || currentModal === 2) ? (
+      {animal.length !== 0 && modalIsOpen ? (
         <ModalBackground data-testid="modal-container">
-          {currentModal === 1 ? (
+          {refusedModal && (
+            <Modal height="400px">
+              <h1>Motivo do animal ser recusado</h1>
+
+              <TipsList>
+                <li>
+                  <strong>{animal.message}</strong>
+                </li>
+              </TipsList>
+              <ModalButtons>
+                <Button
+                  title="Fechar"
+                  buttonType="return"
+                  onClick={handleCloseModal}
+                  data-testid="button-close-modal"
+                />
+              </ModalButtons>
+            </Modal>
+          )}
+          {currentModal === 1 && (
             <Modal height="400px">
               <h1>Aviso para conhecer o animal</h1>
 
@@ -203,7 +246,8 @@ const Animal = () => {
                 />
               </ModalButtons>
             </Modal>
-          ) : (
+          )}
+          {currentModal === 2 && (
             <Modal height="300px">
               <h1>Informações do responsável</h1>
 
@@ -337,9 +381,19 @@ const Animal = () => {
                           data-testid="button-delete"
                         />
                         <Button
-                          title="Adotado"
+                          title={`${
+                            animal.category === 'Adoção'
+                              ? 'Adotado'
+                              : 'Encontrado'
+                          }`}
                           buttonType="confirm"
-                          disabled={!animal.verified_at && !animal.adopted_at}
+                          disabled={
+                            (!animal.verified_at && !animal.adopted_at) ||
+                            isEqual(
+                              parseISO(animal.verified_at),
+                              new Date(0, 0, 0, 0, 0, 0),
+                            )
+                          }
                           onClick={handleAdoptAnimal}
                           data-testid="button-adopt"
                         />

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { lighten, shade } from 'polished';
 import { Link } from 'react-router-dom';
 
@@ -40,23 +40,6 @@ export const Title = styled.h1`
 
 export const Menu = styled.div``;
 
-export const Page = styled(Link)`
-  display: flex;
-  align-items: center;
-  margin-left: 5%;
-  color: ${props => props.theme.colors.text.primary};
-  text-decoration: none;
-
-  span {
-    margin-left: 15px;
-    font-size: 1.6rem;
-  }
-
-  svg {
-    color: ${props => props.theme.colors.icon.primary};
-  }
-`;
-
 export const Animals = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,27 +51,6 @@ export const Animals = styled.div`
   margin-top: 10px;
   padding-bottom: 125px;
 
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 50%;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 6px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
   h1 {
     font-size: 2.3rem;
     margin: 25px 15px 25px 15px;
@@ -98,7 +60,11 @@ export const Animals = styled.div`
 
 export const Animal = styled(Link)`
   display: flex;
-  background: ${props => lighten(0.8, props.theme.colors.background)};
+  background: ${props => {
+    if (props.theme.title === 'light')
+      return lighten(0.8, props.theme.colors.background);
+    return lighten(0.05, props.theme.colors.background);
+  }};
   width: 95%;
   height: 101px;
   margin: 0 auto;
@@ -146,9 +112,53 @@ export const Info = styled.div`
   }
 `;
 
+export const ChangePageArrow = styled.button`
+  background: none;
+
+  svg {
+    color: ${props => props.theme.colors.icon.primary};
+  }
+
+  :disabled {
+    cursor: default;
+    svg {
+      transition: color 2s;
+      color: ${props => lighten(0.4, props.theme.colors.icon.primary)};
+    }
+  }
+`;
+
 export const Message = styled.div`
   margin-top: 50px;
   text-align: center;
   color: ${props => props.theme.colors.text.primary};
   font-size: 1.8rem;
+`;
+
+export const Pages = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px 0 35px 0;
+
+  span {
+    font-size: 1.6rem;
+  }
+`;
+
+export const Page = styled.button`
+  color: ${props => props.theme.colors.text.primary};
+  font-size: 1.7rem;
+  margin: 0 10px;
+  background: none;
+
+  ${props =>
+    props.selected &&
+    css`
+      color: ${() => props.theme.colors.text.primary};
+      text-decoration: underline;
+      font-size: 2rem;
+    `}
 `;

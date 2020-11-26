@@ -12,10 +12,16 @@ import {
   IoIosEye,
 } from 'react-icons/io';
 
+import { useAuth } from '../../hooks/auth';
 import { useRegion } from '../../hooks/region';
 import api from '../../services/api';
 
+import getValidationErrors from '../../utils/getValidationErrors';
+
+import celularImage from '../../images/celular.png';
+
 import {
+  AddButton,
   Container,
   Content,
   Title,
@@ -33,14 +39,14 @@ import {
   Row,
   InputsContainer,
   InputContainer,
-  AddButton,
   Checkbox,
+  PhoneImage,
+  PhoneImageContainer,
 } from './styles';
-
-import getValidationErrors from '../../utils/getValidationErrors';
 
 const NewAnimal = () => {
   const { region } = useRegion();
+  const { signOut } = useAuth();
   const history = useHistory();
 
   const formRef = useRef(null);
@@ -152,7 +158,7 @@ const NewAnimal = () => {
         category: Yup.string()
           .required('Categoria é obrigatória')
           .oneOf(['Adoção', 'Desaparecido'], 'Categoria é obrigatória'),
-        photos: Yup.array().min(3).max(10).required(),
+        photos: Yup.array().min(2).max(10).required(),
       });
 
       const page2 = Yup.object().shape({
@@ -243,7 +249,11 @@ const NewAnimal = () => {
               history.goBack();
             } catch (err) {
               if (err.isAxiosError) {
-                console.log(err.response.data.message);
+                if (
+                  err.response.data.message === 'JWT token is missing.' ||
+                  err.response.data.message === 'Invalid JWT token'
+                )
+                  signOut();
               }
 
               toast.info(
@@ -277,7 +287,17 @@ const NewAnimal = () => {
         });
       }
     },
-    [page, photos, handleNextPage, allAnimals, region.url_param, history],
+    [
+      page,
+      photos,
+      handleNextPage,
+      allAnimals,
+      region.url_param,
+      history,
+      animalsOptions,
+      breedsOptions,
+      signOut,
+    ],
   );
 
   return (
@@ -308,6 +328,15 @@ const NewAnimal = () => {
                   data-testid="upload-input"
                 />
                 <Thumbnails>
+                  {photos.length === 0 && (
+                    <>
+                      <p>No mínimo 2 e no máximo 10 fotos</p>
+                      <p>Tire fotos com o celular na horizontal. Exemplo:</p>
+                      <PhoneImageContainer>
+                        <PhoneImage src={celularImage} />
+                      </PhoneImageContainer>
+                    </>
+                  )}
                   {photos.map(photo => (
                     <PhotoInfo key={photo.name}>
                       <div>

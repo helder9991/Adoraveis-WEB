@@ -2,9 +2,16 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Form } from '@unform/web';
-import { RiFilterFill, RiArrowDownSLine } from 'react-icons/ri';
+import {
+  RiFilterFill,
+  RiArrowDownSLine,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+} from 'react-icons/ri';
 import { IoIosSearch } from 'react-icons/io';
 import { isEqual, parseISO } from 'date-fns';
+
+import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
 
@@ -14,6 +21,7 @@ import {
   Button,
   ButtonContainer,
   Center,
+  ChangePageArrow,
   Container,
   Content,
   FilterTitle,
@@ -22,6 +30,8 @@ import {
   InfoRow,
   Input,
   Message,
+  Pages,
+  Page,
   Select,
   Selects,
   Status,
@@ -33,15 +43,42 @@ import {
 const MyAnimals = () => {
   const formRef = useRef(null);
   const history = useHistory();
+  const { signOut } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [myVisibleAnimals, setMyVisibleAnimals] = useState([]);
   const [myAnimals, setMyAnimals] = useState([]);
+  const [totalNumberOfPages, setTotalNumberOfPages] = useState(0);
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const [visiblePages, setVisiblePages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [allAnimals, setAllAnimals] = useState([]);
   const [animalsOptions, setAnimalsOptions] = useState([]);
   const [breedsOptions, setBreedsOptions] = useState([]);
   const [filterIsVisible, setFilterIsVisible] = useState(false);
+
+  const maxNumOfPages = 2;
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get(`/my/animals/list/count`, {
+        params: { ...selectedFilters },
+      })
+      .then(response => {
+        setTotalNumberOfPages(response.data.pages);
+      })
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
+    setLoading(false);
+  }, [selectedFilters, signOut]);
 
   useEffect(() => {
     api
@@ -49,14 +86,22 @@ const MyAnimals = () => {
       .then(response => {
         setAllAnimals(response.data);
       })
-      .catch(() => {});
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
     formRef.current.setData({
       animal: 'Todos',
       breed: 'Todos',
       port: 'Todos',
       genre: 'Todos',
     });
-  }, [formRef]);
+  }, [formRef, signOut]);
 
   useEffect(() => {
     setAnimalsOptions([...new Set(allAnimals.map(({ animal }) => animal))]);
@@ -65,7 +110,9 @@ const MyAnimals = () => {
   useEffect(() => {
     setLoading(true);
     api
-      .get('/my/animals/list')
+      .get('/my/animals/list', {
+        params: { page: currentPage, ...selectedFilters },
+      })
       .then(response => {
         const animalsData = response.data.map(animal => {
           if (animal.adopted_at)
@@ -99,45 +146,93 @@ const MyAnimals = () => {
           };
         });
         setMyAnimals(animalsData);
-        setMyVisibleAnimals(animalsData);
       })
-      .catch(() => {});
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
     setLoading(false);
+  }, [selectedFilters, currentPage, signOut]);
+
+  const handleChangePage = useCallback(page => {
+    setCurrentPage(page);
   }, []);
 
-  const handleFilterAnimals = useCallback(() => {
-    const filter = formRef.current.getData();
-    const visibleAnimals = myAnimals.filter(animal => {
-      let allMyAnimals = false;
-      let allMyBreeds = false;
-      let allMyPorts = false;
-      let allMyGenres = false;
+  useEffect(() => {
+    const pages = [];
+    let firstPage = currentPage - maxNumOfPages;
+    let lastPage = currentPage + maxNumOfPages;
 
-      if (filter.animal === 'Todos') allMyAnimals = true;
-      if (filter.breed === 'Todos') allMyBreeds = true;
-      if (filter.port === 'Todos') allMyPorts = true;
-      if (filter.genre === 'Todos') allMyGenres = true;
+    if (firstPage <= 0) firstPage = 1;
+    if (lastPage > totalNumberOfPages) lastPage = totalNumberOfPages;
 
-      if (
-        allMyAnimals &&
-        allMyBreeds &&
-        allMyPorts &&
-        allMyGenres &&
-        filter.name === ''
-      )
-        return true;
-
-      return (
-        (filter.animal === animal.breed.animal || allMyAnimals) &&
-        (filter.breed === animal.breed.breed || allMyBreeds) &&
-        (filter.port === animal.port || allMyPorts) &&
-        (filter.genre === animal.genre || allMyGenres) &&
-        animal.name.toLowerCase().includes(filter.name.toLowerCase())
+    // Coloca (primeira pagina) + ...
+    if (firstPage > 1) {
+      pages.push(
+        <Page
+          id={1}
+          selected={currentPage === 1}
+          onClick={() => handleChangePage(1)}
+        >
+          1
+        </Page>,
       );
-    });
 
-    setMyVisibleAnimals(visibleAnimals);
-  }, [formRef, myAnimals]);
+      if (firstPage !== 2) pages.push(<span>...</span>);
+    }
+
+    // Cria um array com a quantidade de paginas que ira aparecer no 'footer'
+    for (let i = firstPage; i <= lastPage; i++) {
+      pages.push(
+        <Page
+          key={i}
+          id={i}
+          selected={i === currentPage}
+          onClick={() => handleChangePage(i)}
+          data-testid={`page[${i}]`}
+        >
+          {i}
+        </Page>,
+      );
+    }
+
+    // Coloca ... + (ultima pagina)
+    if (lastPage < totalNumberOfPages) {
+      if (lastPage + 1 !== totalNumberOfPages) pages.push(<span>...</span>);
+
+      pages.push(
+        <Page
+          id={totalNumberOfPages}
+          selected={totalNumberOfPages === currentPage}
+          onClick={() => handleChangePage(totalNumberOfPages)}
+        >
+          {totalNumberOfPages}
+        </Page>,
+      );
+    }
+
+    setVisiblePages(pages);
+  }, [currentPage, totalNumberOfPages, handleChangePage]);
+
+  const handleFilterAnimals = useCallback(() => {
+    const data = formRef.current.getData();
+    const filter = {
+      ...(data.name !== '' && data.name ? { name: data.name } : {}),
+      ...(data.animal !== 'Todos' && data.animal
+        ? { animal: data.animal }
+        : {}),
+      ...(data.breed !== 'Todos' && data.breed ? { breed: data.breed } : {}),
+      ...(data.port !== 'Todos' && data.port ? { port: data.port } : {}),
+      ...(data.genre !== 'Todos' && data.genre ? { genre: data.genre } : {}),
+    };
+
+    setSelectedFilters(filter);
+  }, [formRef]);
 
   const handleChangeFiltersVisibility = useCallback(() => {
     setFilterIsVisible(!filterIsVisible);
@@ -156,6 +251,14 @@ const MyAnimals = () => {
   const handleBackPage = useCallback(() => {
     history.goBack();
   }, [history]);
+
+  const handlePreviousPage = useCallback(() => {
+    setCurrentPage(currentPage - 1);
+  }, [currentPage]);
+
+  const handleNextPage = useCallback(() => {
+    setCurrentPage(currentPage + 1);
+  }, [currentPage]);
 
   return (
     <Container>
@@ -227,8 +330,8 @@ const MyAnimals = () => {
 
           <Animals>
             <h1>Meus Animais</h1>
-            {myVisibleAnimals.length > 0 ? (
-              myVisibleAnimals.map(animal => (
+            {myAnimals.length > 0 ? (
+              myAnimals.map(animal => (
                 <Animal
                   key={animal.id}
                   to={{
@@ -281,6 +384,22 @@ const MyAnimals = () => {
               <Message>Você ainda não cadastrou nenhum animal</Message>
             )}
           </Animals>
+
+          <Pages>
+            <ChangePageArrow
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
+              <RiArrowLeftSLine size={32} />
+            </ChangePageArrow>
+            {visiblePages}
+            <ChangePageArrow
+              onClick={handleNextPage}
+              disabled={currentPage === totalNumberOfPages}
+            >
+              <RiArrowRightSLine size={32} />
+            </ChangePageArrow>
+          </Pages>
         </Center>
 
         <ButtonContainer>

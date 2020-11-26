@@ -71,7 +71,7 @@ describe('SignUp In Page', () => {
     userEvent.type(emailInputRef, 'email@mail.com');
 
     const phoneInputRef = screen.getByPlaceholderText('DDD + Telefone');
-    userEvent.type(phoneInputRef, '(16)16161-1616)');
+    userEvent.type(phoneInputRef, '(16)16161-1616');
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, 'password-123');
@@ -116,7 +116,7 @@ describe('SignUp In Page', () => {
     userEvent.type(emailInputRef, 'email-123');
 
     const phoneInputRef = screen.getByPlaceholderText('DDD + Telefone');
-    userEvent.type(phoneInputRef, '123123123)');
+    userEvent.type(phoneInputRef, '123123123');
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, 'password-123');

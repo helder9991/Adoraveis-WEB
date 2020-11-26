@@ -76,7 +76,9 @@ describe('MyAnimals In Page', () => {
       .onGet('/breeds')
       .reply(200, apiResponseBreeds)
       .onGet('/my/animals/list')
-      .reply(200, apiResponseMyAnimals);
+      .reply(200, apiResponseMyAnimals)
+      .onGet('/my/animals/list/count')
+      .reply(200, { pages: 1 });
   });
 
   it('should be able to render the page', async () => {
@@ -110,6 +112,22 @@ describe('MyAnimals In Page', () => {
   });
 
   it('should be able to filter animal by name', async () => {
+    apiMock.onGet('/my/animals/list', { params: { name: 'Re' } }).reply(200, [
+      {
+        id: '1',
+        name: 'Rex',
+        port: 'Grande',
+        genre: 'Macho',
+        verified_at: null,
+        adopted_at: null,
+        breed: {
+          animal: 'Cachorro',
+          breed: 'Rottweiler',
+        },
+        photo:
+          'http://localhost:3333/files/1602692608028-dfca7f674c0c28bce69d-animal.jpg',
+      },
+    ]);
     act(() => {
       render(
         <ThemeProvider theme={Theme}>
@@ -129,7 +147,6 @@ describe('MyAnimals In Page', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Rex')).toBeTruthy();
-      expect(screen.queryByText('Pandora')).not.toBeInTheDocument();
     });
   });
 
@@ -146,6 +163,25 @@ describe('MyAnimals In Page', () => {
       expect(screen.getByText('Rex')).toBeTruthy();
     });
 
+    apiMock
+      .onGet('/my/animals/list', { params: { animal: 'Gato' } })
+      .reply(200, [
+        {
+          id: '2',
+          name: 'Pandora',
+          port: 'Pequeno',
+          genre: 'Fêmea',
+          verified_at: null,
+          adopted_at: null,
+          breed: {
+            animal: 'Gato',
+            breed: 'Sem raça',
+          },
+          photo:
+            'http://localhost:3333/files/1602692555209-2e3a15d4a6b1c5fc4414-animal-stereotype-orig.jpg',
+        },
+      ]);
+
     // Filtro de animal
     const animalSelectRef = screen.getByTestId('animal-select');
     act(() => {
@@ -154,7 +190,6 @@ describe('MyAnimals In Page', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Pandora')).toBeTruthy();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
     });
 
     // Filtro de raca
@@ -162,39 +197,26 @@ describe('MyAnimals In Page', () => {
     userEvent.selectOptions(breedSelectRef, 'Sem raça');
     await waitFor(() => {
       expect(screen.getByText('Pandora')).toBeTruthy();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
     });
 
     // Filtro de porte
     const portSelectRef = screen.getByTestId('port-select');
-    userEvent.selectOptions(portSelectRef, 'Grande');
-    await waitFor(() => {
-      expect(screen.queryByText('Pandora')).not.toBeInTheDocument();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
-    });
 
     userEvent.selectOptions(portSelectRef, 'Pequeno');
     await waitFor(() => {
       expect(screen.getByText('Pandora')).toBeTruthy();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
     });
 
     // Filtro de genero
     const genreSelectRef = screen.getByTestId('genre-select');
-    userEvent.selectOptions(genreSelectRef, 'Macho');
-    await waitFor(() => {
-      expect(screen.queryByText('Pandora')).not.toBeInTheDocument();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
-    });
 
     userEvent.selectOptions(genreSelectRef, 'Fêmea');
     await waitFor(() => {
       expect(screen.getByText('Pandora')).toBeTruthy();
-      expect(screen.queryByText('Rex')).not.toBeInTheDocument();
     });
   });
 
-  it('should be able to filter animal by attributes', async () => {
+  it('should be able to show a message when the user havent animal', async () => {
     apiMock.onGet('/my/animals/list').reply(200, []);
 
     act(() => {

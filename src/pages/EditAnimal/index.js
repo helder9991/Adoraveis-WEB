@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Carousel from '../../components/Carousel';
 
 import { useRegion } from '../../hooks/region';
+import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
 
@@ -35,6 +36,7 @@ const EditAnimal = () => {
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
+  const { signOut } = useAuth();
   const { region } = useRegion();
 
   const [allAnimals, setAllAnimals] = useState([]);
@@ -64,14 +66,22 @@ const EditAnimal = () => {
             years_old: response.data.years_old,
           });
         })
-        .catch(() => {});
+        .catch(err => {
+          if (err.isAxiosError) {
+            if (
+              err.response.data.message === 'JWT token is missing.' ||
+              err.response.data.message === 'Invalid JWT token'
+            )
+              signOut();
+          }
+        });
     }
     if (location.state) {
       if (Object.prototype.hasOwnProperty.call(location.state, 'admin'))
         setAdmin(true);
     }
     setLoading(false);
-  }, [params.id, region.url_param, location.state]);
+  }, [params.id, region.url_param, location.state, signOut]);
 
   // Busca na api as racas cadastradas
   useEffect(() => {
@@ -80,8 +90,16 @@ const EditAnimal = () => {
       .then(response => {
         setAllAnimals(response.data);
       })
-      .catch(() => {});
-  }, []);
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
+  }, [signOut]);
 
   // Carrega as opcoes possiveis para o select de animais
   useEffect(() => {
@@ -229,8 +247,20 @@ const EditAnimal = () => {
   );
 
   const handleRefuseAnimal = useCallback(async () => {
+    const message = window.prompt(
+      'Digite uma mensagem explicando o por que o animal foi recusado.',
+    );
+    if (message === null || message === '') {
+      toast.error(
+        'É necessario digitar uma mensagem explicando o por que o animal foi recusado.',
+      );
+      return;
+    }
+
     try {
-      await api.patch(`/${region.url_param}/admin/animal/refuse/${params.id}`);
+      await api.patch(`/${region.url_param}/admin/animal/refuse/${params.id}`, {
+        message,
+      });
       toast.info('O animal foi recusado com sucesso!');
       history.goBack();
     } catch (err) {

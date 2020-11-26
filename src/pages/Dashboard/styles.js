@@ -59,6 +59,7 @@ export const FilterTitle = styled.button`
 
   svg {
     margin-left: 15px;
+    color: ${props => props.theme.colors.icon.primary};
   }
 
   div:nth-child(2) {
@@ -156,7 +157,11 @@ export const Animals = styled.div`
 export const Animal = styled(Link)`
   display: flex;
   flex-direction: column;
-  background: ${props => lighten(0.8, props.theme.colors.background)};
+  background: ${props => {
+    if (props.theme.title === 'light')
+      return lighten(0.8, props.theme.colors.background);
+    return lighten(0.05, props.theme.colors.background);
+  }};
   flex-basis: 30%;
   margin: 8px 1.6%;
   text-decoration: none;
@@ -247,6 +252,7 @@ export const Page = styled.button`
   color: ${props => props.theme.colors.text.primary};
   font-size: 1.7rem;
   margin: 0 10px;
+  background: none;
 
   ${props =>
     props.selected &&
@@ -259,6 +265,10 @@ export const Page = styled.button`
 
 export const ChangePageArrow = styled.button`
   background: none;
+
+  svg {
+    color: ${props => props.theme.colors.icon.primary};
+  }
 
   :disabled {
     cursor: default;

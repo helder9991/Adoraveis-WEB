@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import {
@@ -15,6 +16,7 @@ import {
 
 const ProfileInfo = () => {
   const history = useHistory();
+  const { signOut } = useAuth();
 
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,12 +24,23 @@ const ProfileInfo = () => {
   useEffect(() => {
     setLoading(true);
 
-    api.get('/my/user').then(response => {
-      setUser(response.data);
-    });
+    api
+      .get('/my/user')
+      .then(response => {
+        setUser(response.data);
+      })
+      .catch(err => {
+        if (err.isAxiosError) {
+          if (
+            err.response.data.message === 'JWT token is missing.' ||
+            err.response.data.message === 'Invalid JWT token'
+          )
+            signOut();
+        }
+      });
 
     setLoading(false);
-  }, []);
+  }, [signOut]);
 
   const handleBackPage = useCallback(() => {
     history.goBack();

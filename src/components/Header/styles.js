@@ -10,10 +10,6 @@ export const Container = styled.header`
   height: 8vh;
   background: ${props => props.theme.colors.primary};
 
-  svg {
-    color: ${props => props.theme.colors.background};
-  }
-
   /* remove header se o usuario estiver no tela de selecao de regiao */
   ${() =>
     useLocation().pathname === '/'
@@ -112,12 +108,13 @@ export const Logo = styled.img`
 export const Right = styled.div`
   position: absolute;
   right: 35px;
-  margin-right: 30px;
 
-  a {
+  a,
+  button {
+    background: none;
     width: 30px;
     height: 30px;
-    margin-left: 25px;
+    margin-left: 15px;
 
     svg {
       transition: color 0.2s;

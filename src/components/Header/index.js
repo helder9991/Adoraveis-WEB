@@ -5,9 +5,10 @@ import {
   RiAddBoxFill,
   RiArrowLeftLine,
   RiBearSmileLine,
+  RiMenuLine,
   RiSearchEyeLine,
   RiShieldUserFill,
-  RiMenuLine,
+  RiSunFill,
   RiUserFill,
 } from 'react-icons/ri';
 
@@ -30,7 +31,7 @@ import {
   SideMenuItemContainer,
 } from './styles';
 
-const Header = () => {
+const Header = ({ toggleTheme }) => {
   const { user } = useAuth();
   const { category, changeCategory } = useCategory();
   const { header } = useHeader();
@@ -160,6 +161,9 @@ const Header = () => {
                   <RiShieldUserFill size={30} />
                 </Link>
               )}
+            <button onClick={toggleTheme}>
+              <RiSunFill size={28} />
+            </button>
             <Link to="/new-animal">
               <RiAddBoxFill size={30} />
             </Link>
