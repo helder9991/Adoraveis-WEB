@@ -68,7 +68,6 @@ export const FormContainer = styled.div`
   align-items: center;
   height: 50vh;
   width: 35%;
-  margin-right: 35px;
 
   form {
     display: flex;
