@@ -148,10 +148,6 @@ export const SideMenuItemContainer = styled.div`
     ${props => shade(0.3, props.theme.colors.sideMenuBackground)};
   padding: 20px 0;
 
-  svg {
-    color: ${props => props.theme.colors.background};
-  }
-
   a {
     display: flex;
     align-items: center;
