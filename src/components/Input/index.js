@@ -49,6 +49,7 @@ const Input = ({
             7,
           )}-${mask.substring(7, 11)}`;
         }
+        return;
       }
 
       // Nao permite digitar letras ou simbolos ou mais de 14 numeros
