@@ -149,11 +149,22 @@ export const SideMenuItemContainer = styled.div`
   padding: 20px 0;
 
   svg {
-    color: ${props => props.theme.colors.background};
+    color: ${props => props.theme.colors.icon.secondary};
   }
 
-  a {
+  button {
     display: flex;
+    align-items: center;
+    font-size: 2.2rem;
+    color: ${props => props.theme.colors.text.secondary};
+    text-decoration: none;
+    margin-left: 16px;
+  }
+
+  a,
+  button {
+    display: flex;
+    background: none;
     align-items: center;
     font-size: 2.2rem;
     color: ${props => props.theme.colors.text.secondary};

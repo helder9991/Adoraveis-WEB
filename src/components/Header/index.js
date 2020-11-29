@@ -112,6 +112,10 @@ const Header = ({ toggleTheme }) => {
                       <span>Administrador</span>
                     </a>
                   )}
+                <button onClick={toggleTheme}>
+                  <RiSunFill size={28} />
+                  <span>Alterar tema</span>
+                </button>
                 <Link to="/new-animal">
                   <RiAddBoxFill size={30} />
                   <span>Adicionar novo animal</span>
