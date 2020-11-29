@@ -32,6 +32,25 @@ const Input = ({
   const handleMaskInput = useCallback(() => {
     if (inputRef && type === 'phone') {
       let mask = inputRef.current.value;
+
+      // Verifica se o usuario deu autocomplete
+      if (
+        Number.isInteger(parseInt(mask, 10)) &&
+        (mask.length === 10 || mask.length === 11)
+      ) {
+        if (mask.length === 10) {
+          inputRef.current.value = `(${mask.substring(0, 2)})${mask.substring(
+            2,
+            6,
+          )}-${mask.substring(6, 10)}`;
+        } else if (mask.length === 11) {
+          inputRef.current.value = `(${mask.substring(0, 2)})${mask.substring(
+            2,
+            7,
+          )}-${mask.substring(7, 11)}`;
+        }
+      }
+
       // Nao permite digitar letras ou simbolos ou mais de 14 numeros
       if (
         !Number.isInteger(Number.parseInt(mask[mask.length - 1], 10)) ||
