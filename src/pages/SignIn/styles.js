@@ -33,6 +33,7 @@ export const Content = styled.div`
 export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: -8% 0 15% 0;
 
   width: 40%;
 
