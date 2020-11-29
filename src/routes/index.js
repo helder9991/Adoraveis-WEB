@@ -131,7 +131,7 @@ const Routes = () => (
     />
 
     {/* Caso a pessoa tente entrar em uma pagina que nao exista, ele voltara para o Dashboard */}
-    <Route component={Dashboard} />
+    <Route component={Dashboard} needsRegion />
   </Switch>
 );
 
