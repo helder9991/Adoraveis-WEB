@@ -9,6 +9,10 @@ export const Container = styled.div`
     color: ${props => props.theme.colors.text.secondary};
     font-size: 1.8rem;
     font-weight: bold;
+
+    @media (max-width: 515px) {
+      font-size: 1.6rem;
+    }
   }
 `;
 
