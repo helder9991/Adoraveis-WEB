@@ -139,7 +139,7 @@ const SignUp = () => {
             <Input
               name="password"
               type="password"
-              title="Digite sua senha senha"
+              title="Digite sua senha senha (mínimo 8 dígitos)"
               icon={IoIosLock}
               placeholder="Digite sua senha"
             />
