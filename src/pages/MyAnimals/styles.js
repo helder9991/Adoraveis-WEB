@@ -189,7 +189,10 @@ export const ChangePageArrow = styled.button`
     cursor: default;
     svg {
       transition: color 2s;
-      color: ${props => lighten(0.4, props.theme.colors.icon.primary)};
+      color: ${props =>
+        props.theme.title === 'light'
+          ? lighten(0.4, props.theme.colors.icon.primary)
+          : shade(0.4, props.theme.colors.icon.primary)};
     }
   }
 `;

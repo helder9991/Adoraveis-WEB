@@ -388,14 +388,16 @@ const MyAnimals = () => {
           <Pages>
             <ChangePageArrow
               onClick={handlePreviousPage}
-              disabled={currentPage === 1}
+              disabled={currentPage === 1 || visiblePages.length === 0}
             >
               <RiArrowLeftSLine size={32} />
             </ChangePageArrow>
             {visiblePages}
             <ChangePageArrow
               onClick={handleNextPage}
-              disabled={currentPage === totalNumberOfPages}
+              disabled={
+                currentPage === totalNumberOfPages || visiblePages.length === 0
+              }
             >
               <RiArrowRightSLine size={32} />
             </ChangePageArrow>
