@@ -88,7 +88,8 @@ const Animal = () => {
 
   const handleOpenModal = useCallback(() => {
     // Usuario nao logado
-    if (!user) history.push('/login');
+    if (Object.keys(user).length === 0 && user.constructor === Object)
+      history.push('/login');
 
     setCurrentModal(1);
     setModalIsOpen(true);
