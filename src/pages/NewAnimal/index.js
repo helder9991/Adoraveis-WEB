@@ -54,6 +54,7 @@ const NewAnimal = () => {
   const [photos, setPhotos] = useState([]);
   const [vaccinesInputs, setVaccinesInputs] = useState([]);
   const [observationsInputs, setObservationsInputs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [allAnimals, setAllAnimals] = useState([]);
   const [animalsOptions, setAnimalsOptions] = useState([]);
@@ -200,6 +201,7 @@ const NewAnimal = () => {
             });
             break;
           case 3:
+            setLoading(true);
             await page3.validate(
               { ...data },
               {
@@ -259,8 +261,9 @@ const NewAnimal = () => {
               toast.info(
                 'Ocorreu algum erro. Por favor, tente novamente mais tarde.',
               );
+            } finally {
+              setLoading(false);
             }
-
             return;
           default:
             break;
@@ -515,6 +518,7 @@ const NewAnimal = () => {
                   title="Cadastrar"
                   buttonType="confirm"
                   data-testid="submit-button"
+                  disabled={loading}
                 />
                 <Button
                   title="Voltar"
