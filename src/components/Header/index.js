@@ -106,6 +106,7 @@ const Header = ({ toggleTheme }) => {
 
               <SideMenuItemContainer>
                 {Object.prototype.hasOwnProperty.call(user, 'url_param') &&
+                  !!region &&
                   user.url_param === region.url_param && (
                     <a href="/administrator">
                       <RiShieldUserFill size={30} />
@@ -160,6 +161,7 @@ const Header = ({ toggleTheme }) => {
           </Center>
           <Right>
             {Object.prototype.hasOwnProperty.call(user, 'url_param') &&
+              !!region &&
               user.url_param === region.url_param && (
                 <Link to="/administrator">
                   <RiShieldUserFill size={30} />
