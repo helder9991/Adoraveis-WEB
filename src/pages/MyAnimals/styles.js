@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { shade, lighten } from 'polished';
-import { isEqual, parseISO } from 'date-fns';
+import { isSameDay, parseISO } from 'date-fns';
 
 import ButtonInput from '../../components/Button';
 import SelectInput from '../../components/Select';
@@ -334,7 +334,10 @@ export const Status = styled(Tooltip)`
 
     if (props.status.verified_at) {
       if (
-        isEqual(parseISO(props.status.verified_at), new Date(0, 0, 0, 0, 0, 0))
+        isSameDay(
+          parseISO(props.status.verified_at),
+          new Date(0, 0, 0, 0, 0, 0).setUTCHours(0, 0, 0, 0),
+        )
       ) {
         return css`
           background: ${props.theme.colors.status.refused};
@@ -364,9 +367,9 @@ export const Status = styled(Tooltip)`
 
       if (props.status.verified_at) {
         if (
-          isEqual(
+          isSameDay(
             parseISO(props.status.verified_at),
-            new Date(0, 0, 0, 0, 0, 0),
+            new Date(0, 0, 0, 0, 0, 0).setUTCHours(0, 0, 0, 0),
           )
         ) {
           return css`
@@ -456,7 +459,10 @@ export const StatusResponsive = styled.div`
 
     if (props.status.verified_at) {
       if (
-        isEqual(parseISO(props.status.verified_at), new Date(0, 0, 0, 0, 0, 0))
+        isSameDay(
+          parseISO(props.status.verified_at),
+          new Date(0, 0, 0, 0, 0, 0).setUTCHours(0, 0, 0, 0),
+        )
       ) {
         return css`
           background: ${props.theme.colors.status.refused};

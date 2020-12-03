@@ -9,7 +9,7 @@ import {
   RiArrowRightSLine,
 } from 'react-icons/ri';
 import { IoIosSearch } from 'react-icons/io';
-import { isEqual, parseISO } from 'date-fns';
+import { isSameDay, parseISO } from 'date-fns';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -123,7 +123,10 @@ const MyAnimals = () => {
             };
           if (animal.verified_at) {
             if (
-              isEqual(parseISO(animal.verified_at), new Date(0, 0, 0, 0, 0, 0))
+              isSameDay(
+                parseISO(animal.verified_at),
+                new Date(0, 0, 0, 0, 0, 0).setUTCHours(0, 0, 0, 0),
+              )
             ) {
               return {
                 ...animal,
