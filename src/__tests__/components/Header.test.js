@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import Header from '../../components/Header';
 
@@ -76,36 +75,28 @@ jest.mock('react-router-dom', () => {
 
 describe('Header Component', () => {
   it('should be able to render the Header', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <Header />
-        </ThemeProvider>,
-      );
-    });
-    await waitFor(() => {
-      expect(screen.getByTestId('header-container')).toBeTruthy();
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <Header />
+      </ThemeProvider>,
+    );
+
+    expect(screen.findByTestId('header-container')).toBeTruthy();
   });
 
   it('should be able to change region', async () => {
     global.window.confirm = jest.fn(() => true);
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <Header />
-        </ThemeProvider>,
-      );
-    });
-    await waitFor(() => {
-      expect(screen.getByText('Alterar')).toBeTruthy();
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <Header />
+      </ThemeProvider>,
+    );
+
+    expect(screen.findByText('Alterar')).toBeTruthy();
 
     const changeRegionButtonRef = screen.getByText('Alterar');
     userEvent.click(changeRegionButtonRef);
 
-    await waitFor(() => {
-      expect(mockedHistoryGo).toHaveBeenCalledTimes(1);
-    });
+    expect(mockedHistoryGo).toHaveBeenCalledTimes(1);
   });
 });
