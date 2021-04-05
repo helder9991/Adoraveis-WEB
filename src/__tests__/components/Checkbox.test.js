@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 import Checkbox from '../../components/Checkbox';
@@ -21,12 +21,12 @@ jest.mock('@unform/core', () => {
 
 describe('Checkbox Component', () => {
   it('should be able to render the checkbox', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Checkbox text="checkbox test" />
       </ThemeProvider>,
     );
 
-    expect(getByText('checkbox test')).toBeTruthy();
+    expect(screen.getByText('checkbox test')).toBeTruthy();
   });
 });

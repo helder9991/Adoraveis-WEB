@@ -13,7 +13,7 @@ describe('Carousel Component', () => {
         <Carousel photos={['foto1', 'foto2', 'foto3']} />
       </ThemeProvider>,
     );
-    
+
     expect(screen.getByAltText('Foto do animal')).toBeTruthy();
   });
 
