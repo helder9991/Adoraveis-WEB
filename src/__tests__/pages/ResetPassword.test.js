@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { toast } from 'react-toastify';
 import userEvent from '@testing-library/user-event';
 
@@ -60,25 +60,21 @@ describe('ResetPassword Page', () => {
   });
 
   it('should be able to render the page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <ResetPassword />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <ResetPassword />
+      </ThemeProvider>,
+    );
 
-    expect(screen.getByText('Alterar senha')).toBeTruthy();
+    expect(await screen.findByText('Alterar senha')).toBeTruthy();
   });
 
   it('should not be able to reset the password with a wrong credentials', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <ResetPassword />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <ResetPassword />
+      </ThemeProvider>,
+    );
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, '12345678');
@@ -104,13 +100,11 @@ describe('ResetPassword Page', () => {
       .onPut('/users/password/reset')
       .reply(400, { message: 'some-error' });
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <ResetPassword />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <ResetPassword />
+      </ThemeProvider>,
+    );
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, '12345678');
@@ -136,13 +130,11 @@ describe('ResetPassword Page', () => {
       .onPut('/users/password/reset')
       .reply(400, { message: 'Token expired or inexistent.' });
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <ResetPassword />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <ResetPassword />
+      </ThemeProvider>,
+    );
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, '12345678');
@@ -162,13 +154,11 @@ describe('ResetPassword Page', () => {
   });
 
   it('should be able to reset the password ', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <ResetPassword />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <ResetPassword />
+      </ThemeProvider>,
+    );
 
     const passwordInputRef = screen.getByPlaceholderText('Digite sua senha');
     userEvent.type(passwordInputRef, '12345678');
