@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 import Administrator from '../../pages/Administrator';
@@ -19,12 +19,12 @@ jest.mock('react-router-dom', () => {
 
 describe('Administrator Page', () => {
   it('should be able to render the page', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Administrator />
       </ThemeProvider>,
     );
 
-    expect(getByText('Página do administrador')).toBeTruthy();
+    expect(screen.getByText('Página do administrador')).toBeTruthy();
   });
 });
