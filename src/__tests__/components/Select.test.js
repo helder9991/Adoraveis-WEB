@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 import Select from '../../components/Select';
@@ -21,33 +21,33 @@ jest.mock('@unform/core', () => {
 
 describe('Select Component', () => {
   it('should be able to render the Select', () => {
-    const { getByPlaceholderText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Select placeholder="teste" />
       </ThemeProvider>,
     );
 
-    expect(getByPlaceholderText('teste')).toBeTruthy();
+    expect(screen.getByPlaceholderText('teste')).toBeTruthy();
   });
 
   it('should be able to pass options to Select input', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Select placeholder="teste" options={['teste1', 'teste2']} />
       </ThemeProvider>,
     );
 
-    expect(getByText('teste1')).toBeTruthy();
-    expect(getByText('teste2')).toBeTruthy();
+    expect(screen.getByText('teste1')).toBeTruthy();
+    expect(screen.getByText('teste2')).toBeTruthy();
   });
 
   it('should be able to render the title', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Select title="teste" />
       </ThemeProvider>,
     );
 
-    expect(getByText('teste')).toBeTruthy();
+    expect(screen.getByText('teste')).toBeTruthy();
   });
 });
