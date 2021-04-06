@@ -1,13 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MockAdapter from 'axios-mock-adapter';
-import {
-  fireEvent,
-  render,
-  screen,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import Animal from '../../pages/Animal';
 
@@ -78,6 +72,16 @@ jest.mock('../../hooks/region.js', () => {
   };
 });
 
+jest.mock('../../hooks/auth.js', () => {
+  return {
+    useAuth() {
+      return {
+        user: {},
+      };
+    },
+  };
+});
+
 describe('Animal Page', () => {
   beforeEach(() => {
     mockedHistoryPush.mockClear();
@@ -92,19 +96,15 @@ describe('Animal Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      expect(screen.getByText('Dados do Animal')).toBeTruthy();
-    });
+    expect(await screen.findByText('Dados do Animal')).toBeTruthy();
   });
 
   it('should be able to show a animal info', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <Animal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <Animal />
+      </ThemeProvider>,
+    );
 
     const animalNameRef = await screen.findByText('name-123');
 
@@ -121,9 +121,7 @@ describe('Animal Page', () => {
     const openModalButtonRef = await screen.findByTestId('button-open-modal');
     expect(openModalButtonRef).toBeTruthy();
 
-    act(() => {
-      fireEvent.click(openModalButtonRef);
-    });
+    fireEvent.click(openModalButtonRef);
 
     // o modal abriu
     expect(screen.getByTestId('modal-container')).toBeTruthy();
@@ -132,24 +130,16 @@ describe('Animal Page', () => {
     const nextModalButtonRef = screen.getByTestId('button-next-modal');
     expect(nextModalButtonRef).toBeTruthy();
 
-    act(() => {
-      fireEvent.click(nextModalButtonRef);
-    });
+    fireEvent.click(nextModalButtonRef);
 
     // fecha o  modal
     const closeModalButtonRef = screen.getByTestId('button-close-modal');
     expect(closeModalButtonRef).toBeTruthy();
 
-    act(() => {
-      fireEvent.click(closeModalButtonRef);
-    });
+    fireEvent.click(closeModalButtonRef);
 
     // verifica se o modal foi fechado
-    try {
-      screen.getByTestId('modal-container');
-    } catch (err) {
-      expect(err).toBeTruthy();
-    }
+    expect(screen.queryByTestId('modal-container')).not.toBeInTheDocument();
   });
 
   it('should be able to see a message with a non existing animal', async () => {
@@ -159,9 +149,7 @@ describe('Animal Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      const errorMessageRef = screen.getByTestId('error-message');
-      expect(errorMessageRef).toBeTruthy();
-    });
+    const errorMessageRef = await screen.findByTestId('error-message');
+    expect(errorMessageRef).toBeTruthy();
   });
 });
