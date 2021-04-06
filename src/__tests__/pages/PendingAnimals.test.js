@@ -1,9 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 
-import userEvent from '@testing-library/user-event';
 import PendingAnimals from '../../pages/PendingAnimals';
 import Theme from '../../styles/themes/light';
 import api from '../../services/api';
@@ -81,49 +80,37 @@ describe('PendingAnimals In Page', () => {
   });
 
   it('should be able to render the page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <PendingAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <PendingAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Animais pendentes')).toBeTruthy();
-    });
+    expect(await screen.findByText('Animais pendentes')).toBeTruthy();
   });
 
   it('should be able to list pending animals', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <PendingAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <PendingAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Rex')).toBeTruthy();
-      expect(screen.getByText('Pandora')).toBeTruthy();
-    });
+    expect(await screen.findByText('Rex')).toBeTruthy();
+    expect(await screen.findByText('Pandora')).toBeTruthy();
   });
 
   it("should be able to show a message when does haven't pending animals", async () => {
     apiMock.onGet('/city-123/admin/animal/verify').reply(200, []);
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <PendingAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <PendingAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(
-        screen.getByText('Não há animais pendentes para serem aceitos'),
-      ).toBeTruthy();
-    });
+    expect(
+      await screen.findByText('Não há animais pendentes para serem aceitos'),
+    ).toBeTruthy();
   });
 });
