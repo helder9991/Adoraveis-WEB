@@ -74,7 +74,7 @@ describe('Sign In Page', () => {
         password: 'password-123123',
       }),
     );
-    await waitFor(() => expect(mockedSignIn).toHaveBeenCalledTimes(1));
+    expect(mockedSignIn).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(mockedHistoryPush).toHaveBeenCalledTimes(1));
   });
 
@@ -102,10 +102,8 @@ describe('Sign In Page', () => {
     userEvent.click(submitButtonRef);
 
     await waitFor(() => expect(mockedToast).toHaveBeenCalledTimes(1));
-    await waitFor(() =>
-      expect(mockedToast).toHaveBeenCalledWith(
-        'Campos preenchidos inválidos, tente novamente.',
-      ),
+    expect(mockedToast).toHaveBeenCalledWith(
+      'Campos preenchidos inválidos, tente novamente.',
     );
   });
 });
