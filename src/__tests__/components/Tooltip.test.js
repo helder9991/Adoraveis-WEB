@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 import Tooltip from '../../components/Tooltip';
@@ -21,22 +21,22 @@ jest.mock('@unform/core', () => {
 
 describe('Tooltip Component', () => {
   it('should be able to render the Tooltip', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Tooltip title="teste" />
       </ThemeProvider>,
     );
 
-    expect(getByText('teste')).toBeTruthy();
+    expect(screen.getByText('teste')).toBeTruthy();
   });
 
   it('should be able to render a children element in the Tooltip', () => {
-    const { getByText } = render(
+    render(
       <ThemeProvider theme={Theme}>
         <Tooltip>children</Tooltip>
       </ThemeProvider>,
     );
 
-    expect(getByText('children')).toBeTruthy();
+    expect(screen.getByText('children')).toBeTruthy();
   });
 });
