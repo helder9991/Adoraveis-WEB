@@ -1,6 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForOptions,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import MockAdapter from 'axios-mock-adapter';
@@ -72,17 +77,13 @@ describe('NewAnimal In Page', () => {
   });
 
   it('should be able to render the page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <NewAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <NewAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Cadastrar Animal')).toBeTruthy();
-    });
+    expect(await screen.findByText('Cadastrar Animal')).toBeTruthy();
   });
 
   it('should be able to register a new animal', async () => {
@@ -93,17 +94,13 @@ describe('NewAnimal In Page', () => {
       .mockImplementation(() => jest.fn());
     mockedToast.mockClear();
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <NewAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <NewAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Selecione o animal')).toBeTruthy();
-    });
+    expect(screen.findByPlaceholderText('Selecione o animal')).toBeTruthy();
 
     // Primeira pagina
 
@@ -117,23 +114,20 @@ describe('NewAnimal In Page', () => {
     const FakeFile3 = new File(['hello3'], 'hello3.png', { type: 'image/png' });
 
     const uploadInputRef = screen.getByTestId('upload-input');
-    act(() => {
-      userEvent.upload(uploadInputRef, [FakeFile1, FakeFile2, FakeFile3]);
-    });
+    userEvent.upload(uploadInputRef, [FakeFile1, FakeFile2, FakeFile3]);
 
     const nextToSecondPageButtonRef = screen.getByTestId('next1-button');
 
-    act(() => {
-      userEvent.click(nextToSecondPageButtonRef);
-    });
+    userEvent.click(nextToSecondPageButtonRef);
 
     // Segunda pagina
-
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Selecione o animal')).toBeTruthy();
-    });
+    expect(screen.getByPlaceholderText('Selecione o animal')).toBeTruthy();
 
     const animalInputRef = screen.getByPlaceholderText('Selecione o animal');
+    await waitFor(() => {
+      expect(animalInputRef[2].value).toBe('Gato');
+    });
+
     userEvent.selectOptions(animalInputRef, 'Gato');
 
     const breedInputRef = screen.getByPlaceholderText('Selecione a raça');
@@ -161,15 +155,10 @@ describe('NewAnimal In Page', () => {
     const pedigreeCheckboxRef = screen.getByTestId('pedigree-checkbox');
     userEvent.click(pedigreeCheckboxRef);
 
-    act(() => {
-      userEvent.click(nextToThirdPageButtonRef);
-    });
+    userEvent.click(nextToThirdPageButtonRef);
 
     // Terceira pagina
-
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Vacina 1')).toBeTruthy();
-    });
+    expect(await screen.findByPlaceholderText('Vacina 1')).toBeTruthy();
 
     const vaccineInputRef = screen.getByPlaceholderText('Vacina 1');
     userEvent.type(vaccineInputRef, 'some-vaccine');
@@ -178,15 +167,14 @@ describe('NewAnimal In Page', () => {
     userEvent.type(observationInputRef, 'some-observation');
 
     const submitButtonRef = screen.getByTestId('submit-button');
-    act(() => {
-      userEvent.click(submitButtonRef);
-    });
+    userEvent.click(submitButtonRef);
 
     await waitFor(() => {
-      expect(mockedToast).toHaveBeenCalledTimes(1);
       expect(mockedToast).toHaveBeenCalledWith(
         'O cadastro do animal foi realizado com sucesso!',
       );
     });
+
+    expect(mockedToast).toHaveBeenCalledTimes(1);
   });
 });
