@@ -1,11 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import {
-  render,
-  screen,
-  waitFor,
-  waitForOptions,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import MockAdapter from 'axios-mock-adapter';
