@@ -1,13 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MockAdapter from 'axios-mock-adapter';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  act,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { toast } from 'react-toastify';
 
 import userEvent from '@testing-library/user-event';
@@ -122,41 +116,41 @@ describe('EditAnimal Page', () => {
   });
 
   it('should be able to render the page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <EditAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <EditAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Dados do Animal')).toBeTruthy();
-    });
+    expect(await screen.findByText('Dados do Animal')).toBeTruthy();
   });
 
   it('should be able to put a animal info in inputs', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <EditAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <EditAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(
-        screen.getByPlaceholderText('Digite o nome do animal'),
-      ).toBeTruthy();
-      expect(screen.getByPlaceholderText('Selecione a categoria')).toBeTruthy();
-      expect(screen.getByPlaceholderText('Selecione o animal')).toBeTruthy();
-      expect(screen.getByPlaceholderText('Selecione a raça')).toBeTruthy();
-      expect(screen.getByPlaceholderText('Selecione o porte')).toBeTruthy();
-      expect(screen.getByPlaceholderText('Selecione o gênero')).toBeTruthy();
-      expect(
-        screen.getByPlaceholderText('Digite a idade do animal'),
-      ).toBeTruthy();
-    });
+    expect(
+      await screen.findByPlaceholderText('Digite o nome do animal'),
+    ).toBeTruthy();
+    expect(
+      await screen.findByPlaceholderText('Selecione a categoria'),
+    ).toBeTruthy();
+    expect(
+      await screen.findByPlaceholderText('Selecione o animal'),
+    ).toBeTruthy();
+    expect(await screen.findByPlaceholderText('Selecione a raça')).toBeTruthy();
+    expect(
+      await screen.findByPlaceholderText('Selecione o porte'),
+    ).toBeTruthy();
+    expect(
+      await screen.findByPlaceholderText('Selecione o gênero'),
+    ).toBeTruthy();
+    expect(
+      await screen.findByPlaceholderText('Digite a idade do animal'),
+    ).toBeTruthy();
 
     const nameInputRef = screen.getByPlaceholderText('Digite o nome do animal');
     expect(nameInputRef.value).not.toBe('');
@@ -185,16 +179,15 @@ describe('EditAnimal Page', () => {
   });
 
   it('should be able to update a animal info', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <EditAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <EditAnimal />
+      </ThemeProvider>,
+    );
+
+    const breed = screen.getByPlaceholderText('Selecione a raça');
 
     await waitFor(() => {
-      const breed = screen.getByPlaceholderText('Selecione a raça');
       expect(breed[breed.selectedIndex].value).toBe('Rottweiler');
     });
 
@@ -230,9 +223,7 @@ describe('EditAnimal Page', () => {
     const saveButtonRef = screen.getByTestId('save-button');
     expect(saveButtonRef).toBeTruthy();
 
-    act(() => {
-      fireEvent.click(saveButtonRef);
-    });
+    fireEvent.click(saveButtonRef);
 
     await waitFor(() => {
       expect(mockedToastInfo).toHaveBeenCalledWith(
@@ -247,19 +238,15 @@ describe('EditAnimal Page', () => {
       message: 'Animal does not exists.',
     });
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <EditAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <EditAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(
-        screen.getByPlaceholderText('Digite o nome do animal'),
-      ).toBeTruthy();
-    });
+    expect(
+      await screen.findByPlaceholderText('Digite o nome do animal'),
+    ).toBeTruthy();
 
     const saveButtonRef = screen.getByTestId('save-button');
     expect(saveButtonRef).toBeTruthy();
@@ -267,23 +254,20 @@ describe('EditAnimal Page', () => {
 
     await waitFor(() => {
       expect(mockedToastError).toHaveBeenCalledWith('Este animal não existe.');
-      expect(mockedToastError).toHaveBeenCalledTimes(1);
     });
+    expect(mockedToastError).toHaveBeenCalledTimes(1);
+
     apiMock.restore();
   });
 
   it('should be able to go back to previous page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <EditAnimal />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <EditAnimal />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByTestId('return-button')).toBeTruthy();
-    });
+    expect(await screen.findByTestId('return-button')).toBeTruthy();
 
     const returnButtonRef = await screen.findByTestId('return-button');
     expect(returnButtonRef).toBeTruthy();
