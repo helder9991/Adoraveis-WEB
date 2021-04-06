@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import MockAdapter from 'axios-mock-adapter';
@@ -56,13 +56,11 @@ describe('SignUp In Page', () => {
       .mockImplementation(() => jest.fn());
     mockedToast.mockClear();
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <SignUp />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <SignUp />
+      </ThemeProvider>,
+    );
 
     const nameInputRef = screen.getByPlaceholderText('Digite seu nome');
     userEvent.type(nameInputRef, 'name-123');
@@ -83,16 +81,15 @@ describe('SignUp In Page', () => {
 
     const submitButtonRef = screen.getByTestId('submit-button');
 
-    act(() => {
-      userEvent.click(submitButtonRef);
-    });
+    userEvent.click(submitButtonRef);
 
     await waitFor(() => {
       expect(mockedToast).toHaveBeenCalledTimes(1);
-      expect(mockedToast).toHaveBeenCalledWith(
-        'O cadastro foi realizado com sucesso!',
-      );
     });
+
+    expect(mockedToast).toHaveBeenCalledWith(
+      'O cadastro foi realizado com sucesso!',
+    );
   });
 
   it('should not be able to register a new account with a wrong credentials', async () => {
@@ -101,13 +98,11 @@ describe('SignUp In Page', () => {
       .mockImplementation(() => jest.fn());
     mockedToast.mockClear();
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <SignUp />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <SignUp />
+      </ThemeProvider>,
+    );
 
     const nameInputRef = screen.getByPlaceholderText('Digite seu nome');
     userEvent.type(nameInputRef, 'name-123');
@@ -128,16 +123,15 @@ describe('SignUp In Page', () => {
 
     const submitButtonRef = screen.getByTestId('submit-button');
 
-    act(() => {
-      userEvent.click(submitButtonRef);
-    });
+    userEvent.click(submitButtonRef);
 
     await waitFor(() => {
       expect(mockedToast).toHaveBeenCalledTimes(1);
-      expect(mockedToast).toHaveBeenCalledWith(
-        'Ocorreu um erro ao realizar o cadastro, cheque as credenciais.',
-      );
     });
+
+    expect(mockedToast).toHaveBeenCalledWith(
+      'Ocorreu um erro ao realizar o cadastro, cheque as credenciais.',
+    );
   });
 
   it('should be able to show a error message for try register a existing user', async () => {
@@ -150,13 +144,11 @@ describe('SignUp In Page', () => {
       message: 'User already exists.',
     });
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <SignUp />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <SignUp />
+      </ThemeProvider>,
+    );
 
     const nameInputRef = screen.getByPlaceholderText('Digite seu nome');
     userEvent.type(nameInputRef, 'name-123');
@@ -177,15 +169,14 @@ describe('SignUp In Page', () => {
 
     const submitButtonRef = screen.getByTestId('submit-button');
 
-    act(() => {
-      userEvent.click(submitButtonRef);
-    });
+    userEvent.click(submitButtonRef);
 
     await waitFor(() => {
       expect(mockedToast).toHaveBeenCalledTimes(1);
-      expect(mockedToast).toHaveBeenCalledWith(
-        'Este email já está sendo utilizado por outro usuario.',
-      );
     });
+
+    expect(mockedToast).toHaveBeenCalledWith(
+      'Este email já está sendo utilizado por outro usuario.',
+    );
   });
 });
