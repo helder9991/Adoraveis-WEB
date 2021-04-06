@@ -54,7 +54,8 @@ describe('Forgot Password Page', () => {
         'Um email para a troca de senha foi enviado em seu email.',
       ),
     );
-    await waitFor(() => expect(mockedToast).toHaveBeenCalledTimes(1));
+
+    expect(mockedToast).toHaveBeenCalledTimes(1);
   });
 
   it('should be able to show a error with a wrong email field', async () => {
@@ -79,7 +80,8 @@ describe('Forgot Password Page', () => {
     await waitFor(() =>
       expect(mockedToast).toHaveBeenCalledWith('Digite um email válido.'),
     );
-    await waitFor(() => expect(mockedToast).toHaveBeenCalledTimes(1));
+
+    expect(mockedToast).toHaveBeenCalledTimes(1);
   });
 
   it('should be able to show a error message with a non existing user', async () => {
@@ -110,6 +112,6 @@ describe('Forgot Password Page', () => {
         'Este email não está cadastrado na plataforma.',
       ),
     );
-    await waitFor(() => expect(mockedToast).toHaveBeenCalledTimes(1));
+    expect(mockedToast).toHaveBeenCalledTimes(1);
   });
 });
