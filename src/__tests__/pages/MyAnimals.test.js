@@ -1,6 +1,10 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 
 import userEvent from '@testing-library/user-event';
@@ -82,27 +86,25 @@ describe('MyAnimals In Page', () => {
   });
 
   it('should be able to render the page', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <MyAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <MyAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Meus animais cadastrados')).toBeTruthy();
-    });
+    expect(screen.getByText('Meus animais cadastrados')).toBeTruthy();
+
+    await waitForElementToBeRemoved(() =>
+      screen.getByText(/Você ainda não cadastrou nenhum animal/),
+    );
   });
 
   it('should be able to list my animals', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <MyAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <MyAnimals />
+      </ThemeProvider>,
+    );
 
     const firstAnimalNameRef = await screen.findByText('Rex');
     const secondAnimalNameRef = await screen.findByText('Pandora');
@@ -128,40 +130,28 @@ describe('MyAnimals In Page', () => {
           'http://localhost:3333/files/1602692608028-dfca7f674c0c28bce69d-animal.jpg',
       },
     ]);
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <MyAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <MyAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Rex')).toBeTruthy();
-    });
+    expect(await screen.findByText('Rex')).toBeTruthy();
 
     const nameInputRef = screen.getByPlaceholderText('Digite o nome do animal');
-    act(() => {
-      userEvent.type(nameInputRef, 'Re');
-    });
+    userEvent.type(nameInputRef, 'Re');
 
-    await waitFor(() => {
-      expect(screen.getByText('Rex')).toBeTruthy();
-    });
+    expect(await screen.findByText('Rex')).toBeTruthy();
   });
 
   it('should be able to filter animal by attributes', async () => {
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <MyAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <MyAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText('Rex')).toBeTruthy();
-    });
+    expect(await screen.findByText('Rex')).toBeTruthy();
 
     apiMock
       .onGet('/my/animals/list', { params: { animal: 'Gato' } })
@@ -184,53 +174,40 @@ describe('MyAnimals In Page', () => {
 
     // Filtro de animal
     const animalSelectRef = screen.getByTestId('animal-select');
-    act(() => {
-      userEvent.selectOptions(animalSelectRef, 'Gato');
-    });
+    userEvent.selectOptions(animalSelectRef, 'Gato');
 
-    await waitFor(() => {
-      expect(screen.getByText('Pandora')).toBeTruthy();
-    });
+    expect(await screen.findByText('Pandora')).toBeTruthy();
 
     // Filtro de raca
     const breedSelectRef = screen.getByTestId('breed-select');
     userEvent.selectOptions(breedSelectRef, 'Sem raça');
-    await waitFor(() => {
-      expect(screen.getByText('Pandora')).toBeTruthy();
-    });
+
+    expect(await screen.findByText('Pandora')).toBeTruthy();
 
     // Filtro de porte
     const portSelectRef = screen.getByTestId('port-select');
-
     userEvent.selectOptions(portSelectRef, 'Pequeno');
-    await waitFor(() => {
-      expect(screen.getByText('Pandora')).toBeTruthy();
-    });
+
+    expect(await screen.findByText('Pandora')).toBeTruthy();
 
     // Filtro de genero
     const genreSelectRef = screen.getByTestId('genre-select');
-
     userEvent.selectOptions(genreSelectRef, 'Fêmea');
-    await waitFor(() => {
-      expect(screen.getByText('Pandora')).toBeTruthy();
-    });
+
+    expect(await screen.findByText('Pandora')).toBeTruthy();
   });
 
   it('should be able to show a message when the user havent animal', async () => {
     apiMock.onGet('/my/animals/list').reply(200, []);
 
-    act(() => {
-      render(
-        <ThemeProvider theme={Theme}>
-          <MyAnimals />
-        </ThemeProvider>,
-      );
-    });
+    render(
+      <ThemeProvider theme={Theme}>
+        <MyAnimals />
+      </ThemeProvider>,
+    );
 
-    await waitFor(() => {
-      expect(
-        screen.getByText('Você ainda não cadastrou nenhum animal'),
-      ).toBeTruthy();
-    });
+    expect(
+      await screen.findByText('Você ainda não cadastrou nenhum animal'),
+    ).toBeTruthy();
   });
 });
