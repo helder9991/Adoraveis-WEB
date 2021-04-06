@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import Dashboard from '../../pages/Dashboard';
 
@@ -112,9 +112,7 @@ describe('Dashboard Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      expect(screen.getByText('Filtros')).toBeTruthy();
-    });
+    expect(await screen.findByText('Filtros')).toBeTruthy();
   });
 
   it('should be able to show a message when animals is not found in server', async () => {
@@ -130,11 +128,9 @@ describe('Dashboard Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      expect(
-        screen.getByText('Não há nenhum animal disponível no momento.'),
-      ).toBeTruthy();
-    });
+    expect(
+      await screen.findByText('Não há nenhum animal disponível no momento.'),
+    ).toBeTruthy();
   });
 
   it('should be able to list all animals', async () => {
@@ -144,11 +140,9 @@ describe('Dashboard Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      expect(screen.getByText('Pandora')).toBeTruthy();
-      expect(screen.getByText('Pingo')).toBeTruthy();
-      expect(screen.getByText('Rex')).toBeTruthy();
-    });
+    expect(await screen.findByText('Pandora')).toBeTruthy();
+    expect(await screen.findByText('Pingo')).toBeTruthy();
+    expect(await screen.findByText('Rex')).toBeTruthy();
   });
 
   it('should be able to list available pages', async () => {
@@ -158,9 +152,7 @@ describe('Dashboard Page', () => {
       </ThemeProvider>,
     );
 
-    await waitFor(() => {
-      expect(screen.getByTestId('page[1]')).toBeTruthy();
-      expect(screen.getByTestId('page[2]')).toBeTruthy();
-    });
+    expect(await screen.findByTestId('page[1]')).toBeTruthy();
+    expect(await screen.findByTestId('page[2]')).toBeTruthy();
   });
 });
